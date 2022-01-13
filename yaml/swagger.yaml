@@ -13,49 +13,32 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
-  - name: admins
-    description: Secured Admin-only calls
-  - name: user
-    description: Operations about user
-  - name: product
-    description: Operations about product
-    
+  - name: 1. 신청
+    description: '회원 가입 신청, 탈퇴, 관리자 승인, 알림등 사용자 이벤트 처리 Cycle'  
+  - name: 2. 생성
+    description: 'Cloud SaaS관련: 제품(솔루션), 인프라, 서버, 네트워크 생성 및 구성'
+  - name: 3. 인증
+    description: '로그인, 인증, 인가, 토큰 발급 (검증)'
+  - name: 4. 관리
+    description: '[SA연동] 시스템(Tenent, VM, IW-SA 서비스), Cloud(Network, VM, Storage) 제어 '
+  - name: 5. 운영
+    description: '[SA연동] 모니터링, 오토스케일링 상태 관리'
+  - name: 6. 과금
+    description: '[SA연동] SaaS 미터링, 빌링, 청구서 관리'
+  - name: 7. 패치
+    description: '[SA연동] 업데이트, 백업, 복구'
+
+
 paths:
-  '/invites/{username}':
-    post:
-      tags:
-        - user
-      summary: (1.2.3) Invites user
-      description: '회원가입 시 초대장 발급 방법'
-      operationId: invitesUser
-      parameters:
-        - name: username
-          in: path
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                email:
-                  type: string
-      responses:
-        default:
-          description: successful operation
-  '/member/users/{username}':
+  '/member/users/{id}':
     post:
       tags: 
-        - user
-      summary: (1.2) Create user
-      description: '회원가입 Flow에 사용되는 RestAPI'
+        - 1. 신청
+      summary: '1.2.1 회원 가입 : 포털을 통한 회원가입 신청'
+      description: '가입요청 신청: 서비스포털 -> API Gateway -> GateKeeper'
       operationId: createUser
       parameters:
-        - name: username
+        - name: id
           in: path
           required: true
           schema:
@@ -74,62 +57,13 @@ paths:
               $ref: '#/components/schemas/User'
         description: Create user object
         required: true
-    put:
-      tags:
-        - user
-      summary: (1.2.1) Updated User
-      operationId: updateUser
-      parameters: 
-        - name: username
-          in: path
-          description: name that need to be updated
-          required: true
-          schema:
-            type: string
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-        description: Update user object
-        required: true
-      responses:
-        '200':
-          description: Success update user
-        '400':
-          description: Invalid user supplied
-        '404':
-          description: User not found
-    delete:
-      tags:
-        - user
-      summary: (1.2.4) Delete user by username
-      operationId: DeleteByUsername
-      parameters:
-        - name: username
-          in: path
-          description: The name that needs to be fetched.
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '400':
-          description: Invalid username supplied
-        '404':
-          description: User not found
     get:
       tags:
-        - user
-      summary: Get user by username
-      operationId: getByUsername
+        - 1. 신청
+      summary: '1.2.1 회원 가입 : 포털을 통한 회원가입 신청'
+      operationId: 'ID확인요청: 서비스포털 -> API Gateway -> GateKeeper'
       parameters:
-        - name: username
+        - name: id
           in: path
           description: The name that needs to be fetched.
           required: true
@@ -149,6 +83,26 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
+
+  '/invite':
+    post:
+      tags:
+        - 1. 신청
+      summary: '1.2.3 회원 가입 : 초대장을 통한 가입'
+      description: '구성원 추가 : 관리포털 -> API Gateway -> Speaker'
+      operationId: invitesUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                description: email
+      responses:
+        default:
+          description: successful operation
+
 
 components:
   schemas:
@@ -187,9 +141,24 @@ components:
           description: '가입승인 처리 (false: 미승인, true: 승인)'
         tenent:
           $ref: '#/components/schemas/Tenent'
-    Product:
+    Noti:
       type: object
+      description: '현재 Payload만 구성됨 --> MQ, REST 쓸지 정해지지 않음'
+      required: 
+        - type
+        - message
       properties:
-        name:
+        type: 
           type: string
-          description: 제품명
+          description: '알림 타입: kakao, email, phone'
+          default: 'email'
+        msg:
+          type: string
+          description: '메세지 내용'
+    ResponseMsg:
+      type: object
+      description: 'REST API 응답 객체'
+      properties:
+        msg:
+          type: string
+          description: 'Response 세부 내용 기입'
