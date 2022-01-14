@@ -31,37 +31,12 @@ tags:
 
 paths:
   '/member/users/{id}':
-    post:
-      tags: 
-        - 1. 신청
-      summary: '1.2.1 회원 가입 : 포털을 통한 회원가입 신청'
-      description: '가입요청 신청: 서비스포털 -> API Gateway -> GateKeeper'
-      operationId: createUser
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '201':
-          description: Successful operation
-        '400':
-          description: Invalid input, object invalid
-        '409':
-          description: An existing user already exists
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-        description: Create user object
-        required: true
     get:
       tags:
         - 1. 신청
-      summary: '1.2.1 회원 가입 : 포털을 통한 회원가입 신청'
-      operationId: 'ID확인요청: 서비스포털 -> API Gateway -> GateKeeper'
+      summary: '1.2.1 회원 가입 : 포털을 통한 회원가입 신청 #GetUser'
+      description: 'ID확인요청: 서비스포털 -> API Gateway -> GateKeeper'
+      operationId: GetUser
       parameters:
         - name: id
           in: path
@@ -83,25 +58,99 @@ paths:
           description: Invalid username supplied
         '404':
           description: User not found
-
-  '/invite':
     post:
-      tags:
+      tags: 
         - 1. 신청
-      summary: '1.2.3 회원 가입 : 초대장을 통한 가입'
-      description: '구성원 추가 : 관리포털 -> API Gateway -> Speaker'
-      operationId: invitesUser
+      summary: '1.2.1 회원 가입 : 포털을 통한 회원가입 신청 / 1.2.3 회원가입 : 클라우드 관리자가 ID 직접 발급  #PostUser'
+      description: '가입요청 신청: 서비스포털 -> API Gateway -> GateKeeper'
+      operationId: PostUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Successful create operation
+        '400':
+          description: Invalid input, object invalid
+        '409':
+          description: An existing user already exists
       requestBody:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                type: string
-                description: email
+              $ref: '#/components/schemas/User'
+        description: Create user object
+        required: true
+    patch:
+      tags:
+        - 1. 신청
+      summary: '1.2.2 회원가입 : 회원가입 신청 승인 #PatchUser'
+      description: '가입요청에 대한 관리자 승인처리: 관리포털 -> API Gateway -> GateKeeper'
+      operationId: PatchUser
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Not found user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                isApprove:
+                  type: boolean
+    delete:
+      tags:
+        - 1. 신청
+      summary: '1.2.5 회원 탈퇴 #DeleteUser'
+      description: '구성원 삭제 : 서비스/관리포털 -> API Gateway -> GateKeeper'
+      operationId: DeleteUser
+      parameters:
+        - name: jwt
+          in: header
+          required: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: User not found 
+  '/invite':
+    post:
+      tags:
+        - 1. 신청
+      summary: '1.2.4 회원 가입 : 초대장을 통한 가입 #PostInvite'
+      description: '구성원 추가 : 관리포털 -> API Gateway -> Speaker'
+      operationId: PostInvite
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Noti'
+        description: '이메일 초대장으로 type:email을 설정해야합니다.'
       responses:
         default:
           description: successful operation
+
+
 
 
 components:
@@ -143,7 +192,7 @@ components:
           $ref: '#/components/schemas/Tenent'
     Noti:
       type: object
-      description: '현재 Payload만 구성됨 --> MQ, REST 쓸지 정해지지 않음'
+      description: '#oNoti 현재 Payload만 구성됨 --> MQ, REST 쓸지 정해지지 않음'
       required: 
         - type
         - message
