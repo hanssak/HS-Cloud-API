@@ -149,6 +149,31 @@ paths:
       responses:
         default:
           description: successful operation
+  '/apply/products/{name}':
+    get:
+      tags:
+        - 2. 생성
+      summary: '1.3.1 SaaS 신청: SaaS상품 라이센스 조회 #GetApplyProduct'
+      description: '상품 (SG, PG, OG)선택 후 제품 신청의 초기단계 : 서비스포털 -> API Gateway -> Configurator'
+      operationId: GetApplyProduct
+      parameters: 
+        - name: name
+          in: path
+          required: true
+          description: '상품명을 기입해야함 (예시: securegate, passguard)'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: '상품에 따른 라이센스 종류 정보'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProvisioningSaas'
+        '400':
+          description: '상품 이름이 잘못되어 있음'
+        '404':
+          description: '상품 라이센스 조회 실패 : 찾을 수 없음'
 
 
 
@@ -164,6 +189,9 @@ components:
           description: 테넌트 ID
         groupName:
           type: string
+          
+          
+          
     User:
       type: object
       required: 
@@ -190,6 +218,9 @@ components:
           description: '가입승인 처리 (false: 미승인, true: 승인)'
         tenent:
           $ref: '#/components/schemas/Tenent'
+          
+          
+          
     Noti:
       type: object
       description: '#oNoti 현재 Payload만 구성됨 --> MQ, REST 쓸지 정해지지 않음'
@@ -204,6 +235,39 @@ components:
         msg:
           type: string
           description: '메세지 내용'
+    
+    
+    
+    ProvisioningSaasInfo:
+      type: object
+      properties:
+        level:
+          type: string
+          description: 'SaaS의 상품 등급 (Lite, Basic, Premium)'
+        content:
+          type: string
+          description: '설명'
+        spec:
+          type: string
+          description: '사양'
+        pricing:
+          type: string
+          description: '요금'
+    ProvisioningSaas:
+      type: object
+      description: '사전에 정의된 SaaS상품의 정보 스키마'
+      properties:
+        product:
+          type: string
+          description: ''
+        info:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProvisioningSaasInfo'
+            
+        
+      
+      
     ResponseMsg:
       type: object
       description: 'REST API 응답 객체'
