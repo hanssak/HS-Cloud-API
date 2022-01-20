@@ -35,7 +35,7 @@ paths:
       tags:
         - 1. 신청
       summary: '1.2.1 회원 가입 : 포털을 통한 회원가입 신청 #GetUser'
-      description: 'ID확인요청: 서비스포털 -> API Gateway -> GateKeeper'
+      description: ': 서비스포털 -> API Gateway -> GateKeeper <br> ID확인요청'
       operationId: GetUser
       parameters:
         - name: id
@@ -62,7 +62,7 @@ paths:
       tags: 
         - 1. 신청
       summary: '1.2.1 회원 가입 : 포털을 통한 회원가입 신청 / 1.2.3 회원가입 : 클라우드 관리자가 ID 직접 발급  #PostUser'
-      description: '가입요청 신청: 서비스포털 -> API Gateway -> GateKeeper'
+      description: ': 서비스포털 -> API Gateway -> GateKeeper <br> 가입요청 신청'
       operationId: PostUser
       parameters:
         - name: id
@@ -88,7 +88,7 @@ paths:
       tags:
         - 1. 신청
       summary: '1.2.2 회원가입 : 회원가입 신청 승인 #PatchUser'
-      description: '가입요청에 대한 관리자 승인처리: 관리포털 -> API Gateway -> GateKeeper'
+      description: ': 관리포털 -> API Gateway -> GateKeeper <br> 가입요청에 대한 관리자 승인처리'
       operationId: PatchUser
       parameters: 
         - name: id
@@ -113,7 +113,7 @@ paths:
       tags:
         - 1. 신청
       summary: '1.2.5 회원 탈퇴 #DeleteUser'
-      description: '구성원 삭제 : 서비스/관리포털 -> API Gateway -> GateKeeper'
+      description: ': 서비스/관리포털 -> API Gateway -> GateKeeper <br> 구성원 삭제 '
       operationId: DeleteUser
       parameters:
         - name: jwt
@@ -138,7 +138,7 @@ paths:
       tags:
         - 1. 신청
       summary: '1.2.4 회원 가입 : 초대장을 통한 가입 #PostInvite'
-      description: '구성원 추가 : 관리포털 -> API Gateway -> Speaker'
+      description: ': 관리포털 -> API Gateway -> Speaker <br> 구성원 추가 '
       operationId: PostInvite
       requestBody:
         content:
@@ -154,7 +154,7 @@ paths:
       tags:
         - 2. 생성
       summary: '1.3.1 SaaS 신청: SaaS상품 라이센스 조회 #GetApplyProduct'
-      description: '상품 (SG, PG, OG)선택 후 제품 신청의 초기단계 : 서비스포털 -> API Gateway -> Configurator'
+      description: ': 서비스포털 -> API Gateway -> Configurator <br> 상품 (SG, PG, OG)선택 후 제품 신청의 초기단계 '
       operationId: GetApplyProduct
       parameters: 
         - name: name
@@ -178,7 +178,7 @@ paths:
       tags:
         - 2. 생성
       summary: '1.3.1 SaaS 신청: SaaS상품 구성정보 (웹으로 모든 구성필요)  #PostApplyProduct'
-      description: '각 Cloud와 연동하여 모든 솔루션 설정을 완료한 정보여야 합니다. 망연계일 경우 3개 장비 세트로 움직이게 됩니다.'
+      description: ': 서비스포털 -> API Gateway -> MetaDataManager -> SaaS Builder <br> 각 Cloud와 연동하여 모든 솔루션 설정을 완료한 정보여야 합니다. 망연계일 경우 3개 장비 세트로 움직이게 됩니다.'
       operationId: PostApplyProduct
       parameters: 
         - name: name
