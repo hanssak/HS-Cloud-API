@@ -4,7 +4,6 @@ servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/hanssak/IW-API/1.0.0
 info:
-  description: This is a HS Cloud API
   version: "1.0.0"
   title: HS Cloud API
   contact:
@@ -12,6 +11,8 @@ info:
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+
 tags:
   - name: 1. 신청
     description: '회원 가입 신청, 탈퇴, 관리자 승인, 알림등 사용자 이벤트 처리 Cycle'  
@@ -55,9 +56,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         '400':
-          description: Invalid username supplied
+          $ref: '#/components/responses/BadRequest'
         '404':
-          description: User not found
+          $ref: '#/components/responses/NotFound'
     post:
       tags: 
         - 1. 신청
@@ -74,9 +75,7 @@ paths:
         '201':
           description: Successful create operation
         '400':
-          description: Invalid input, object invalid
-        '409':
-          description: An existing user already exists
+          $ref: '#/components/responses/BadRequest'
       requestBody:
         content:
           application/json:
@@ -100,7 +99,7 @@ paths:
         '200':
           description: Successful operation
         '404':
-          description: Not found user
+          $ref: '#/components/responses/NotFound'
       requestBody:
         content:
           application/json:
@@ -130,9 +129,9 @@ paths:
         '200':
           description: Successful operation
         '400':
-          description: Invalid ID supplied
+          $ref: '#/components/responses/BadRequest'
         '404':
-          description: User not found 
+          $ref: '#/components/responses/NotFound'
   '/invite':
     post:
       tags:
@@ -171,9 +170,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProvisioningService'
         '400':
-          description: '상품 이름이 잘못되어 있음'
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
         '404':
-          description: '상품 라이센스 조회 실패 : 찾을 수 없음'
+          $ref: '#/components/responses/NotFound'
+
+        
     post:
       tags:
         - 2. 생성
@@ -197,16 +200,62 @@ paths:
         '201':
           description: '정상적으로 생성 되었습니다.'
         '400':
-          description: '비정상적인 요청을 하였습니다.'
+          $ref: '#/components/responses/BadRequest'
         '401':
-          description: '클라우드 인증 처리가 되지않습니다. (토큰 에러)'
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
         '409':
           description: '이미 생성되어있습니다. (충돌 발생)'
-        
+    
 
 
 components:
+  # --> 보안 스키마 정의 
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "JWT Authoriztion header using the Bearer scheme"
+  
+      
+  # --> 응답 컴포넌트 정의
+  responses:
+    BadRequest:
+      description: '400: 없는 필드 요청으로 에러 발생 (Field validation 실패)'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: '401: API인증 실패 (token is missing or invalid)'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    NotFound:
+      description: '404: 리소스 찾을수 없음'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    
+    
+  # --> 데이터 스키마 정의
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required: 
+        - code
+        - message
+  
+  
     Tenent:
       type: object
       properties:
