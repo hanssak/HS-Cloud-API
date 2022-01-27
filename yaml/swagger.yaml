@@ -20,7 +20,11 @@ tags:
     description: 'Cloud SaaS관련: 제품(솔루션), 인프라, 서버, 네트워크 생성 및 구성'
   - name: 3. 인증
     description: '로그인, 인증, 인가, 토큰 발급 (검증)'
-  - name: 4. 관리
+  - name: '4.1 관리: 조직관리'
+    description: '관리포털에서 사용하는 사용자 조직 관리 (Cloud관리자)'
+  - name: '4.2 관리: 사용자 설정'
+    description: '서비스포털에서 사용하는 유저 설정: 서비스 관리자 및 서비스포털 이용자) <br> (탈퇴, 정보 업데이트, 프로필 가져오기, 패스워드변경, 레포트, 구독정보)'
+  - name: '4.3 관리: 시스템'
     description: '[SA연동] 시스템(Tenent, VM, IW-SA 서비스), Cloud(Network, VM, Storage) 제어 '
   - name: 5. 운영
     description: '[SA연동] 모니터링, 오토스케일링 상태 관리'
@@ -29,12 +33,93 @@ tags:
   - name: 7. 패치
     description: '[SA연동] 업데이트, 백업, 복구'
 
-
 paths:
+  '/gatekeeper/register':
+    post:
+      tags:
+        - 1. 신청
+      summary: '1.2.1, 1.2.2 회원 가입 : 사용자 생성 #RegisterId'
+      description: '\- 가입요청 신청: 서비스포털 -> API Gateway -> GateKeeper <br> 제공된 ID는 고유해야 합니다. 또한 등록이 성공적으로 완료되면 제공된 주소로 확인 이메일을 보내야합니다.'
+      operationId: RegisterId
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        201:
+          description: 'ID 생성 성공'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  message:
+                    type: string
+                  token:
+                    type: string
+                    example: '1mx6L2L7AMdEsyKy5LW9s8gt6mBxdICwosVn5sjhbwykOoQJFUru6752dwsj2THN'
+        409:
+          $ref: '#/components/responses/Conflict'
+  '/gatekeeper/user-confirm':
+    post:
+      tags:
+        - 1. 신청
+      summary: '1.2.1, 1.2.2 회원 가입 : 중복 ID 확인 #UserConfirm'
+      description: '\- 회원가입 시 ID 확인: 서비스포털 -> API Gateway -> GateKeeper <br> ID 중복 확인 요청'
+      operationId: UserConfirm
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - id
+              properties:
+                id:
+                  type: string
+      responses:
+        200:
+          description: '아이디 생성 가능 (중복 없음)'
+        409:
+          $ref: '#/components/responses/Conflict'
+  '/speaker/invite':
+    post:
+      tags:
+        - 1. 신청
+      summary: '1.2.3 회원가입 : 사용자 초대 #invite'
+      description: '\- 클라우드관리자가 사용자에게 초대장 전송: 관리포털 -> API Gateway -> Speaker <br> 이메일 형태로 전송해야 함'
+      operationId: Invite
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            example: 'JWT Token'
+          description: '관리자가 초대하는 URL로 인증된 사용자가 해야함'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Noti'
+        description: '이메일 초대장으로 type:email을 설정해야합니다.'
+      responses:
+        default:
+          description: successful operation
+      
+          
+          
+          
   '/member/users/{id}':
     get:
       tags:
-        - 1. 신청
+        - '4.2 관리: 사용자 설정'
       summary: '1.2.1 회원 가입 : 포털을 통한 회원가입 신청 #GetUser'
       description: ': 서비스포털 -> API Gateway -> GateKeeper <br> ID확인요청'
       operationId: GetUser
@@ -61,7 +146,7 @@ paths:
           $ref: '#/components/responses/NotFound'
     post:
       tags: 
-        - 1. 신청
+        - '4.2 관리: 사용자 설정'
       summary: '1.2.1 회원 가입 : 포털을 통한 회원가입 신청 / 1.2.3 회원가입 : 클라우드 관리자가 ID 직접 발급  #PostUser'
       description: ': 서비스포털 -> API Gateway -> GateKeeper <br> 가입요청 신청'
       operationId: PostUser
@@ -85,7 +170,7 @@ paths:
         required: true
     patch:
       tags:
-        - 1. 신청
+        - '4.2 관리: 사용자 설정'
       summary: '1.2.2 회원가입 : 회원가입 신청 승인 #PatchUser'
       description: ': 관리포털 -> API Gateway -> GateKeeper <br> 가입요청에 대한 관리자 승인처리'
       operationId: PatchUser
@@ -110,7 +195,7 @@ paths:
                   type: boolean
     delete:
       tags:
-        - 1. 신청
+        - '4.2 관리: 사용자 설정'
       summary: '1.2.5 회원 탈퇴 #DeleteUser'
       description: ': 서비스/관리포털 -> API Gateway -> GateKeeper <br> 구성원 삭제 '
       operationId: DeleteUser
@@ -132,22 +217,7 @@ paths:
           $ref: '#/components/responses/BadRequest'
         '404':
           $ref: '#/components/responses/NotFound'
-  '/invite':
-    post:
-      tags:
-        - 1. 신청
-      summary: '1.2.4 회원 가입 : 초대장을 통한 가입 #PostInvite'
-      description: ': 관리포털 -> API Gateway -> Speaker <br> 구성원 추가 '
-      operationId: PostInvite
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Noti'
-        description: '이메일 초대장으로 type:email을 설정해야합니다.'
-      responses:
-        default:
-          description: successful operation
+
   '/apply/products/{name}':
     get:
       tags:
@@ -240,6 +310,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ErrorResponse'
+    Conflict:
+      description: '409: 리소스 충돌 발생'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     
     
   # --> 데이터 스키마 정의
@@ -274,11 +350,13 @@ components:
         - id
         - password
         - username
-        - tenentId
         - isApprove
+        - email
       properties:
         id:
           type: string
+          example: 'id@hsck.com'
+          description: 도메인 형식
         password:
           type: string
           description: 암호화 필수
@@ -292,8 +370,7 @@ components:
           type: boolean
           default: false
           description: '가입승인 처리 (false: 미승인, true: 승인)'
-        tenent:
-          $ref: '#/components/schemas/Tenent'
+
           
           
           
@@ -302,12 +379,22 @@ components:
       description: '#oNoti 현재 Payload만 구성됨 --> MQ, REST 쓸지 정해지지 않음'
       required: 
         - type
-        - message
+        - from
+        - to
+        - msg
       properties:
         type: 
           type: string
           description: '알림 타입: kakao, email, phone'
           default: 'email'
+        from:
+          type: string
+          description: '발신자 주소'
+          default: 'hsck@hsck.com'
+        to:
+          type: string
+          description: '수신자 주소'
+          default: 'user@company.com'
         msg:
           type: string
           description: '메세지 내용'
