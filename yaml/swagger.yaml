@@ -113,13 +113,13 @@ paths:
         default:
           description: successful operation
 
-  '/apply/products/{name}':
+  '/apply/products/{name}/license':
     get:
       tags:
         - 2. 생성
-      summary: '1.3.1 SaaS 신청: SaaS상품 라이센스 조회 #GetApplyProduct'
+      summary: '2.1.1 SaaS 신청: SaaS상품 라이센스 조회 #GetApplyProductLicense'
       description: ': 서비스포털 -> API Gateway -> Configurator <br> 상품 (SG, PG, OG)선택 후 제품 신청의 초기단계 '
-      operationId: GetApplyProduct
+      operationId: GetApplyProductLicense
       security:
         - bearerAuth: []
       parameters: 
@@ -148,11 +148,11 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
-
+  '/apply/products/{name}':
     post:
       tags:
         - 2. 생성
-      summary: '1.3.1 SaaS 신청: SaaS상품 구성정보 (웹으로 모든 구성필요)  #PostApplyProduct'
+      summary: '2.1.1 SaaS 신청: SaaS상품 구성정보 (웹으로 모든 구성필요)  #PostApplyProduct'
       description: ': 서비스포털 -> API Gateway -> MetaDataManager -> SaaS Builder <br> 각 Cloud와 연동하여 모든 솔루션 설정을 완료한 정보여야 합니다. 망연계일 경우 3개 장비 세트로 움직이게 됩니다.'
       operationId: PostApplyProduct
       security:
@@ -187,9 +187,45 @@ paths:
           $ref: '#/components/responses/NotFound'
         '409':
           description: '이미 생성되어있습니다. (충돌 발생)'
-  #'/apply/products/{name}/status':
-    
-          
+    get:
+      tags:
+        - 2. 생성
+      summary: '2.1.2 SaaS 생성 상태 조회 '
+      description: ''
+      operationId: GetApplyProduct
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            example: 'JWT Token'
+        - in: query
+          name: fields
+          schema:
+            type: string
+            example: 'status'
+      responses:
+        '200':
+          description: '상품에 따른 라이센스 종류 정보'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceMetaData'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        
           
   '/member/users/{id}':
     get:
@@ -443,6 +479,10 @@ components:
       description: '네이버 클라우드 전용: 솔루션 서버 설정 정보 (server_code는 HS전용코드)'
       required: 
         - server_code
+        - vpc_no
+        - subnet
+        - subnet_no
+        - public_ip
       properties:
         server_code:
           type: string
@@ -463,17 +503,22 @@ components:
         public_ip:
           type: boolean
           description: '공인IP 사용 여부 <br> (단, 서브넷에서 공인망을 사용하지 않는 경우 사용불가합니다.'
+        status:
+          type: integer
+          description: '서버 생성 상태를 표시'
           
     ServiceMetaData:
       type: object
       description: '솔루션의 상품 구성한 모든 정보를 담고 있는 스키마'
       required:
         - product
-        - tenent
         - server_config
       properties:
         product:
           type: string
+        status:
+          type: integer
+          description: '서비스 상태'
         server_config:
           type: array
           items:
