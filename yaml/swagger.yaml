@@ -225,7 +225,66 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+  '/gatekeeper/login':
+    post:
+      tags:
+        - 3. 인증
+      summary: '3.1.1 로그인 인증 : 로그인 확인 및 토큰발급 #Login'
+      description: '\- ID, PASSWORD의 Validation을 체크하고, 토큰발급을 수행 : 서비스,관리 포털 -> API Gateway -> GateKeeper -> Provider'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+              - id
+              - password
+              properties:
+                id:
+                  type: string
+                  example: 'id@hsck.com'
+                  description: 'Domain 형태'
+                password:
+                  type: string
+                  example: '124K8t9iHn!'
+                  description: 'Password'
+      responses:
+      # 수정 필요
+        '200':
+          description: >
+            # Token
+            
+            ## Header
+              {
+                "alg": "HS256",
+                "typ": "JWT"
+              }
+              
+            ## Body
+              {
+                iss: hanssak-cloud.com
+                exp: '1485270000000'
+                tenent: xxxx
+                group: develop
+                auth: manager
+                id: kng
+              }
+            
+            ## Verify signature
+            
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJoYW5zc2FrLWNsb3VkLmNvbSIsImV4cCI6IjE0ODUyNzAwMDAwMDAiLCJ0ZW5lbnQiOiJ4eHh4IiwiZ3JvdXAiOiJkZXZlbG9wIiwiYXV0aCI6Im1hbmFnZXIiLCJpZCI6ImtuZyJ9.b-MRxJ5UiBdTexOpRe299lLNj7G314eSznb0lT1lJts'
+                    description: 'Token'
+        '400':
+          $ref: '#/components/responses/BadRequest'
         
+    
           
   '/member/users/{id}':
     get:
