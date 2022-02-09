@@ -148,6 +148,88 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+          
+  '/cloud/{platform}/vpc':
+    get:
+      tags:
+        - 2. 생성
+      summary: '2.1. SaaS 신청: Cloud의 VPC 데이터 조회 #GetCloudVpcList'
+      description: '\- Cloud의 내부 VPC정보를 조회 (서버에서 클라우드와 연동됨) : 서비스 포털 -> API Gateway -> CloudBroker'
+      operationId: GetCloudVpcList
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: platform
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 'cloud 플랫폼을 정의 (ncp, aws, azure)'
+          example: 'ncp'
+        - in: query
+          name: region
+          schema:
+            type: string
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            example: 'JWT Token'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Vpc'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'       
+  '/cloud/{platform}/subnet':
+    get:
+      tags:
+        - 2. 생성
+      summary: '2.1. SaaS 신청: Cloud의 Subnet 데이터 조회 #GetCloudSubnetList'
+      description: '\- Cloud의 내부 Subnet정보를 조회 (서버에서 클라우드와 연동됨) : 서비스 포털 -> API Gateway -> CloudBroker'
+      operationId: GetCloudSubnetList
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: platform
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 'cloud 플랫폼을 정의 (ncp, aws, azure)'
+          example: 'ncp'
+        - in: query
+          name: region
+          schema:
+            type: string
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            example: 'JWT Token'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subnet'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'      
+    
   '/apply/products/{name}':
     post:
       tags:
@@ -225,6 +307,12 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '404':
           $ref: '#/components/responses/NotFound'
+          
+
+
+
+
+
   '/gatekeeper/login':
     post:
       tags:
@@ -249,7 +337,6 @@ paths:
                   example: '124K8t9iHn!'
                   description: 'Password'
       responses:
-      # 수정 필요
         '200':
           description: >
             # Token
@@ -583,8 +670,55 @@ components:
           items:
             $ref: '#/components/schemas/NcpServerConfigTf'
 
-      
-    
+    Vpc:
+      type: object
+      description: 'VPC 객체 (Cloud Broker와 연동)'
+      properties:
+        id:
+          type: string
+          description: 'VPC 고유 번호'
+          example: '***04'
+        name:
+          type: string
+          description: 'VPC 이름'
+          example: 'test-***'
+        ipv4_cidr_block:
+          type: string
+          description: 'VPC 네트워크 대역'
+          example: '***.***.0.0/16'
+        status:
+          type: string
+          description: 'VPC 상태'
+        region:
+          type: string
+          description: 'VPC RegionCode'
+          example: 'KR'        
+    Subnet:
+      type: object
+      description: 'Subnet 객체 (Cloud Broker와 연동)'
+      properties:
+        id:
+          type: string
+          description: 'Subnet 고유 번호'
+          example: '***04'
+        vpc_id:
+          type: string
+          description: 'Subnet이 속한 Vpc 고유번호'
+        name:
+          type: string
+          description: 'Subnet 이름'
+          example: 'test-***'
+        ipv4_cidr_block:
+          type: string
+          description: 'VPC 네트워크 대역'
+          example: '***.***.0.0/16'
+        status:
+          type: string
+          description: 'VPC 상태'
+        zone:
+          type: string
+          
+        
     
       
     ResponseMsg:
