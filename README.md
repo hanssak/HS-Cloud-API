@@ -33,3 +33,8 @@ Swagger 연동: https://app.swaggerhub.com/apis/hanssak/IW-API/1.0.0
 	- 401: Unauthorized - API 인증, 인가 실패
 	- 404: Not found - 해당 리소스 없음
 	- 500: Internal Server Error - 서버 에러
+
+
+### 7. 관리포털과 서비스포털 구분
+	- 관리포털: URL/구분자
+	- 서비스포털: URL/고객사ID/구분자 
