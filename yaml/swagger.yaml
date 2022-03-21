@@ -82,14 +82,6 @@ paths:
           schema:
             type: string
             example: 'JWT Token'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              allOf:
-                - $ref: '#/components/schemas/seq'
-                - $ref: '#/components/schemas/member_tenant'
-                - $ref: '#/components/schemas/member_company'
       responses:
         '200':
           description: '테넌트 삭제 성공'
@@ -99,12 +91,12 @@ paths:
           $ref: '#/components/responses/notFound'
 
   '/gatekeeper/member-confirm':
-    get:
+    post:
       tags:
         - 1. 신청
-      summary: '1.2.1, 1.2.2 회원 가입 : 중복 고객사(회사)명 확인 #GetMemberConfirm'
+      summary: '1.2.1, 1.2.2 회원 가입 : 중복 고객사(회사)명 확인 #PostMemberConfirm'
       description: '\- 회원가입 시 고객사 확인: 서비스포털 -> API Gateway -> GateKeeper <br> 회사명 중복 확인 요청'
-      operationId: GetMemberConfirm 
+      operationId: PostMemberConfirm 
       requestBody:
         content:
           application/json:
@@ -117,12 +109,12 @@ paths:
           $ref: '#/components/responses/conflict'
 
   '/gatekeeper/user-confirm':
-    get:
+    post:
       tags:
         - 1. 신청
-      summary: '1.2.1, 1.2.2 회원 가입 : 중복 ID 확인 #GetUserConfirm'
+      summary: '1.2.1, 1.2.2 회원 가입 : 중복 ID 확인 #PostUserConfirm'
       description: '\- 회원가입 시 ID 확인: 서비스포털 -> API Gateway -> GateKeeper <br> ID 중복 확인 요청'
-      operationId: GetUserConfirm
+      operationId: PostUserConfirm
       requestBody:
         content:
           application/json:
