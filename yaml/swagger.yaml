@@ -75,13 +75,12 @@ paths:
           required: true
           description: '고객사 ID'
           schema:
-            type: string
+            $ref: '#/components/schemas/pCompanyName'
         - in: header
           name: Authorization
           required: true
           schema:
-            type: string
-            example: 'JWT Token'
+            $ref: '#/components/schemas/pToken'
       responses:
         '200':
           description: '테넌트 삭제 성공'
@@ -170,8 +169,7 @@ paths:
           name: Authorization
           required: true
           schema:
-            type: string
-            example: 'JWT Token'
+            $ref: '#/components/schemas/pToken'
           description: '관리자가 초대하는 URL로 인증된 사용자가 해야함'
       requestBody:
         content:
@@ -183,11 +181,148 @@ paths:
         '200':
           description: '이메일 초대장 전송 완료'
 
+  '/{id}/order/product_list':
+    post:
+      tags:
+        - "2. 생성"
+      summary: '2.1.1 SaaS 신청: 상품 신청 버튼 클릭 이벤트 #PostOrderProductlist'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 제품 신청 버튼을 클릭할때 호출되는 이벤트로 고객사 정보를 가지고 있어야합니다. '
+      operationId: PostOrderProductlist
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/pCompanyName'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/pToken'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/member_tenant'
+                - $ref: '#/components/schemas/seq'
+              description: '고객사 SEQ 삽입'
+      responses:
+        '201':
+          description: '제품 리스트 생성 후 SEQ 수렴'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/seq'
+                  - $ref: '#/components/schemas/member_tenant'
+                description: '제품리스트 SEQ, 테넌트ID'
+        '409':
+          $ref: '#/components/responses/conflict'
 
+  '/{id}/order/product':
+    get:
+      tags:
+        - "2. 생성"
+      summary: '2.1.1 SaaS 신청: SaaS상품 전체 목록 조회 #GetOrderProduct'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 상품 및 제품 신청의 초기단계 '
+      operationId: GetOrderProduct
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/pCompanyName'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/pToken'
+      responses:
+        '200':
+          description: '제품 모든 목록'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      cloud:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/cloud'
+                      product:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/product'
+                      service:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/service'
+                      add_service:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/add_service'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+    post:
+      tags:
+       - "2. 생성"
+      summary: '2.1.1 SaaS 신청: SaaS 제품 주문 이력 등록 #PostOrderProduct'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 제품 선택에 따른 주문이력 정보 등록 order 정보에 삽입 (1단계)'
+      operationId: PostOrderProduct
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/pCompanyName'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/pToken'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/member_tenant'
+                - type: object
+                  properties:
+                    product_list_seq:
+                      type: integer 
+                    step:
+                      type: integer
+                      example: 1
+                    order_info:
+                      allOf:
+                        - type: object
+                          properties:
+                            cloud: 
+                              $ref: '#/components/schemas/cloud'
+                            product: 
+                              $ref: '#/components/schemas/product'
+                            service:
+                              $ref: '#/components/schemas/service'
+                            add_service:
+                              $ref: '#/components/schemas/add_service'
+      responses:
+        '201':
+          description: '주문 이력 등록 완료'
+        '409':
+          $ref: '#/components/responses/conflict'
 
-
-# 수정 전
-  '/apply/products/{name}/license':
+############################ NKNKNKNK
+  '/{id}/order/license':
     get:
       tags:
         - 2. 생성
@@ -197,7 +332,7 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: name
+        - name: id
           in: path
           required: true
           description: '상품명을 기입해야함 (예시: securegate, passguard)'
@@ -223,6 +358,7 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'
           
+# 수정 전
   '/cloud/{platform}/vpc':
     get:
       tags:
@@ -343,44 +479,44 @@ paths:
           $ref: '#/components/responses/notFound'
         '409':
           description: '이미 생성되어있습니다. (충돌 발생)'
-    get:
-      tags:
-        - 2. 생성
-      summary: '2.1.2 SaaS 생성 상태 조회 : SaaS 상품의 생성 정보 조회 (필요 시 status만 파싱하여 조회 가능) #GetApplyProduct '
-      description: '\- SaaS 상품신청 후 신청 결과에 대한 정보 조회 : 서비스포털 -> API Gateway -> MetaDataManager <br> '
-      operationId: GetApplyProduct
-      security:
-        - bearerAuth: []
-      parameters: 
-        - name: name
-          in: path
-          required: true
-          schema:
-            type: string
-        - in: header
-          name: Authorization
-          required: true
-          schema:
-            type: string
-            example: 'JWT Token'
-        - in: query
-          name: fields
-          schema:
-            type: string
-            example: 'status'
-      responses:
-        '200':
-          description: '상품에 따른 라이센스 종류 정보'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ServiceMetaData'
-        '400':
-          $ref: '#/components/responses/badRequest'
-        '401':
-          $ref: '#/components/responses/unauthorized'
-        '404':
-          $ref: '#/components/responses/notFound'
+#    get:
+#      tags:
+#        - 2. 생성
+#      summary: '2.1.2 SaaS 생성 상태 조회 : SaaS 상품의 생성 정보 조회 (필요 시 status만 파싱하여 조회 가능) #GetApplyProduct '
+#      description: '\- SaaS 상품신청 후 신청 결과에 대한 정보 조회 : 서비스포털 -> API Gateway -> MetaDataManager <br> '
+#      operationId: GetApplyProduct
+#      security:
+#        - bearerAuth: []
+#      parameters: 
+#        - name: name
+#          in: path
+#          required: true
+#          schema:
+#            type: string
+#        - in: header
+#          name: Authorization
+#          required: true
+#          schema:
+#            type: string
+#            example: 'JWT Token'
+#        - in: query
+#          name: fields
+#          schema:
+#            type: string
+#            example: 'status'
+#      responses:
+#        '200':
+#          description: '상품에 따른 라이센스 종류 정보'
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/ServiceMetaData'
+#        '400':
+#          $ref: '#/components/responses/badRequest'
+#        '401':
+#          $ref: '#/components/responses/unauthorized'
+#        '404':
+#          $ref: '#/components/responses/notFound'
           
 
 
@@ -606,6 +742,65 @@ components:
         - code
         - message
 
+
+### DB: Common Object
+    product:
+      allOf:
+        - $ref: '#/components/schemas/id'
+        - type: object
+          properties:
+            description:
+              type: string
+    service:
+      allOf:
+        - $ref: '#/components/schemas/id'
+        - type: object
+          properties:
+            product_id:
+              type: string
+            description:
+              type: string
+    add_service:
+      allOf:
+        - $ref: '#/components/schemas/id'
+        - type: object
+          properties:
+            plan_type:
+              type: string
+            price:
+              type: integer
+            description:
+              type: string
+    cloud:
+      allOf:
+        - $ref: '#/components/schemas/id'
+        - type: object
+          properties:
+            restriction:
+              type: object
+              description: '제약사항'
+            add_info:
+              type: object
+              description: '부가 정보'
+    license:
+      description: '(Base) 제품 라이선스 관련 오브젝트'
+      allOf:
+        - $ref: '#/components/schemas/id'
+        - type: object
+          properties:
+            product_id:
+              type: string
+            service_id:
+              type: string
+            grade:
+              type: string
+            plan_type:
+              type: string
+            price:
+              type: integer
+            description:
+              type: string
+
 ### DB: Admin Object
     member:
       allOf:
@@ -703,7 +898,14 @@ components:
             - "ip_check"
             - "mac_check"
     
-### Commen Object 
+### Commen Properties Object 
+    id:
+      type: object
+      properties:
+        id:
+          type: string
+      required:
+        - "id"
     seq:
       type: object
       properties:
@@ -748,6 +950,15 @@ components:
           type: string
           description: '메세지 내용'
  
+## parameter Common ID
+    pCompanyName:
+      type: string
+      example: 'Company Name'
+    pToken:
+      type: string
+      example: 'JWT Token'
+
+
 
 
 
