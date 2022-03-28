@@ -403,162 +403,142 @@ paths:
         '409':
           $ref: '#/components/responses/conflict'
 
-#  '/{id}/order/provisioning':
-#    get:
-#      tags:
-#        - 2. 생성
-#      summary: '2.1.1 SaaS 신청: SaaS 시스템 프로비저닝 데이터 조회 #GetOrderProvisioning'
-#      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 시스템 프로비저닝 데이터 목록 조회 (q 파라미터로 제품 검색 해야합니다.)'
-#      operationId: GetOrderProvisioning
-#      security:
-#        - bearerAuth: []
-#      parameters: 
-#        - name: id
-#          in: path
-#          required: true
-#          schema:
-#            $ref: '#/components/schemas/pCompanyName'
-#        - in: header
-#          name: Authorization
-#          required: true
-#          schema:
-#            $ref: '#/components/schemas/pToken'
-#        - in: query
-#          name: license_id
-#          required: true
-#          schema:
-#            type: string
-#            example: 'q=license_id%3D{라이선스ID}'
-#        - in: query
-#          name: cloud_id
-#          required: true
-#          schema:
-#            type: string
-#            example: 'q=cloud_id%3D{클라우드ID}'
-#      responses:
-#        '200':
-#          description: '프로비저닝 데이터 조회 성공'
-#          content:
-#            application/json:
-#              schema: 
-#                type: object
-#                properties:
-#                  system:
-#                    type: object
-#                    properties:
-#                      system_name:
-#                        type: object
-#                        properties:
-#                          os:
-#                            type: array
-#                          product:
-#                            type: array
-#                          min:
-#                            type: integer
-#                          max:
-#                            type: integer
-#        '400':
-#          $ref: '#/components/responses/badRequest'
-#        '401':
-#          $ref: '#/components/responses/unauthorized'
-#        '404':
-#          $ref: '#/components/responses/notFound'
-
-
-
-
-
-#### 이전에 작성한 자료
-  '/cloud/{platform}/vpc':
+  '/{id}/order/provisioning':
     get:
       tags:
-        - tmp
-      summary: '2.1. SaaS 신청: Cloud의 VPC 데이터 조회 #GetCloudVpcList'
-      description: '\- Cloud의 내부 VPC정보를 조회 (서버에서 클라우드와 연동됨) : 서비스 포털 -> API Gateway -> CloudBroker'
-      operationId: GetCloudVpcList
+        - 2. 생성
+      summary: '[작성중] 2.1.1 SaaS 신청: SaaS 시스템 프로비저닝 데이터 조회 #GetOrderProvisioning'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 시스템 프로비저닝 데이터 목록 조회 (q 파라미터로 제품 검색 해야합니다.)'
+      operationId: GetOrderProvisioning
       security:
         - bearerAuth: []
       parameters: 
-        - name: platform
+        - name: id
           in: path
           required: true
           schema:
-            type: string
-          description: 'cloud 플랫폼을 정의 (ncp, aws, azure)'
-          example: 'ncp'
-        - in: query
-          name: region
-          schema:
-            type: string
+            $ref: '#/components/schemas/pCompanyName'
         - in: header
           name: Authorization
           required: true
           schema:
+            $ref: '#/components/schemas/pToken'
+        - in: query
+          name: license_id
+          required: true
+          schema:
             type: string
-            example: 'JWT Token'
+            example: 'q=license_id%3D{라이선스ID}'
+        - in: query
+          name: cloud_id
+          required: true
+          schema:
+            type: string
+            example: 'q=cloud_id%3D{클라우드ID}'
       responses:
         '200':
-          description: ''
+          description: '프로비저닝 데이터 조회 성공'
           content:
             application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Vpc'
+              schema: 
+                type: object
+                properties:
+                  system:
+                    type: object
+                    properties:
+                      system_name:
+                        type: object
+                        properties:
+                          os:
+                            type: array
+                          product:
+                            type: array
+                          min:
+                            type: integer
+                          max:
+                            type: integer
+        '400':
+          $ref: '#/components/responses/badRequest'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
-          $ref: '#/components/responses/notFound'       
-  '/cloud/{platform}/subnet':
+          $ref: '#/components/responses/notFound'
+    post:
+      tags:
+        - '2. 생성'
+      summary: '[작성예정] 2.1.1 SaaS 신청: SaaS 프로비저닝 리소스 구성 데이터 등록'
+      responses:
+        '201':
+          description: ''
+  '/{id}/order/provisioning/scale':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '[작성예정] 2.1.1 SaaS 신청: SaaS AutoScale 데이터 조회 #GetOrderProvisioningScale'
+      responses:
+        '200':
+          description: ''
+    post:
+      tags: 
+        - '2. 생성'
+      summary: '[작성예정] 2.1.1 SaaS 신청: SaaS AutoScale 데이터 등록 #PostOrderProvisioningScale'
+      responses:
+        '201':
+          description: ''
+  '/{id}/order/network':
+    post:
+      tags: 
+        - '2. 생성'
+      summary: '[작성예정] 2.1.1 SaaS 신청: SaaS Network 구성정보 등록 #PostOrderNetwork'
+      responses:
+        '201':
+          description: ''
+  '/{id}/order/acg':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '[작성예정] 2.1.1 SaaS 신청: ACG 데이터 조회 #GetOrderAcg'
+      responses:
+        '200':
+          description: ''
+    post:
+      tags: 
+        - '2. 생성'
+      summary: '[작성예정] 2.1.1 SaaS 신청: ACG 신청정보 등록 #PostOrderAcg'
+      responses:
+        '201':
+          description: ''
+  '/{id}/order/his':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '[작성예정] 2.1.1 SaaS 신청: 상품 신청정보 조회 #GetOrderHis'
+      responses:
+        '200':
+          description: ''
+  '/{id}/meta/product/create':
+    post:
+      tags: 
+        - '2. 생성'
+      summary: '[작성예정] 2.1.1 SaaS 신청: SaaS 생성 시작 명령 #PostMetaProductCreate'
+      responses:
+        '201':
+          description: ''
+  '/{id}/meta/product':
     get:
       tags:
-        - tmp
-      summary: '2.1. SaaS 신청: Cloud의 Subnet 데이터 조회 #GetCloudSubnetList'
-      description: '\- Cloud의 내부 Subnet정보를 조회 (서버에서 클라우드와 연동됨) : 서비스 포털 -> API Gateway -> CloudBroker'
-      operationId: GetCloudSubnetList
-      security:
-        - bearerAuth: []
-      parameters: 
-        - name: platform
-          in: path
-          required: true
-          schema:
-            type: string
-          description: 'cloud 플랫폼을 정의 (ncp, aws, azure)'
-          example: 'ncp'
-        - in: query
-          name: region
-          schema:
-            type: string
-        - in: header
-          name: Authorization
-          required: true
-          schema:
-            type: string
-            example: 'JWT Token'
+        - '2. 생성'
+      summary: '[작성예정] 2.1.2 SaaS 신청: SaaS 상품 조회 #GetMetaProduct'
       responses:
         '200':
           description: ''
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Subnet'
-        '401':
-          $ref: '#/components/responses/unauthorized'
-        '404':
-          $ref: '#/components/responses/notFound'      
-    
-
-
-
   '/gatekeeper/login':
     post:
       tags:
         - 3. 인증
-      summary: '3.1.1 로그인 인증 : 로그인 확인 및 토큰발급 #Login'
-      description: '\- ID, PASSWORD의 Validation을 체크하고, 토큰발급을 수행 : 서비스,관리 포털 -> API Gateway -> GateKeeper -> Provider'
+      operationId: PostCloudAdminLogin
+      summary: '3.1.3 클라우드 관리자 로그인 인증 : 로그인 확인 및 토큰발급 #PostCloudAdminLogin'
+      description: '\- ID, PASSWORD의 Validation을 체크하고, 토큰발급을 수행 : 관리 포털 -> API Gateway -> GateKeeper -> Provider'
       requestBody:
         content:
           application/json:
@@ -610,111 +590,67 @@ paths:
                     description: 'Token'
         '400':
           $ref: '#/components/responses/badRequest'
-        
-    
-          
-  '/member/users/{id}':
-    get:
-      tags:
-        - '4.2 관리: 사용자 설정'
-      summary: '1.2.1 회원 가입 : 포털을 통한 회원가입 신청 #GetUser'
-      description: ': 서비스포털 -> API Gateway -> GateKeeper <br> ID확인요청'
-      operationId: GetUser
-      parameters:
-        - name: id
-          in: path
-          description: The name that needs to be fetched.
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/User'
-        '400':
-          $ref: '#/components/responses/badRequest'
-        '404':
-          $ref: '#/components/responses/notFound'
+  '/{id}/gatekeeper/login':
     post:
-      tags: 
-        - '4.2 관리: 사용자 설정'
-      summary: '1.2.1 회원 가입 : 포털을 통한 회원가입 신청 / 1.2.3 회원가입 : 클라우드 관리자가 ID 직접 발급  #PostUser'
-      description: ': 서비스포털 -> API Gateway -> GateKeeper <br> 가입요청 신청'
-      operationId: PostUser
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '201':
-          description: Successful create operation
-        '400':
-          $ref: '#/components/responses/badRequest'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-        description: Create user object
-        required: true
-    patch:
       tags:
-        - '4.2 관리: 사용자 설정'
-      summary: '1.2.2 회원가입 : 회원가입 신청 승인 #PatchUser'
-      description: ': 관리포털 -> API Gateway -> GateKeeper <br> 가입요청에 대한 관리자 승인처리'
-      operationId: PatchUser
-      parameters: 
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Successful operation
-        '404':
-          $ref: '#/components/responses/notFound'
+        - 3. 인증
+      operationId: PostSaasAdminLogin
+      summary: '3.1.4 SaaS 관리자 로그인 인증 : 로그인 확인 및 토큰발급 #PostSaasAdminLogin'
+      description: '\- ID, PASSWORD의 Validation을 체크하고, 토큰발급을 수행 : 서비스 포털 -> API Gateway -> GateKeeper -> Provider'
       requestBody:
         content:
           application/json:
             schema:
               type: object
+              required: 
+              - id
+              - password
               properties:
-                isApprove:
-                  type: boolean
-    delete:
-      tags:
-        - '4.2 관리: 사용자 설정'
-      summary: '1.2.5 회원 탈퇴 #DeleteUser'
-      description: ': 서비스/관리포털 -> API Gateway -> GateKeeper <br> 구성원 삭제 '
-      operationId: DeleteUser
-      parameters:
-        - name: jwt
-          in: header
-          required: false
-          schema:
-            type: string
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
+                id:
+                  type: string
+                  example: 'id@hsck.com'
+                  description: 'Domain 형태'
+                password:
+                  type: string
+                  example: '124K8t9iHn!'
+                  description: 'Password'
       responses:
         '200':
-          description: Successful operation
+          description: >
+            # Token
+            
+            ## Header
+              {
+                "alg": "HS256",
+                "typ": "JWT"
+              }
+              
+            ## Body
+              {
+                iss: hanssak-cloud.com
+                exp: '1485270000000'
+                tenent: xxxx
+                group: develop
+                auth: manager
+                id: kng
+              }
+            
+            ## Verify signature
+            
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJoYW5zc2FrLWNsb3VkLmNvbSIsImV4cCI6IjE0ODUyNzAwMDAwMDAiLCJ0ZW5lbnQiOiJ4eHh4IiwiZ3JvdXAiOiJkZXZlbG9wIiwiYXV0aCI6Im1hbmFnZXIiLCJpZCI6ImtuZyJ9.b-MRxJ5UiBdTexOpRe299lLNj7G314eSznb0lT1lJts'
+                    description: 'Token'
         '400':
           $ref: '#/components/responses/badRequest'
-        '404':
-          $ref: '#/components/responses/notFound'
-
+               
+    
+          
 
 
 components:
@@ -771,7 +707,6 @@ components:
       required: 
         - code
         - message
-
 
 ### DB: Common Object
     product:
@@ -850,15 +785,6 @@ components:
               type: string
             add_info:
               type: object
-
-           
-
-
-
-
-
-
-
     license:
       description: '(Base) 제품 라이선스 관련 오브젝트'
       allOf:
@@ -886,11 +812,6 @@ components:
       required:
         - "plan"
       
-
-    
-
-
-
 ### DB: Admin Object
     member:
       allOf:
@@ -952,8 +873,6 @@ components:
               type: integer
             step:
               type: integer
-        
-
     order: 
       type: object
       allOf:
@@ -988,7 +907,6 @@ components:
         - "product_list_seq"
         - "step"
         - "order_info"
-    
     saas_system:
       type: object
       properties:
@@ -998,7 +916,6 @@ components:
           type: string
         cloud_zone_code:
           type: string
-    
     saas_system_provisioning:
       type: object
       properties:
@@ -1007,13 +924,6 @@ components:
         cloud_product_id:
           type: string
         
-    
-
-
-
-
-
-
 ### DB: SaaS Object
     saas_admin:
       allOf:
@@ -1120,76 +1030,7 @@ components:
 
 
 
-
-## ////////// NK ////////////////  수정이 필요
-    Tenent:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int32
-          description: 테넌트 ID
-        groupName:
-          type: string
-          
-    User:
-      type: object
-      required: 
-        - id
-        - password
-        - username
-        - isApprove
-        - email
-      properties:
-        id:
-          type: string
-          example: 'id@hsck.com'
-          description: 도메인 형식
-        password:
-          type: string
-          description: 암호화 필수
-        username:
-          type: string
-        email:
-          type: string
-        phone:
-          type: string
-        isApprove:
-          type: boolean
-          default: false
-          description: '가입승인 처리 (false: 미승인, true: 승인)'
-
-   
-    ProvisioningServiceInfo:
-      type: object
-      properties:
-        level:
-          type: string
-          default: 'basic'
-          description: 'SaaS의 상품 등급 (Lite, Basic, Premium)'
-        content:
-          type: string
-          example: 'basic 라이센스에 관한 내용'
-          description: '설명'
-        spec:
-          type: string
-          description: '사양'
-        pricing:
-          type: string
-          description: '요금'
-    ProvisioningService:
-      type: object
-      description: '사전에 정의된 SaaS상품의 정보 스키마'
-      properties:
-        product:
-          type: string
-          example: 'securegate'
-          description: 'SaaS 상품 ID : securegate, passwordguard, officegate'
-        info:
-          type: array
-          items:
-            $ref: '#/components/schemas/ProvisioningServiceInfo'
-            
+           
     NcpServerConfigTf:
       type: object
       description: '네이버 클라우드 전용: 솔루션 서버 설정 정보 (server_code는 HS전용코드)'
@@ -1222,24 +1063,6 @@ components:
         status:
           type: integer
           description: '서버 생성 상태를 표시'
-          
-    ServiceMetaData:
-      type: object
-      description: '솔루션의 상품 구성한 모든 정보를 담고 있는 스키마'
-      required:
-        - product
-        - server_config
-      properties:
-        product:
-          type: string
-        status:
-          type: integer
-          description: '서비스 상태'
-        server_config:
-          type: array
-          items:
-            $ref: '#/components/schemas/NcpServerConfigTf'
-
     Vpc:
       type: object
       description: 'VPC 객체 (Cloud Broker와 연동)'
@@ -1287,10 +1110,3 @@ components:
           description: 'VPC 상태'
         zone:
           type: string
-    ResponseMsg:
-      type: object
-      description: 'REST API 응답 객체'
-      properties:
-        msg:
-          type: string
-          description: 'Response 세부 내용 기입'
