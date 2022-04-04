@@ -32,9 +32,8 @@ tags:
     description: '[SA연동] SaaS 미터링, 빌링, 청구서 관리'
   - name: 7. 패치
     description: '[SA연동] 업데이트, 백업, 복구'
-  - name: 'tmp'
 
-## /////// NK ////////
+
 paths:
   '/apply/member':
     post:
@@ -43,6 +42,14 @@ paths:
       summary: '1.1.1 고객사 등록: 테넌트 생성 #PostApplyMember' 
       description: '\- 테넌트 생성 신청: 외부 API -> API Gateway -> Configurator <br> required를 필수로 지켜야 합니다. 또한 등록 성공 시 SaaS DB가 생성됩니다.'
       operationId: PostApplyMember
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
       requestBody:
         content:
           application/json:
@@ -182,7 +189,7 @@ paths:
         '200':
           description: '이메일 초대장 전송 완료'
 
-  '/{id}/order/product_list':
+  '/{id}/order/product-list':
     post:
       tags:
         - "2. 생성"
@@ -223,8 +230,6 @@ paths:
         '409':
           $ref: '#/components/responses/conflict'
 
-
-############## NK 여기서부터 검토 필요
   '/{id}/order/product':
     get:
       tags:
@@ -266,10 +271,6 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/service'
-                      add_service:
-                        type: array
-                        items:
-                          $ref: '#/components/schemas/add_service'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -310,10 +311,6 @@ paths:
                           type: string
                         service:
                           type: string
-                        add_service:
-                          type: array
-                          items:
-                            type: string 
       responses:
         '201':
           description: '주문 이력 등록 완료'
@@ -345,18 +342,25 @@ paths:
           schema:
             type: string
             example: 'q=product%3DSG'
+          required: true
         - in: query
           name: service
           schema:
             type: string
             example: 'q=service%3DFILE'
+          required: true
       responses:
         '200':
           description: '상품에 따른 라이센스 종류 정보'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/license'
+                type: object
+                properties:
+                  license:
+                    type: array
+                    items: 
+                      $ref: '#/components/schemas/license'
         '400':
           $ref: '#/components/responses/badRequest'
         '401':
@@ -405,41 +409,200 @@ paths:
         '409':
           $ref: '#/components/responses/conflict'
 
-  '/{id}/order/service/{service_id}/add_service':
+  '/{id}/order/service/{service_id}/add-service':
     get:
       tags: 
         - '2. 생성'
-      summary: '[작성예정] 2.1.1 SaaS 신청: 부가서비스 정보 조회 #GetOrderAddservice'
+      summary: '2.1.1 SaaS 신청: 부가서비스 정보 조회 #GetOrderAddservice'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 부가 서비스 모듈 정보들을 조회합니다. 부가서비스는 여러 서비스를 신청할 수 있으므로, 복수 선택을 지원해야 합니다. (입력 데이터는 주문정보에 저장됩니다.)'
       operationId: GetOrderAddservice
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_company_name'
+        - name: service_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_service_id'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
       responses:
         '200':
-          description: ''
+          description: '서비스 ID에 따른 부가서비스 리스트'
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  add_service:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/add_service'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
     post:
       tags: 
         - '2. 생성'
-      summary: '[작성예정] 2.1.1 SaaS 신청: 부가서비스 신청 등록 #PostOrderAddservice'
+      summary: '2.1.1 SaaS 신청: 부가서비스 신청 등록 #PostOrderAddservice'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 부가 서비스 모듈 선택 이벤트입니다. 부가서비스는 여러 서비스를 신청할 수 있으므로, 복수 선택을 지원해야 합니다. (입력 데이터는 주문정보에 저장됩니다.)'
       operationId: PostOrderAddservice
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_company_name'
+        - name: service_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_service_id'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              allOf:
+                - $ref: '#/components/schemas/order_header'
+                - type: object
+                  properties:
+                    order_info:
+                      type: object
+                      properties:
+                        add_service: 
+                          type: array
+                          items:
+                            type: string
+                            example: "AddServiceID"
       responses:
         '201':
-          description: ''
+          description: '주문 이력 등록 완료'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '409':
+          $ref: '#/components/responses/conflict'
   
-  '/{id}/order/scale':
+  '/{id}/order/auto-scale':
     get:
       tags: 
         - '2. 생성'
-      summary: '[작성예정] 2.1.1 SaaS 신청: SaaS AutoScale 데이터 조회 #GetOrderScale'
+      summary: '2.1.1 SaaS 신청: SaaS AutoScale 데이터 조회 #GetOrderScale'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> AutoScale 목록 조회 (q 파라미터로 부가서비스 ID 입력해야합니다.)'
       operationId: GetOrderScale
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_company_name'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: query
+          name: license-id 
+          schema:
+            type: string
+            example: 'q=license-id%3D{LicenseID}'
+          required: true
       responses:
         '200':
-          description: ''
+          description: 'AutoScale 부가서비스ID에 따른 Scale 정책정보'
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  autoscale:
+                    type: object
+                    properties:
+                      group: 
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/autoscale'
+                      system:
+                        type: object
+                        properties:
+                          '{system-id-0}': 
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/autoscale'
+                          '{system-id-1}': 
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/autoscale'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
     post:
       tags: 
         - '2. 생성'
-      summary: '[작성예정] 2.1.1 SaaS 신청: SaaS AutoScale 데이터 등록 #PostOrderScale'
+      summary: '2.1.1 SaaS 신청: SaaS AutoScale 데이터 등록 #PostOrderScale'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> AutoScale 라이선스 주문 정보 저장 이벤트'
       operationId: PostOrderScale 
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_company_name'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              allOf:
+                - $ref: '#/components/schemas/order_header'
+                - type: object
+                  properties:
+                    order_info:
+                      type: object
+                      properties:
+                        autoscale: 
+                          type: object 
+                          properties:
+                            group:
+                              type: string
+                              example: "Scale Policy ID"
+                            '{system-id-0}': 
+                              type: string
+                              example: "Scale Policy ID"
+                            '{system-id-1}': 
+                              type: string
+                              example: "Scale Policy ID"
       responses:
         '201':
-          description: ''
+          description: '주문 이력 등록 완료'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '409':
+          $ref: '#/components/responses/conflict'
 
   '/{id}/order/config':
     get:
@@ -463,19 +626,127 @@ paths:
     get:
       tags: 
         - '2. 생성'
-      summary: '[작성예정] 2.1.1 SaaS 신청: SaaS서버 데이터 조회 #GetOrderServer'
+      summary: '2.1.1 SaaS 신청: SaaS서버 데이터 조회 #GetOrderServer'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 서비스에 사전정의된 서버 모듈 정보들을 조회합니다. 해당 정보들은 서버의 실제 코드들도 내포되어 있습니다. (입력 데이터는 주문정보에 저장됩니다.)'
       operationId: GetOrderServer
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_company_name'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: query
+          name: license-id 
+          schema:
+            type: string
+            example: 'q=license-id%3D{LicenseID}'
+          required: true
+        - in: query
+          name: cloud-id 
+          schema:
+            type: string
+            example: 'q=cloud-id%3D{CloudID}'
+          required: true
+        - in: query
+          name: system 
+          schema:
+            type: string
+            example: 'q=system%3D{SystemID}'
+          required: true
       responses:
         '200':
-          description: ''
+          description: 'Server 데이터 정보 모두 조회'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  server:
+                    type: object
+                    properties:
+                      '{system-id-0}':
+                        type: object
+                        properties:
+                          recommand_cloud_os_id:
+                            type: string
+                          cloud_os_id:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/cloud_os'
+                          recommand_cloud_product_id:
+                            type: string
+                          min_cloud_product_id:
+                            type: string
+                          cloud_product_id:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/cloud_product'
+                          min: 
+                            type: integer
+                          max:
+                            type: integer
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
     post:
       tags: 
         - '2. 생성'
-      summary: '[작성예정] 2.1.1 SaaS 신청: SaaS 제품구성 주문 등록 #PostOrderServer'
+      summary: '2.1.1 SaaS 신청: SaaS서버 주문 등록 #PostOrderServer'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> SaaS 서버 주문 정보 저장 이벤트'
       operationId: PostOrderServer 
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_company_name'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+      requestBody:
+        content:
+          application/json:
+            schema: 
+              allOf:
+                - $ref: '#/components/schemas/order_header'
+                - type: object
+                  properties:
+                    order_info:
+                      type: object
+                      properties:
+                        server: 
+                          type: object
+                          properties:
+                           '{system-id-0}':
+                             type: object
+                             properties:
+                              cloud_os_id: 
+                                type: string
+                              cloud_product_id:
+                                type: string
+                              min: 
+                                type: integer
+                              max:
+                                type: integer
       responses:
         '201':
-          description: ''
+          description: '주문 이력 등록 완료'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '409':
+          $ref: '#/components/responses/conflict'
 
   '/{id}/order/acg':
     get:
@@ -516,83 +787,6 @@ paths:
       responses:
         '200':
           description: ''
-
-#  '/{id}/order/provisioning':
-#    get:
-#      tags:
-#        - 2. 생성
-#      summary: '[작성중] 2.1.1 SaaS 신청: SaaS 시스템 프로비저닝 데이터 조회 #GetOrderProvisioning'
-#      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 시스템 프로비저닝 데이터 목록 조회 (q 파라미터로 제품 검색 해야합니다.)'
-#      operationId: GetOrderProvisioning
-#      security:
-#        - bearerAuth: []
-#      parameters: 
-#        - name: id
-#          in: path
-#          required: true
-#          schema:
-#            $ref: '#/components/schemas/parameter_company_name'
-#        - in: header
-#          name: Authorization
-#          required: true
-#          schema:
-#            $ref: '#/components/schemas/parameter_token'
-#        - in: query
-#          name: license_id
-#          required: true
-#          schema:
-#            type: string
-#            example: 'q=license_id%3D{라이선스ID}'
-#        - in: query
-#          name: cloud_id
-#          required: true
-#          schema:
-#            type: string
-#            example: 'q=cloud_id%3D{클라우드ID}'
-#      responses:
-#        '200':
-#          description: '프로비저닝 데이터 조회 성공'
-#          content:
-#            application/json:
-#              schema: 
-#                type: object
-#                properties:
-#                  system:
-#                    type: object
-#                    properties:
-#                      system_name:
-#                        type: object
-#                        properties:
-#                          os:
-#                            type: array
-#                          product:
-#                            type: array
-#                          min:
-#                            type: integer
-#                          max:
-#                            type: integer
-#        '400':
-#          $ref: '#/components/responses/badRequest'
-#        '401':
-#          $ref: '#/components/responses/unauthorized'
-#        '404':
-#          $ref: '#/components/responses/notFound'
-#    post:
-#      tags:
-#        - '2. 생성'
-#      summary: '[작성예정] 2.1.1 SaaS 신청: SaaS 프로비저닝 리소스 구성 데이터 등록'
-#      responses:
-#        '201':
-#          description: ''
-#
-#  '/{id}/order/network':
-#    post:
-#      tags: 
-#        - '2. 생성'
-#      summary: '[작성예정] 2.1.1 SaaS 신청: SaaS Network 구성정보 등록 #PostOrderNetwork'
-#      responses:
-#        '201':
-#          description: ''
 
   '/gatekeeper/login':
     post:
@@ -873,7 +1067,22 @@ components:
           type: string
       required:
         - "plan"
-      
+    autoscale:
+      description: '(Base) AutoScale 정책 오브젝트'
+      allOf:
+        - $ref: '#/components/schemas/id'
+        - type: object
+          properties:
+            type:
+              type: string
+            policy:
+              type: object
+            description:
+              type: string
+
+
+
+
 ### DB: Admin Object
     member:
       allOf:
@@ -924,7 +1133,6 @@ components:
           type: string
       required:
         - "company"
-
     order_header:
       type: object
       allOf:
@@ -935,57 +1143,12 @@ components:
               type: integer
             step:
               type: integer
-    order: 
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/member_tenant'
-        - type: object
-          properties:
-            product_list_seq:
-              type: integer
-            step:
-              type: integer
-            order_info:
-              type: object
-              properties:
-                cloud:
-                  type: string
-                product: 
-                  type: string
-                service:
-                  type: string
-                add_service:
-                  type: array
-                  items:
-                    type: string
-                license:
-                  type: string 
-                system:
-                  type: array 
-                  items:
-                    $ref: '#/components/schemas/saas_system'
-      required:
-        - "tenant_id"  
-        - "product_list_seq"
-        - "step"
-        - "order_info"
-    saas_system:
-      type: object
-      properties:
-        cloud_os_id:
-          type: string
-        cloud_product_id:
-          type: string
-        cloud_zone_code:
-          type: string
-    saas_system_provisioning:
-      type: object
-      properties:
-        cloud_os_id:
-          type: string
-        cloud_product_id:
-          type: string
-        
+
+
+
+
+
+
 ### DB: SaaS Object
     saas_admin:
       allOf:
@@ -1085,6 +1248,9 @@ components:
     parameter_company_name:
       type: string
       example: 'Company Name'
+    parameter_service_id:
+      type: string
+      example: 'Service ID'
     parameter_token:
       type: string
       example: 'JWT Token'
