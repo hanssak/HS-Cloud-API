@@ -104,7 +104,7 @@ paths:
         409:
           $ref: '#/components/responses/conflict'
               
-  '/speaker/invite':
+  '/noti/invite':
     post:
       tags:
         - '1. 신청'
@@ -972,7 +972,7 @@ paths:
         '200':
           description: ''
   '/meta/product/system':
-    patch:
+    put:
       tags:
         - '2. 생성'
       summary: '[작성예정] 2.1.2 SaaS 신청 (4.생성시작): SaaS 제품 시스템 상태 업데이트 요청 #PatchMetaProduct'
@@ -1127,12 +1127,12 @@ paths:
           $ref: '#/components/responses/badRequest'
                
 ##### 4. 고객사 관리
-  '/apply/member':
+  '/manage/member':
     post:
       tags:
         - "4. 고객사 관리"
-      summary: '4.1.1 고객사 등록: 테넌트 생성 #PostApplyMember' 
-      description: '\- 테넌트 생성 신청: 외부 API -> API Gateway -> Configurator <br> required를 필수로 지켜야 합니다. 또한 등록 성공 시 SaaS DB가 생성됩니다.'
+      summary: '4.1.1 고객사 등록: 테넌트 생성 #PostManageMember' 
+      description: '\- 테넌트 생성 신청: 외부 API -> API Gateway -> SaaS Manager <br> required를 필수로 지켜야 합니다. 또한 등록 성공 시 SaaS DB가 생성됩니다.'
       operationId: PostApplyMember
       security:
         - bearerAuth: []
@@ -1160,12 +1160,12 @@ paths:
                   - $ref: '#/components/schemas/member_company'
         '409':
           $ref: '#/components/responses/conflict'
-  '/apply/member/{company}':
+  '/manage/member/{company}':
     delete:
       tags:
         - "4. 고객사 관리"
       summary: '4.3.1 고객사 삭제: 테넌트 반납 #DeleteApplyMember' 
-      description: '\- 테넌트 반납 신청: 외부 API -> API Gateway -> Configurator <br> 반납 성공 시 SaaS DB 휴먼상태로 전환 하게 됩니다.'
+      description: '\- 테넌트 반납 신청: 외부 API -> API Gateway -> SaaS Manager <br> 반납 성공 시 SaaS DB 휴먼상태로 전환 하게 됩니다.'
       operationId: DeleteApplyMember
       security:
         - bearerAuth: []
@@ -1348,7 +1348,7 @@ components:
       properties:
         plan:
           type: string
-        rice:
+        price:
           type: string
       required:
         - "plan"
