@@ -482,16 +482,16 @@ paths:
                         items:
                           $ref: '#/components/schemas/autoscale'
                       system:
-                        type: object
-                        properties:
-                          '{system-id-0}': 
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/autoscale'
-                          '{system-id-1}': 
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/autoscale'
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            system_id: 
+                              type: string
+                            system_policy:
+                              type: array
+                              items:
+                                $ref: '#/components/schemas/autoscale'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -530,14 +530,26 @@ paths:
                           type: object 
                           properties:
                             group:
-                              type: string
-                              example: "Scale Policy ID"
-                            '{system-id-0}': 
-                              type: string
-                              example: "Scale Policy ID"
-                            '{system-id-1}': 
-                              type: string
-                              example: "Scale Policy ID"
+                              type: array
+                              items: 
+                                type: object
+                                properties:
+                                  policy_id:
+                                    type: string
+                            system:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  system_id:
+                                    type: string
+                                  system_policy:
+                                    type: array
+                                    items:
+                                      type: object
+                                      properties:
+                                        id:
+                                          type: string
       responses:
         '201':
           description: '주문 이력 등록 완료'
@@ -1364,6 +1376,9 @@ components:
               type: object
             description:
               type: string
+
+          
+    
     acg: 
       description: '(Base) ACG'
       type: object
