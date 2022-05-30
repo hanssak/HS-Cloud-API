@@ -657,11 +657,15 @@ paths:
                       type: object
                       properties:
                         config:
-                          type: object
-                          properties:
-                           '{system-id-0}':
-                            allOf:
-                              - $ref: '#/components/schemas/server_network_info'
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              system_id:
+                                type: string
+                              system_config:
+                                allOf:
+                                  - $ref: '#/components/schemas/server_network_info'
       responses:
         '201':
           description: '주문 이력 등록 완료'
