@@ -663,7 +663,7 @@ paths:
                             properties:
                               system_id:
                                 type: string
-                              system_config:
+                              system:
                                 allOf:
                                   - $ref: '#/components/schemas/server_network_info'
       responses:
@@ -723,27 +723,24 @@ paths:
                   server:
                     type: object
                     properties:
-                      '{system-id-0}':
-                        type: object
-                        properties:
-                          recommand_cloud_os_id:
-                            type: string
-                          cloud_os_id:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/cloud_os'
-                          recommand_cloud_product_id:
-                            type: string
-                          min_cloud_product_id:
-                            type: string
-                          cloud_product_id:
-                            type: array
-                            items:
-                              $ref: '#/components/schemas/cloud_product'
-                          min: 
-                            type: integer
-                          max:
-                            type: integer
+                      recommand_cloud_os_id:
+                        type: string
+                      cloud_os_id:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/cloud_os'
+                      recommand_cloud_product_id:
+                        type: string
+                      min_cloud_product_id:
+                        type: string
+                      cloud_product_id:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/cloud_product'
+                      min: 
+                        type: integer
+                      max:
+                        type: integer
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -781,9 +778,12 @@ paths:
                         server: 
                           type: object
                           properties:
-                           '{system-id-0}':
-                            allOf:
-                              - $ref: '#/components/schemas/server_instance_info'
+                            system_id:
+                              type: string
+                            system:
+                              type: object
+                              allOf:
+                                - $ref: '#/components/schemas/server_instance_info'
       responses:
         '201':
           description: '주문 이력 등록 완료'
@@ -813,10 +813,15 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_token'
         - in: query
-          name: id 
+          name: service_id 
           schema:
             type: string
-            example: 'q=id%3D{ServiceID or AddServiceID}'
+            example: 'q=service_id%3D{ServiceID or AddServiceID}'
+        - in: query
+          name: service_type 
+          schema:
+            type: string
+            example: 'q=service_type%3D{ServiceType}'
       responses:
         '200':
           description: 'ACG - 해당 서비스 모든 정보 조회'
@@ -922,9 +927,13 @@ paths:
                   autoscale:
                     type: object
                   config: 
-                    type: object
+                    type: array
+                    items:
+                      type: object
                   server:
-                    type: object
+                    type: array
+                    items:
+                      type: object
                   acg:
                     type: array
                     items:
