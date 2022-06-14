@@ -1737,9 +1737,6 @@ components:
         - $ref: '#/components/schemas/id'
         - type: object
           properties:
-            name:
-              type: string
-              description: '클라우드명'
             restriction:
               type: object
               description: '제약사항'
