@@ -324,16 +324,16 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_token'
         - in: query
-          name: product
+          name: product-id
           schema:
             type: string
-            example: 'q=product%3DSG'
+            example: 'q=product-id%3DSG'
           required: true
         - in: query
-          name: service
+          name: service-id
           schema:
             type: string
-            example: 'q=service%3DFILE'
+            example: 'q=service-id%3DFILE'
           required: true
       responses:
         '200':
@@ -718,11 +718,11 @@ paths:
         '409':
           $ref: '#/components/responses/conflict'
 
-  '/{id}/order/server':
+  '/{id}/order/server/os':
     get:
       tags: 
         - '2. 생성'
-      summary: '2.1.1 SaaS 신청 (2.제품구성): SaaS서버 데이터 조회 #GetOrderServer'
+      summary: '2.1.1 SaaS 신청 (2.제품구성): SaaS서버 데이터 조회 #GetOrderServerOs'
       description: '\- 서비스포털 -> API Gateway -> Configurator <br> 서비스에 사전정의된 서버 모듈 정보들을 조회합니다. 해당 정보들은 서버의 실제 코드들도 내포되어 있습니다. (입력 데이터는 주문정보에 저장됩니다.)'
       operationId: GetOrderServer
       security:
@@ -754,7 +754,7 @@ paths:
           name: system 
           schema:
             type: string
-            example: 'q=system%3D{SystemID}'
+            example: 'q=system%3D{System구분자}'
           required: true
       responses:
         '200':
@@ -764,7 +764,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  server:
+                  server_os:
                     type: object
                     properties:
                       recommand_cloud_os_id:
@@ -773,11 +773,71 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/cloud_os'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+  '/{id}/order/server/product':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (2.제품구성): SaaS서버 데이터 조회 #GetOrderServerProduct'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 서비스에 사전정의된 서버 모듈 정보들을 조회합니다. 해당 정보들은 서버의 실제 코드들도 내포되어 있습니다. (입력 데이터는 주문정보에 저장됩니다.)'
+      operationId: GetOrderServerProduct
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_company_name'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: query
+          name: license-id 
+          schema:
+            type: string
+            example: 'q=license-id%3D{LicenseID}'
+          required: true
+        - in: query
+          name: cloud-id 
+          schema:
+            type: string
+            example: 'q=cloud-id%3D{CloudID}'
+          required: true
+        - in: query
+          name: system 
+          schema:
+            type: string
+            example: 'q=system%3D{System구분자}'
+          required: true
+        - in: query
+          name: cloud-os-id 
+          schema:
+            type: string
+            example: 'q=cloud-os-id%3D{CloudOsId}'
+          required: true  
+      responses:
+        '200':
+          description: 'Server 데이터 정보 모두 조회'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  server_product:
+                    type: object
+                    properties:
                       recommand_cloud_product_id:
                         type: string
                       min_cloud_product_id:
                         type: string
-                      cloud_product_id:
+                      cloud_product:
                         type: array
                         items:
                           $ref: '#/components/schemas/cloud_product'
@@ -789,6 +849,70 @@ paths:
           $ref: '#/components/responses/unauthorized'
         '404':
           $ref: '#/components/responses/notFound'
+
+  '/{id}/order/server/storage':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (2.제품구성): SaaS서버 데이터 조회 #GetOrderServerStorage'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 서비스에 사전정의된 서버 모듈 정보들을 조회합니다. 해당 정보들은 서버의 실제 코드들도 내포되어 있습니다. (입력 데이터는 주문정보에 저장됩니다.)'
+      operationId: GetOrderServerStorage
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_company_name'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: query
+          name: license-id 
+          schema:
+            type: string
+            example: 'q=license-id%3D{LicenseID}'
+          required: true
+        - in: query
+          name: cloud-id 
+          schema:
+            type: string
+            example: 'q=cloud-id%3D{CloudID}'
+          required: true
+        - in: query
+          name: system 
+          schema:
+            type: string
+            example: 'q=system%3D{System구분자}'
+          required: true
+      responses:
+        '200':
+          description: 'Server 데이터 정보 모두 조회'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  server_storage:
+                    type: object
+                    properties:
+                      recommand_volume:
+                        type: string
+                      create_num:
+                        type: string
+                      cloud_storage:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/cloud_storage'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+          
+  '/{id}/order/server':
     post:
       tags: 
         - '2. 생성'
@@ -1781,6 +1905,23 @@ components:
               type: string
             add_info:
               type: object
+    cloud_storage:
+      allOf:
+        - $ref: '#/components/schemas/id'
+        - type: object
+          properties:
+            cloud_id:
+              type: string
+            type:
+              type: string
+            disk_type:
+              type: string
+            min_volume:
+              type: integer
+            max_volume:
+              type: integer
+            add_info:
+              type: string
     license:
       description: '(Base) 제품 라이선스 관련 오브젝트'
       allOf:
