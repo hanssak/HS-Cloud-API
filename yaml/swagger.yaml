@@ -590,6 +590,8 @@ paths:
                                 properties:
                                   policy_id:
                                     type: string
+                                  act_value:
+                                    type: integer
                             system:
                               type: array
                               items:
@@ -604,6 +606,8 @@ paths:
                                       properties:
                                         id:
                                           type: string
+                                        act_value:
+                                          type: integer
       responses:
         '201':
           description: '주문 이력 등록 완료'
