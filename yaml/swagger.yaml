@@ -291,11 +291,11 @@ paths:
                     order_info:
                       type: object
                       properties:
-                        cloud:
+                        cloud_id:
                           type: string
-                        product:
+                        product_id:
                           type: string
-                        service:
+                        service_id:
                           type: string
       responses:
         '201':
@@ -484,7 +484,7 @@ paths:
         '409':
           $ref: '#/components/responses/conflict'
   
-  '/{id}/order/auto-scale':
+  '/{id}/order/service/{service_id}/add-service/auto-scale':
     get:
       tags: 
         - '2. 생성'
@@ -499,6 +499,11 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_company_name'
+        - name: service_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_service_id'
         - in: header
           name: Authorization
           required: true
@@ -530,7 +535,7 @@ paths:
                         items:
                           type: object
                           properties:
-                            system_id: 
+                            system_type: 
                               type: string
                             system_policy:
                               type: array
@@ -554,6 +559,11 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_company_name'
+        - name: service_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_service_id'
         - in: header
           name: Authorization
           required: true
@@ -585,7 +595,7 @@ paths:
                               items:
                                 type: object
                                 properties:
-                                  system_id:
+                                  system_type:
                                     type: string
                                   system_policy:
                                     type: array
@@ -705,7 +715,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              system_id:
+                              system_type:
                                 type: string
                               system:
                                 allOf:
@@ -724,7 +734,7 @@ paths:
         - '2. 생성'
       summary: '2.1.1 SaaS 신청 (2.제품구성): SaaS서버 데이터 조회 #GetOrderServerOs'
       description: '\- 서비스포털 -> API Gateway -> Configurator <br> 서비스에 사전정의된 서버 모듈 정보들을 조회합니다. 해당 정보들은 서버의 실제 코드들도 내포되어 있습니다. (입력 데이터는 주문정보에 저장됩니다.)'
-      operationId: GetOrderServer
+      operationId: GetOrderServerOs
       security:
         - bearerAuth: []
       parameters: 
@@ -899,14 +909,17 @@ paths:
                   server_storage:
                     type: object
                     properties:
-                      recommand_volume:
-                        type: string
-                      create_num:
-                        type: string
-                      cloud_storage:
+                      storage:
                         type: array
                         items:
-                          $ref: '#/components/schemas/cloud_storage'
+                          type: object
+                          properties:
+                            recommand_volume:
+                              type: integer
+                            create_num:
+                              type: integer
+                            cloud_storage:
+                              $ref: '#/components/schemas/cloud_storage'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -946,12 +959,16 @@ paths:
                         server: 
                           type: object
                           properties:
-                            system_id:
+                            system_type:
                               type: string
                             system:
                               type: object
                               allOf:
                                 - $ref: '#/components/schemas/server_instance_info'
+                            storage:
+                              type: object
+                              allOf:
+                                - $ref: '#/components/schemas/storage_instance_info'
       responses:
         '201':
           description: '주문 이력 등록 완료'
@@ -1937,6 +1954,13 @@ components:
               type: string
             description:
               type: string
+            group:
+              type: object
+              properties:
+                min:
+                  type: integer
+                max:
+                  type: integer
           required:
             - "id"
     license_plan:
@@ -2039,6 +2063,15 @@ components:
         min: 
           type: integer
         max:
+          type: integer
+    storage_instance_info:
+      type: object
+      properties:
+        cloud_storage_id:
+          type: string
+        volume:
+          type: integer
+        create_num:
           type: integer
 
 ### DB: Admin Object
