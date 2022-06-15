@@ -1101,11 +1101,11 @@ paths:
               schema: 
                 type: object
                 properties:
-                  cloud:
+                  cloud_id:
                     type: string
-                  product: 
+                  product_id: 
                     type: string
-                  service:
+                  service_id:
                     type: string
                   license:
                     type: object
