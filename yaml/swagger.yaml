@@ -599,7 +599,7 @@ paths:
                                 properties:
                                   system_type:
                                     type: string
-                                  system_policy:
+                                  system:
                                     type: array
                                     items:
                                       type: object
