@@ -1973,7 +1973,7 @@ components:
         plan:
           type: string
         price:
-          type: string
+          type: integer
       required:
         - "plan"
     autoscale:
