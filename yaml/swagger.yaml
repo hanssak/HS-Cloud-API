@@ -484,7 +484,7 @@ paths:
         '409':
           $ref: '#/components/responses/conflict'
   
-  '/{id}/order/service/{service_id}/add-service/auto-scale':
+  '/{id}/order/service/{service_id}/add-service/autoscale':
     get:
       tags: 
         - '2. 생성'
