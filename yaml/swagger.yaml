@@ -970,9 +970,11 @@ paths:
                               allOf:
                                 - $ref: '#/components/schemas/server_instance_info'
                             storage:
-                              type: object
-                              allOf:
-                                - $ref: '#/components/schemas/storage_instance_info'
+                              type: array
+                              items:
+                                type: object
+                                allOf:
+                                  - $ref: '#/components/schemas/storage_instance_info'
       responses:
         '201':
           description: '주문 이력 등록 완료'
@@ -1871,7 +1873,7 @@ components:
         - $ref: '#/components/schemas/id'
         - type: object
           properties:
-            plan_type:
+            plan:
               type: string
             price:
               type: integer
