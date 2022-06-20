@@ -175,6 +175,44 @@ paths:
           description: '이메일 초대장 전송 완료'
 
 ##### 2. 생성
+  '/{id}/order/base-code':
+    get:
+      tags:
+        - "2. 생성"
+      summary: '2.1.1 SaaS 신청 (1.상품선택): 상품 기본 코드 정보 조회 #GetOrderBaseCode'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 이후 정보 조회시 서비스 사용자에게 정보 제공시 참고할 기본 코드 정보로써 가지고 있어야합니다. '
+      operationId: GetOrderBaseCode
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_company_name'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+      responses:
+        '200':
+          description: '제품 모든 목록'
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      base_code:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/base_code'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+          
   '/{id}/order/product-list':
     post:
       tags:
@@ -215,7 +253,7 @@ paths:
                 description: '제품리스트 SEQ, 테넌트ID'
         '409':
           $ref: '#/components/responses/conflict'
-
+      
   '/{id}/order/product':
     get:
       tags:
@@ -1850,6 +1888,15 @@ components:
         - message
 
 ### DB: Common Object
+    base_code:
+      type: object
+      properties:
+        base:
+          type: string
+        key:
+          type: string  
+        value:
+          type: string
     product:
       allOf:
         - $ref: '#/components/schemas/id'
