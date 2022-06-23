@@ -512,8 +512,7 @@ paths:
                         add_service: 
                           type: array
                           items:
-                            type: string
-                            example: "AddServiceID"
+                            $ref: '#/components/schemas/add_service'
       responses:
         '201':
           description: '주문 이력 등록 완료'
@@ -705,13 +704,13 @@ paths:
                             vpc: 
                               allOf:
                                 - $ref: '#/components/schemas/form_header'
-                                - $ref: '#/components/schemas/private_network_get_info'
+                                - $ref: '#/components/schemas/private_network_vpc_get_info'
                                 - type: object
                                   properties:
                                     subnet:
                                       allOf:
                                         - $ref: '#/components/schemas/form_header'
-                                        - $ref: '#/components/schemas/private_network_get_info'
+                                        - $ref: '#/components/schemas/private_network_subnet_get_info'
                                         - type: object
                                           properties:
                                             server:
@@ -2082,17 +2081,43 @@ components:
           type: integer
         vertical_index:
           type: integer
-    private_network_get_info:
+    private_network_vpc_get_info:
       type: object
       properties:
-        code:
+        info:
           type: array 
-          description: '네트워크 고유 코드'
+          description: 'VPC 정보'
           items:
-            type: string
-            example: 'vpc_no or subnet_no'
-        network_range:
-          type: string
+            type: object
+            properties:
+              code:
+                type: string
+              name: 
+                type: string
+              network_range:
+                type: string
+              add_info:
+                type: string
+    private_network_subnet_get_info:
+      type: object
+      properties:
+        info:
+          type: array 
+          description: 'VPC 정보'
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+              name: 
+                type: string
+              network_range:
+                type: string
+              vpc_code:
+                type: string  
+              add_info:
+                type: string        
+        
     server_network_info: 
       type: object
       properties:
