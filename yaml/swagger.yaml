@@ -2248,7 +2248,7 @@ components:
             product_list_seq:
               type: integer
             step:
-              type: integer
+              type: string
 
 ### DB: SaaS Object
     saas_admin:
