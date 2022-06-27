@@ -1378,7 +1378,7 @@ paths:
           $ref: '#/components/responses/badRequest'
                
 ##### 4. 고객사 관리
-  '/manage/member':
+  '/manage/member/{tenant_id}':
     post:
       tags:
         - "1. 신청"
@@ -1394,6 +1394,11 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - name: tenant_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_tenant_id'
       requestBody:
         content:
           application/json:
@@ -1426,6 +1431,11 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - name: tenant_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_tenant_id'
       responses:
         '200':
           description: '테넌트 조회 성공'
@@ -2192,7 +2202,6 @@ components:
     member:
       description: '고객사 SEQ'
       allOf:
-        - $ref: '#/components/schemas/seq'
         - $ref: '#/components/schemas/member_tenant'
         - $ref: '#/components/schemas/member_company'
         - type: object
@@ -2217,12 +2226,6 @@ components:
               type: object
             add_info:
               type: object
-            update_time:
-              type: string
-              format: "YYYYMMDDhhmmss"
-            registration_date:
-              type: string
-              format: "YYYYMMDD"
           required:
             - manager_name
             - email
@@ -2356,7 +2359,9 @@ components:
     parameter_token:
       type: string
       example: 'JWT Token'
-
+    parameter_tenant_id:
+      type: string
+      example: 'Tanant ID'
 
 ## Unused       
    # vpc:
