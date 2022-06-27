@@ -1378,7 +1378,7 @@ paths:
           $ref: '#/components/responses/badRequest'
                
 ##### 4. 고객사 관리
-  '/manage/member/{tenant_id}':
+  '/manage/member':
     post:
       tags:
         - "1. 신청"
@@ -1394,16 +1394,11 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
-        - name: tenant_id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/parameter_tenant_id'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/member'
+              $ref: '#/components/schemas/cud_member'
         required: true
       responses:
         '201':
@@ -1431,11 +1426,6 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
-        - name: tenant_id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/parameter_tenant_id'
       responses:
         '200':
           description: '테넌트 조회 성공'
@@ -1444,12 +1434,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/member'
+                  $ref: '#/components/schemas/r_member'
         '400':
           $ref: '#/components/responses/badRequest'
         '404':
           $ref: '#/components/responses/notFound'
-  '/manage/member/{seq}':
+  '/manage/member/{tenant_id}':
     put:
       tags:
         - "4. 고객사 관리"
@@ -1464,17 +1454,16 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
-        - name: seq
+        - name: tenant_id
           in: path
           required: true
-          description: '고객사 SEQ'
           schema:
-            type: string
+            $ref: '#/components/schemas/parameter_tenant_id'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/member'
+              $ref: '#/components/schemas/cud_member'
         required: true
       responses:
         '200':
@@ -1490,12 +1479,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: seq
+        - name: tenant_id
           in: path
           required: true
-          description: '고객사 SEQ'
           schema:
-            type: string
+            $ref: '#/components/schemas/parameter_tenant_id'
         - in: header
           name: Authorization
           required: true
@@ -1523,19 +1511,18 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
-        - name: seq
+        - name: tenant_id
           in: path
           required: true
-          description: '고객사 SEQ'
           schema:
-            type: string
+            $ref: '#/components/schemas/parameter_tenant_id'
       responses:
         '200':
           description: '테넌트 조회 성공'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/member'    
+                $ref: '#/components/schemas/r_member'    
         '400':
           $ref: '#/components/responses/badRequest'
         '404':
@@ -2199,7 +2186,42 @@ components:
             - "phone"
             - "ip_check"
             - "mac_check"
-    member:
+    r_member:
+      description: '고객사 SEQ'
+      allOf:
+        - $ref: '#/components/schemas/member_tenant'
+        - $ref: '#/components/schemas/member_company'
+        - type: object
+          properties:
+            manager_name:
+              type: string
+            manager_department:
+              type: string
+            manager_position:
+              type: string
+            manager_rank:
+              type: string
+            status:
+              type: string
+            email: 
+              type: string
+            phone:
+              type: string
+            database_info:
+              type: object
+            payment_info:
+              type: object
+            add_info:
+              type: object
+            update_time:
+              type: string
+            registration_date:
+              type: string
+          required:
+            - manager_name
+            - email
+            - phone
+    cud_member:
       description: '고객사 SEQ'
       allOf:
         - $ref: '#/components/schemas/member_tenant'
@@ -2229,7 +2251,7 @@ components:
           required:
             - manager_name
             - email
-            - phone
+            - phone        
     member_tenant:
       type: object
       properties:
