@@ -1398,7 +1398,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/cud_member'
+              $ref: '#/components/schemas/post_member'
         required: true
       responses:
         '201':
@@ -1434,7 +1434,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/r_member'
+                  $ref: '#/components/schemas/get_member'
         '400':
           $ref: '#/components/responses/badRequest'
         '404':
@@ -1463,7 +1463,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/cud_member'
+              $ref: '#/components/schemas/put_member'
         required: true
       responses:
         '200':
@@ -1501,7 +1501,7 @@ paths:
         - "1. 신청"
         - "4. 고객사 관리"
       summary: '1.2.1 1.2.2 4.4.1 고객사 특정 테넌트 조회 #GetManageMember'
-      description: '\- 특정 테넌트 조회: 외부 API -> API Gateway -> SaaS Manager <br> 조회 기준은 URL {고객사 SEQ}기준으로 지칭'
+      description: '\- 특정 테넌트 조회: 외부 API -> API Gateway -> SaaS Manager <br> 조회 기준은 URL {고객사 테넌트ID}기준으로 지칭'
       operationId: GetManageMember
       security:
         - bearerAuth: []
@@ -1522,7 +1522,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/r_member'    
+                $ref: '#/components/schemas/get_member'    
         '400':
           $ref: '#/components/responses/badRequest'
         '404':
@@ -2189,7 +2189,7 @@ components:
             - "phone"
             - "ip_check"
             - "mac_check"
-    r_member:
+    get_member:
       description: '고객사 SEQ'
       allOf:
         - $ref: '#/components/schemas/member_tenant'
@@ -2211,6 +2211,8 @@ components:
             phone:
               type: string
             database_info:
+              type: object
+            user_info:
               type: object
             payment_info:
               type: object
@@ -2220,14 +2222,36 @@ components:
               type: string
             registration_date:
               type: string
-          required:
-            - manager_name
-            - email
-            - phone
-    cud_member:
+    post_member:
       description: '고객사 SEQ'
       allOf:
         - $ref: '#/components/schemas/member_tenant'
+        - $ref: '#/components/schemas/member_company'
+        - type: object
+          properties:
+            manager_name:
+              type: string
+            manager_department:
+              type: string
+            manager_position:
+              type: string
+            manager_rank:
+              type: string
+            email: 
+              type: string
+            phone:
+              type: string
+            payment_info:
+              type: object
+            add_info:
+              type: object
+          required:
+            - manager_name
+            - email
+            - phone        
+    put_member:
+      description: '고객사 SEQ'
+      allOf:
         - $ref: '#/components/schemas/member_company'
         - type: object
           properties:
@@ -2245,16 +2269,12 @@ components:
               type: string
             phone:
               type: string
-            database_info:
-              type: object
-            payment_info:
-              type: object
             add_info:
               type: object
           required:
             - manager_name
             - email
-            - phone        
+            - phone                
     member_tenant:
       type: object
       properties:
