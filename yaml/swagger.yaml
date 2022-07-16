@@ -2380,7 +2380,6 @@ components:
             registration_date:
               type: string
     put_saas_admin:
-      description: '관리자 SEQ'
       allOf:
         - $ref: '#/components/schemas/userid'
         - $ref: '#/components/schemas/password'
