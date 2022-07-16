@@ -1697,7 +1697,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/saas_admin'
+              $ref: '#/components/schemas/post_saas_admin'
         required: true
       responses:
         '201':
@@ -1722,6 +1722,12 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: query
+          name: tenant-id
+          schema:
+            type: string
+            example: 'q=tenant-id%3D테넌트ID'
+          required: true
       responses:
         '200':
           description: '관리자 조회 성공'
@@ -1730,7 +1736,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/saas_admin'
+                  $ref: '#/components/schemas/get_saas_admin'
         '400':
           $ref: '#/components/responses/badRequest'
         '404':
@@ -1761,7 +1767,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/saas_admin'
+              $ref: '#/components/schemas/put_saas_admin'
         required: true
       responses:
         '200':
@@ -1815,13 +1821,19 @@ paths:
           description: '관리자 계정'
           schema:
             type: string
+        - in: query
+          name: tenant-id
+          schema:
+            type: string
+            example: 'q=tenant-id%3D테넌트ID'
+          required: true
       responses:
         '200':
           description: '사용자 조회 성공'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/saas_admin' 
+                $ref: '#/components/schemas/get_saas_admin' 
         '400':
           $ref: '#/components/responses/badRequest'
         '404':
@@ -2301,10 +2313,10 @@ components:
               type: string
 
 ### DB: SaaS Object
-    saas_admin:
+    post_saas_admin:
       description: '관리자 SEQ'
       allOf:
-        - $ref: '#/components/schemas/seq'
+        - $ref: '#/components/schemas/tenant_id'
         - $ref: '#/components/schemas/userid'
         - $ref: '#/components/schemas/password'
         - type: object
@@ -2329,12 +2341,6 @@ components:
               type: boolean
             mac_check:
               type: boolean
-            update_time:
-              type: string
-              format: "YYYYMMDDhhmmss"
-            registration_date:
-              type: string
-              format: "YYYYMMDD"
           required:
             - "grade"
             - "name"
@@ -2343,7 +2349,72 @@ components:
             - "phone"
             - "ip_check"
             - "mac_check"
-    
+    get_saas_admin:
+      description: '관리자 SEQ'
+      allOf:
+        - $ref: '#/components/schemas/userid'
+        - type: object
+          properties:
+            grade:
+              type: string
+            name: 
+              type: string
+            department:
+              type: string
+            position:
+              type: string
+            rank:
+              type: string
+            status:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+            ip_check:
+              type: boolean
+            mac_check:
+              type: boolean
+            update_time:
+              type: string
+            registration_date:
+              type: string
+    put_saas_admin:
+      description: '관리자 SEQ'
+      allOf:
+        - $ref: '#/components/schemas/userid'
+        - $ref: '#/components/schemas/password'
+        - type: object
+          properties:
+            grade:
+              type: string
+            name: 
+              type: string
+            department:
+              type: string
+            position:
+              type: string
+            rank:
+              type: string
+            status:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+            ip_check:
+              type: boolean
+            mac_check:
+              type: boolean
+          required:
+            - "grade"
+            - "name"
+            - "status"
+            - "email"
+            - "phone"
+            - "ip_check"
+            - "mac_check"    
+            
 ### Commen Properties Object 
     id:
       type: object
@@ -2356,7 +2427,14 @@ components:
       type: object
       properties:
         seq: 
-          type: integer
+          type: integer      
+    tenant_id:
+      type: object
+      properties:
+        tenant_id:
+          type: string
+      required:
+        - "tenant_id"      
     userid:
       type: object
       properties:
