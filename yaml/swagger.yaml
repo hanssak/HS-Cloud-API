@@ -1547,7 +1547,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/admin'
+              $ref: '#/components/schemas/post_admin'
         required: true
       responses:
         '201':
@@ -1580,7 +1580,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/admin'
+                  $ref: '#/components/schemas/get_admin'
         '400':
           $ref: '#/components/responses/badRequest'
         '404':
@@ -1610,7 +1610,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/admin'
+              $ref: '#/components/schemas/put_admin'
         required: true
       responses:
         '200':
@@ -2163,6 +2163,97 @@ components:
           type: integer
 
 ### DB: Admin Object
+    post_admin:
+      description: '관리자 SEQ'
+      allOf:
+        - $ref: '#/components/schemas/userid'
+        - $ref: '#/components/schemas/password'
+        - type: object
+          properties:
+            grade:
+              type: string
+            cloud_private_key:
+              type: string
+            cloud_public_key:
+              type: string
+            key_expire_date:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+            ip_check:
+              type: boolean
+            mac_check:
+              type: boolean
+          required:
+            - "grade"
+            - "email"
+            - "phone"
+            - "ip_check"
+            - "mac_check"
+    get_admin:
+      description: '관리자 SEQ'
+      allOf:
+        - $ref: '#/components/schemas/userid'
+        - type: object
+          properties:
+            grade:
+              type: string
+            cloud_private_key:
+              type: string
+            cloud_public_key:
+              type: string
+            key_expire_date:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+            ip_check:
+              type: boolean
+            mac_check:
+              type: boolean
+            update_time:
+              type: string
+              format: "YYYYMMDDhhmmss"
+            registration_date:
+              type: string
+              format: "YYYYMMDD"  
+          required:
+            - "grade"
+            - "email"
+            - "phone"
+            - "ip_check"
+            - "mac_check"        
+    put_admin:
+      description: '관리자 SEQ'
+      allOf:
+        - $ref: '#/components/schemas/password'
+        - type: object
+          properties:
+            grade:
+              type: string
+            cloud_private_key:
+              type: string
+            cloud_public_key:
+              type: string
+            key_expire_date:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+            ip_check:
+              type: boolean
+            mac_check:
+              type: boolean
+          required:
+            - "grade"
+            - "email"
+            - "phone"
+            - "ip_check"
+            - "mac_check"        
     admin:
       description: '관리자 SEQ'
       allOf:
@@ -2200,7 +2291,7 @@ components:
             - "email"
             - "phone"
             - "ip_check"
-            - "mac_check"
+            - "mac_check"        
     get_member:
       description: '고객사 SEQ'
       allOf:
@@ -2330,8 +2421,6 @@ components:
             position:
               type: string
             rank:
-              type: string
-            status:
               type: string
             email:
               type: string
