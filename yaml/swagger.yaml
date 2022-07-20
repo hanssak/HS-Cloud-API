@@ -2470,7 +2470,6 @@ components:
               type: string
     put_saas_admin:
       allOf:
-        - $ref: '#/components/schemas/userid'
         - $ref: '#/components/schemas/password'
         - type: object
           properties:
