@@ -1254,7 +1254,7 @@ paths:
           description: ''
 
 ##### 3. 인증
-  '/gatekeeper/login':
+  '/adm/gatekeeper/login':
     post:
       tags:
         - 3. 인증
@@ -1312,28 +1312,25 @@ paths:
                     description: 'Token'
         '400':
           $ref: '#/components/responses/badRequest'
-  '/{id}/gatekeeper/login':
+  '/svc/gatekeeper/login':
     post:
       tags:
         - 3. 인증
       operationId: PostSaasAdminLogin
       summary: '3.1.4 SaaS 관리자 로그인 인증 : 로그인 확인 및 토큰발급 #PostSaasAdminLogin'
       description: '\- ID, PASSWORD의 Validation을 체크하고, 토큰발급을 수행 : 서비스 포털 -> API Gateway -> GateKeeper -> Provider'
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/parameter_company_name'
       requestBody:
         content:
           application/json:
             schema:
               type: object
               required: 
+              - tenant_id
               - id
               - password
               properties:
+                tenant_id:
+                  type: string
                 id:
                   type: string
                   example: 'id@hsck.com'
