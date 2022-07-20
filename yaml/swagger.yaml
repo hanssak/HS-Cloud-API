@@ -1585,7 +1585,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '404':
           $ref: '#/components/responses/notFound'
-  '/manage/admin/{user-id}':
+  '/manage/admin/{user_id}':
     put:
       tags:
         - "5. 사용자 관리"
@@ -1600,7 +1600,7 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
-        - name: user-id
+        - name: user_id
           in: path
           required: true
           description: '관리자 계정'
@@ -1627,7 +1627,7 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: user-id
+        - name: user_id
           in: path
           required: true
           description: '관리자 계정'
@@ -1659,7 +1659,7 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
-        - name: user-id
+        - name: user_id
           in: path
           required: true
           description: '관리자 계정'
@@ -1742,7 +1742,7 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'
           
-  '/manage/saas-admin/{user-id}':
+  '/manage/saas-admin/{user_id}':
     put:
       tags:
         - "5. 사용자 관리"
@@ -1757,7 +1757,7 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
-        - name: user-id
+        - name: user_id
           in: path
           required: true
           description: '관리자 계정'
@@ -1783,7 +1783,7 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: user-id
+        - name: user_id
           in: path
           required: true
           description: '관리자 계정'
@@ -1815,7 +1815,7 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
-        - name: user-id
+        - name: user_id
           in: path
           required: true
           description: '관리자 계정'
