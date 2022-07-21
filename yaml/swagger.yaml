@@ -1375,7 +1375,7 @@ paths:
           $ref: '#/components/responses/badRequest'
                
 ##### 4. 고객사 관리
-  '/manage/member':
+  '/{portal}/manage/member':
     post:
       tags:
         - "1. 신청"
@@ -1386,6 +1386,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
@@ -1418,6 +1423,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
@@ -1436,7 +1446,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '404':
           $ref: '#/components/responses/notFound'
-  '/manage/member/{tenant_id}':
+  '/{portal}/manage/member/{tenant_id}':
     put:
       tags:
         - "4. 고객사 관리"
@@ -1451,6 +1461,11 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
         - name: tenant_id
           in: path
           required: true
@@ -1476,6 +1491,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
         - name: tenant_id
           in: path
           required: true
@@ -1508,11 +1528,16 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
         - name: tenant_id
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_tenant_id'
+            $ref: '#/components/schemas/parameter_tenant_id'    
       responses:
         '200':
           description: '테넌트 조회 성공'
@@ -1525,7 +1550,7 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'
   
-  '/manage/admin':
+  '/adm/manage/admin':
     post:
       tags:
         - "5. 사용자 관리"
@@ -1582,7 +1607,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '404':
           $ref: '#/components/responses/notFound'
-  '/manage/admin/{user_id}':
+  '/adm/manage/admin/{user_id}':
     put:
       tags:
         - "5. 사용자 관리"
@@ -1674,7 +1699,7 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'  
       
-  '/manage/saas-admin':
+  '/{portal}/manage/saas-admin':
     post:
       tags:
         - "1. 신청"
@@ -1685,6 +1710,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
@@ -1719,6 +1749,11 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
         - in: query
           name: tenant-id
           schema:
@@ -1739,7 +1774,7 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'
           
-  '/manage/saas-admin/{user_id}':
+  '/{portal}/manage/saas-admin/{user_id}':
     put:
       tags:
         - "5. 사용자 관리"
@@ -1754,6 +1789,11 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
         - name: user_id
           in: path
           required: true
@@ -1780,6 +1820,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
         - name: user_id
           in: path
           required: true
@@ -1812,6 +1857,11 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
         - name: user_id
           in: path
           required: true
@@ -2571,6 +2621,9 @@ components:
     parameter_tenant_id:
       type: string
       example: 'Tanant ID'
+    parameter_portal:
+      type: string
+      example: '포탈 구분. 관리(adm), 서비스(svc)'
 
 ## Unused       
    # vpc:
