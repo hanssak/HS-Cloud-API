@@ -173,6 +173,88 @@ paths:
       responses:
         '200':
           description: '이메일 초대장 전송 완료'
+  '/svc/apply/member/{tenant_id}':
+    get:
+      tags:
+        - "1. 신청"
+      summary: '1.2.1 고객사 특정 테넌트 존재 여부 조회 #GetManageIsMember'
+      description: '\- 특정 테넌트 조회: 외부 API -> API Gateway -> SaaS Manager <br> 조회 기준은 URL {고객사 테넌트ID}기준으로 지칭'
+      operationId: GetManageIsMember
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: tenant_id
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_tenant_id'    
+      responses:
+        '200':
+          description: '테넌트 존재'
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  tenant_id:
+                    type: string
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+  '/svc/apply/member':
+    post:
+      tags:
+        - "1. 신청"
+      summary: '1.2.1 고객사 등록: 테넌트 생성 신청 #PostManageApplyMember' 
+      description: '\- 테넌트 생성 신청: 외부 API -> API Gateway -> SaaS Manager <br> required를 필수로 지켜야 합니다. 또한 등록 성공 시 SaaS DB가 생성됩니다.'
+      operationId: PostManageApplyMember
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/post_apply_member'
+        required: true
+      responses:
+        '201':
+          description: '테넌트 생성 성공'
+          content:
+            application/json:
+              schema: 
+                allOf:
+                  - $ref: '#/components/schemas/seq'
+                  - $ref: '#/components/schemas/member_tenant'
+                  - $ref: '#/components/schemas/member_company'
+        '400':
+          $ref: '#/components/responses/badRequest'
+          
+  '/svc/apply/saas-admin':
+    post:
+      tags:
+        - "1. 신청"
+      summary: '1.2.1 서비스포털 관리자 생성 신청#PostManageApplySaasAdmin' 
+      description: '\- 서비스포털 관리자 생성: 외부 API -> API Gateway -> SaaS Manager <br> 회원가입 진행시 서비스 관리자를 추가할수 있습니다.'
+      operationId: PostManageApplySaasAdmin
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/post_apply_saas_admin'
+        required: true
+      responses:
+        '201':
+          description: '관리자 생성 성공'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/seq'
+        '400':
+          $ref: '#/components/responses/badRequest'
 
 ##### 2. 생성
   '/{id}/order/base-code':
@@ -1380,7 +1462,7 @@ paths:
       tags:
         - "1. 신청"
         - "4. 고객사 관리"
-      summary: '1.2.1 1.2.1 4.1.1 고객사 등록: 테넌트 생성 #PostManageMember' 
+      summary: '1.2.2 4.1.1 고객사 등록: 테넌트 생성 #PostManageMember' 
       description: '\- 테넌트 생성 신청: 외부 API -> API Gateway -> SaaS Manager <br> required를 필수로 지켜야 합니다. 또한 등록 성공 시 SaaS DB가 생성됩니다.'
       operationId: PostManageMember
       security:
@@ -1396,6 +1478,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
       requestBody:
         content:
           application/json:
@@ -1414,38 +1500,7 @@ paths:
                   - $ref: '#/components/schemas/member_company'
         '400':
           $ref: '#/components/responses/badRequest'
-    get:
-      tags:
-        - "4. 고객사 관리"
-      summary: '4.4.1 고객사 전체 조회 #GetManageMembers'
-      description: '\- 테넌트 전체 조회: 외부 API -> API Gateway -> SaaS Manager '
-      operationId: GetManageMembers
-      security:
-        - bearerAuth: []
-      parameters: 
-        - name: portal
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/parameter_portal'
-        - in: header
-          name: Authorization
-          required: true
-          schema:
-            $ref: '#/components/schemas/parameter_token'
-      responses:
-        '200':
-          description: '테넌트 조회 성공'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/get_member'
-        '400':
-          $ref: '#/components/responses/badRequest'
-        '404':
-          $ref: '#/components/responses/notFound'
+
   '/{portal}/manage/member/{tenant_id}':
     put:
       tags:
@@ -1517,7 +1572,7 @@ paths:
       tags:
         - "1. 신청"
         - "4. 고객사 관리"
-      summary: '1.2.1 1.2.2 4.4.1 고객사 특정 테넌트 조회 #GetManageMember'
+      summary: '1.2.2 4.4.1 고객사 특정 테넌트 조회 #GetManageMember'
       description: '\- 특정 테넌트 조회: 외부 API -> API Gateway -> SaaS Manager <br> 조회 기준은 URL {고객사 테넌트ID}기준으로 지칭'
       operationId: GetManageMember
       security:
@@ -1549,6 +1604,34 @@ paths:
           $ref: '#/components/responses/badRequest'
         '404':
           $ref: '#/components/responses/notFound'
+  '/adm/manage/member':
+    get:
+      tags:
+        - "4. 고객사 관리"
+      summary: '4.4.1 고객사 전체 조회 #GetManageMembers'
+      description: '\- 테넌트 전체 조회: 외부 API -> API Gateway -> SaaS Manager '
+      operationId: GetManageMembers
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+      responses:
+        '200':
+          description: '테넌트 조회 성공'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/get_member'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '404':
+          $ref: '#/components/responses/notFound'  
   
   '/adm/manage/admin':
     post:
@@ -1704,7 +1787,7 @@ paths:
       tags:
         - "1. 신청"
         - "5. 사용자 관리"
-      summary: '1.2.1 1.2.2 5.6.1 서비스포털 관리자 생성 #PostManageSaasAdmin' 
+      summary: '1.2.2 5.6.1 서비스포털 관리자 생성 #PostManageSaasAdmin' 
       description: '\- 서비스포털 관리자 생성: 외부 API -> API Gateway -> SaaS Manager <br> 회원가입 또는 클라우드 관리자가 서비스 관리자를 추가할수 있습니다.'
       operationId: PostManageSaasAdmin
       security:
@@ -2340,7 +2423,7 @@ components:
             - "ip_check"
             - "mac_check"        
     get_member:
-      description: '고객사 SEQ'
+      description: '고객사 정보'
       allOf:
         - $ref: '#/components/schemas/member_tenant'
         - $ref: '#/components/schemas/member_company'
@@ -2372,10 +2455,37 @@ components:
               type: string
             registration_date:
               type: string
-    post_member:
-      description: '고객사 SEQ'
+    post_apply_member:
+      description: '고객사 생성 신청'
       allOf:
         - $ref: '#/components/schemas/member_tenant'
+        - $ref: '#/components/schemas/member_company'
+        - type: object
+          properties:
+            manager_name:
+              type: string
+            manager_department:
+              type: string
+            manager_position:
+              type: string
+            manager_rank:
+              type: string
+            email: 
+              type: string
+            phone:
+              type: string
+            payment_info:
+              type: object
+            add_info:
+              type: object
+          required:
+            - tenant_id
+            - manager_name
+            - email
+            - phone   
+    post_member:
+      description: '고객사 생성'
+      allOf:
         - $ref: '#/components/schemas/member_company'
         - type: object
           properties:
@@ -2451,6 +2561,40 @@ components:
               type: string
 
 ### DB: SaaS Object
+    post_apply_saas_admin:
+      description: '관리자 SEQ'
+      allOf:
+        - $ref: '#/components/schemas/tenant_id'
+        - $ref: '#/components/schemas/userid'
+        - $ref: '#/components/schemas/password'
+        - type: object
+          properties:
+            grade:
+              type: string
+            name: 
+              type: string
+            department:
+              type: string
+            position:
+              type: string
+            rank:
+              type: string
+            email:
+              type: string
+            phone:
+              type: string
+            ip_check:
+              type: boolean
+            mac_check:
+              type: boolean
+          required:
+            - "grade"
+            - "name"
+            - "status"
+            - "email"
+            - "phone"
+            - "ip_check"
+            - "mac_check"
     post_saas_admin:
       description: '관리자 SEQ'
       allOf:
@@ -2620,7 +2764,10 @@ components:
       example: 'JWT Token'
     parameter_tenant_id:
       type: string
-      example: 'Tanant ID'
+      example: 'Tenant ID'
+    parameter_x_tenant_id:
+      type: string
+      example: '관리 포탈만 설정. Tenant ID'  
     parameter_portal:
       type: string
       example: '포탈 구분. 관리(adm), 서비스(svc)'
