@@ -125,7 +125,7 @@ tags:
   - name: 1. 신청
     description: '회원 가입 신청, 탈퇴, 관리자 승인, 알림등 사용자 이벤트 처리 Cycle'  
   - name: 2. 생성
-    description: 'Cloud SaaS관련: 제품(솔루션), 인프라, 서버, 네트워크 생성 및 구성'
+    description: '(수정중) Cloud SaaS관련: 제품(솔루션), 인프라, 서버, 네트워크 생성 및 구성'
   - name: 3. 인증
     description: '로그인, 인증, 인가, 토큰 발급 (검증)'
   - name: 4. 고객사 관리
@@ -180,8 +180,6 @@ paths:
       summary: '1.2.1 고객사 특정 테넌트 존재 여부 조회 #GetManageIsMember'
       description: '\- 특정 테넌트 조회: 외부 API -> API Gateway -> SaaS Manager <br> 조회 기준은 URL {고객사 테넌트ID}기준으로 지칭'
       operationId: GetManageIsMember
-      security:
-        - bearerAuth: []
       parameters: 
         - name: tenant_id
           in: path
@@ -210,8 +208,6 @@ paths:
       summary: '1.2.1 고객사 등록: 테넌트 생성 신청 #PostManageApplyMember' 
       description: '\- 테넌트 생성 신청: 외부 API -> API Gateway -> SaaS Manager <br> required를 필수로 지켜야 합니다. 또한 등록 성공 시 SaaS DB가 생성됩니다.'
       operationId: PostManageApplyMember
-      security:
-        - bearerAuth: []
       requestBody:
         content:
           application/json:
@@ -238,8 +234,6 @@ paths:
       summary: '1.2.1 서비스포털 관리자 생성 신청#PostManageApplySaasAdmin' 
       description: '\- 서비스포털 관리자 생성: 외부 API -> API Gateway -> SaaS Manager <br> 회원가입 진행시 서비스 관리자를 추가할수 있습니다.'
       operationId: PostManageApplySaasAdmin
-      security:
-        - bearerAuth: []
       requestBody:
         content:
           application/json:
@@ -1388,10 +1382,12 @@ paths:
               schema:
                 type: object
                 properties:
-                  token:
+                  access_token:
                     type: string
-                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJoYW5zc2FrLWNsb3VkLmNvbSIsImV4cCI6IjE0ODUyNzAwMDAwMDAiLCJ0ZW5lbnQiOiJ4eHh4IiwiZ3JvdXAiOiJkZXZlbG9wIiwiYXV0aCI6Im1hbmFnZXIiLCJpZCI6ImtuZyJ9.b-MRxJ5UiBdTexOpRe299lLNj7G314eSznb0lT1lJts'
-                    description: 'Token'
+                    example: '...'
+                  refresh_token:
+                    type: string
+                    example: '...'
         '400':
           $ref: '#/components/responses/badRequest'
   '/svc/gatekeeper/login':
@@ -1449,13 +1445,53 @@ paths:
               schema:
                 type: object
                 properties:
-                  token:
+                  access_token:
                     type: string
-                    example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJoYW5zc2FrLWNsb3VkLmNvbSIsImV4cCI6IjE0ODUyNzAwMDAwMDAiLCJ0ZW5lbnQiOiJ4eHh4IiwiZ3JvdXAiOiJkZXZlbG9wIiwiYXV0aCI6Im1hbmFnZXIiLCJpZCI6ImtuZyJ9.b-MRxJ5UiBdTexOpRe299lLNj7G314eSznb0lT1lJts'
-                    description: 'Token'
+                    example: '...'
+                  refresh_token:
+                    type: string
+                    example: '...'
         '400':
           $ref: '#/components/responses/badRequest'
                
+  '/{portal}/gatekeeper/logout':
+    post:
+      tags:
+        - "3. 인증"
+      summary: '3.2.1 로그아웃 #PostPortalLogout'
+      description: "- 관리,서비스 포털의 유저 계정을 로그아웃할때 사용한다. 로그아웃 시 토큰이 반납처리 된다."
+      operationId: PostPortalLogout
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+      requestBody:
+        description: "id는 UserID"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/id'
+        required: true    
+      responses:
+        '200':
+          description: '로그아웃 성공'
+        '400':
+          $ref: '#/components/responses/badRequest'
+  
+  
 ##### 4. 고객사 관리
   '/{portal}/manage/member':
     post:
@@ -1540,7 +1576,7 @@ paths:
     delete:
       tags:
         - "4. 고객사 관리"
-      summary: '4.3.1 고객사 삭제: 테넌트 반납 #DeleteApplyMember' 
+      summary: '4.3.1 고객사 삭제: 테넌트 반납 #DeleteManageMember' 
       description: '\- 테넌트 반납 신청: 외부 API -> API Gateway -> SaaS Manager <br> 반납 성공 시 SaaS DB 휴먼상태로 전환 하게 됩니다.'
       operationId: DeleteManageMember
       security:
