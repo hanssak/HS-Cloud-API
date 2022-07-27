@@ -1493,7 +1493,7 @@ paths:
   
   
 ##### 4. 고객사 관리
-  '/{portal}/manage/member':
+  '/adm/manage/member':
     post:
       tags:
         - "1. 신청"
@@ -1504,20 +1504,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: portal
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
-        - in: header
-          name: X-TenantId
-          schema:
-            $ref: '#/components/schemas/parameter_x_tenant_id'
       requestBody:
         content:
           application/json:
@@ -1536,6 +1527,33 @@ paths:
                   - $ref: '#/components/schemas/member_company'
         '400':
           $ref: '#/components/responses/badRequest'
+    get:
+      tags:
+        - "4. 고객사 관리"
+      summary: '4.4.1 고객사 전체 조회 #GetManageMembers'
+      description: '\- 테넌트 전체 조회: 외부 API -> API Gateway -> SaaS Manager '
+      operationId: GetManageMembers
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+      responses:
+        '200':
+          description: '테넌트 조회 성공'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/get_member'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '404':
+          $ref: '#/components/responses/notFound'  
 
   '/{portal}/manage/member/{tenant_id}':
     put:
@@ -1640,35 +1658,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '404':
           $ref: '#/components/responses/notFound'
-  '/adm/manage/member':
-    get:
-      tags:
-        - "4. 고객사 관리"
-      summary: '4.4.1 고객사 전체 조회 #GetManageMembers'
-      description: '\- 테넌트 전체 조회: 외부 API -> API Gateway -> SaaS Manager '
-      operationId: GetManageMembers
-      security:
-        - bearerAuth: []
-      parameters: 
-        - in: header
-          name: Authorization
-          required: true
-          schema:
-            $ref: '#/components/schemas/parameter_token'
-      responses:
-        '200':
-          description: '테넌트 조회 성공'
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/get_member'
-        '400':
-          $ref: '#/components/responses/badRequest'
-        '404':
-          $ref: '#/components/responses/notFound'  
-  
+
   '/adm/manage/admin':
     post:
       tags:
@@ -1839,6 +1829,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
       requestBody:
         content:
           application/json:
@@ -1873,12 +1867,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_portal'    
-        - in: query
-          name: tenant-id
+        - in: header
+          name: X-TenantId
           schema:
-            type: string
-            example: 'q=tenant-id%3D테넌트ID'
-          required: true
+            $ref: '#/components/schemas/parameter_x_tenant_id'
       responses:
         '200':
           description: '관리자 조회 성공'
@@ -1908,6 +1900,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
         - name: portal
           in: path
           required: true
@@ -1955,6 +1951,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
       responses:
         '200':
           description: '관리자 계정 삭제 성공'
@@ -1976,6 +1976,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
         - name: portal
           in: path
           required: true
@@ -2522,6 +2526,7 @@ components:
     post_member:
       description: '고객사 생성'
       allOf:
+        - $ref: '#/components/schemas/tenant_id'
         - $ref: '#/components/schemas/member_company'
         - type: object
           properties:
@@ -2634,7 +2639,6 @@ components:
     post_saas_admin:
       description: '관리자 SEQ'
       allOf:
-        - $ref: '#/components/schemas/tenant_id'
         - $ref: '#/components/schemas/userid'
         - $ref: '#/components/schemas/password'
         - type: object
