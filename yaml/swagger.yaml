@@ -251,7 +251,7 @@ paths:
           $ref: '#/components/responses/badRequest'
 
 ##### 2. 생성
-  '/{id}/order/base-code':
+  '/{portal}/order/base-code':
     get:
       tags:
         - "2. 생성"
@@ -261,11 +261,11 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
@@ -289,7 +289,7 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'
           
-  '/{id}/order/product-list':
+  '/{portal}/order/product-list':
     post:
       tags:
         - "2. 생성"
@@ -299,22 +299,25 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'    
       requestBody:
         content:
           application/json:
             schema:
               allOf:
-                - $ref: '#/components/schemas/member_tenant'
                 - $ref: '#/components/schemas/seq'
               description: '고객사 SEQ 삽입'
       responses:
@@ -325,12 +328,10 @@ paths:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/seq'
-                  - $ref: '#/components/schemas/member_tenant'
-                description: '제품리스트 SEQ, 테넌트ID'
         '409':
           $ref: '#/components/responses/conflict'
       
-  '/{id}/order/product':
+  '/{portal}/order/product':
     get:
       tags:
         - "2. 생성"
@@ -340,11 +341,11 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
@@ -384,16 +385,20 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
       requestBody:
         content:
           application/json:
@@ -417,7 +422,7 @@ paths:
         '409':
           $ref: '#/components/responses/conflict'
 
-  '/{id}/order/license':
+  '/{portal}/order/license':
     get:
       tags:
         - 2. 생성
@@ -427,11 +432,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
@@ -476,16 +481,20 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
       requestBody:
         content:
           application/json:
@@ -509,7 +518,7 @@ paths:
         '409':
           $ref: '#/components/responses/conflict'
 
-  '/{id}/order/service/{service_id}/add-service':
+  '/{portal}/order/service/{service_id}/add-service':
     get:
       tags: 
         - '2. 생성'
@@ -519,11 +528,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - name: service_id
           in: path
           required: true
@@ -559,11 +568,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - name: service_id
           in: path
           required: true
@@ -574,6 +583,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
       requestBody:
         content:
           application/json:
@@ -597,7 +610,7 @@ paths:
         '409':
           $ref: '#/components/responses/conflict'
   
-  '/{id}/order/service/{service_id}/add-service/autoscale':
+  '/{portal}/order/service/{service_id}/add-service/autoscale':
     get:
       tags: 
         - '2. 생성'
@@ -607,11 +620,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - name: service_id
           in: path
           required: true
@@ -667,11 +680,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - name: service_id
           in: path
           required: true
@@ -682,6 +695,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
       requestBody:
         content:
           application/json:
@@ -729,7 +746,7 @@ paths:
         '409':
           $ref: '#/components/responses/conflict'
 
-  '/{id}/order/config':
+  '/{portal}/order/config':
     get:
       tags: 
         - '2. 생성'
@@ -739,11 +756,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
@@ -806,16 +823,20 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
       requestBody:
         content:
           application/json:
@@ -845,7 +866,7 @@ paths:
         '409':
           $ref: '#/components/responses/conflict'
 
-  '/{id}/order/server/os':
+  '/{portal}/order/server/os':
     get:
       tags: 
         - '2. 생성'
@@ -855,11 +876,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
@@ -905,7 +926,7 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'
 
-  '/{id}/order/server/product':
+  '/{portal}/order/server/product':
     get:
       tags: 
         - '2. 생성'
@@ -915,11 +936,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
@@ -977,7 +998,7 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'
 
-  '/{id}/order/server/storage':
+  '/{portal}/order/server/storage':
     get:
       tags: 
         - '2. 생성'
@@ -987,11 +1008,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
@@ -1040,7 +1061,7 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'
           
-  '/{id}/order/server':
+  '/{portal}/order/server':
     post:
       tags: 
         - '2. 생성'
@@ -1050,16 +1071,20 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
       requestBody:
         content:
           application/json:
@@ -1094,7 +1119,7 @@ paths:
         '409':
           $ref: '#/components/responses/conflict'
 
-  '/{id}/order/acg':
+  '/{portal}/order/acg':
     get:
       tags: 
         - '2. 생성'
@@ -1104,11 +1129,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
@@ -1145,16 +1170,20 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
       requestBody:
         content:
           application/json:
@@ -1176,7 +1205,7 @@ paths:
         '409':
           $ref: '#/components/responses/conflict'
 
-  '/{id}/order/his':
+  '/{portal}/order/his':
     get:
       tags: 
         - '2. 생성'
@@ -1186,11 +1215,11 @@ paths:
       security:
         - bearerAuth: []
       parameters: 
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
@@ -1241,7 +1270,7 @@ paths:
                     items:
                       type: object
   
-  '/{id}/meta/product/create':
+  '/{portal}/meta/product/create':
     post:
       tags: 
         - '2. 생성'
@@ -1251,23 +1280,26 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
       requestBody:
         content:
           application/json:
             schema:
               allOf:
                 - $ref: '#/components/schemas/seq'
-                - $ref: '#/components/schemas/member_tenant'
               description: '제품 리스트 SEQ 삽입'
       responses:
         '202':
@@ -1307,7 +1339,7 @@ paths:
       responses:
         '200':
           description: ''
-  '/{id}/meta/product':
+  '/{portal}/meta/product':
     get:
       tags:
         - '2. 생성'
@@ -1315,11 +1347,11 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - name: id
+        - name: portal
           in: path
           required: true
           schema:
-            $ref: '#/components/schemas/parameter_company_name'
+            $ref: '#/components/schemas/parameter_portal'
         - in: header
           name: Authorization
           required: true
@@ -2593,7 +2625,6 @@ components:
     order_header:
       type: object
       allOf:
-        - $ref: '#/components/schemas/member_tenant'
         - type: object
           properties:
             product_list_seq:
