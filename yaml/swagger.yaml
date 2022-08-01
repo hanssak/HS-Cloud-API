@@ -1225,11 +1225,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
-        - in: query
-          name: tenant-id
-          schema: 
-            type: string 
-            example: 'q=tenant-id%3D{TenantID}'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
         - in: query
           name: product-list-seq
           schema: 
@@ -2023,12 +2022,6 @@ paths:
           description: '관리자 계정'
           schema:
             type: string
-        - in: query
-          name: tenant-id
-          schema:
-            type: string
-            example: 'q=tenant-id%3D테넌트ID'
-          required: true
       responses:
         '200':
           description: '사용자 조회 성공'
