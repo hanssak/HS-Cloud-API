@@ -250,6 +250,39 @@ paths:
         '400':
           $ref: '#/components/responses/badRequest'
 
+
+  '/adm/broker/{vendor}/service/vpostgresql/database':
+    post:
+      tags:
+        - "1. 신청"
+      summary: ""
+      description: ""
+      operationId: PostBrokerNcpPogresqlDatabase
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/post_ncp_psql_database'
+      responses:
+        '201':
+          description: 'DB 생성 완료'
+        '409':
+          $ref: '#/components/responses/conflict'
+
+
 ##### 2. 생성
   '/{portal}/order/base-code':
     get:
@@ -2625,6 +2658,19 @@ components:
             step:
               type: string
 
+
+### Cloud 연동 오브젝트
+    post_ncp_psql_database:
+      type: object
+      properties:
+        database_name:
+          type: string
+        owner:
+          type: string
+      required:
+        - database_name
+        - owner
+
 ### DB: SaaS Object
     post_apply_saas_admin:
       description: '관리자 SEQ'
@@ -2835,6 +2881,9 @@ components:
     parameter_portal:
       type: string
       example: '포탈 구분. 관리(adm), 서비스(svc)'
+    parameter_vendor:
+      type: string
+      example: '클라우드 벤더 (ncp, azu, aws)'
 
 ## Unused       
    # vpc:
