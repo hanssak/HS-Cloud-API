@@ -255,8 +255,8 @@ paths:
     post:
       tags:
         - "1. 신청"
-      summary: ""
-      description: ""
+      summary: "1.2.1 1.2.2 Cloud for PostgreSQL 데이터베이스 생성 신청 #PostBrokerNcpPogresqlDatabase"
+      description: "- 내부 서비스간 통신만 허용하는 API입니다. "
       operationId: PostBrokerNcpPogresqlDatabase
       security:
         - bearerAuth: []
