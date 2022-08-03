@@ -2280,12 +2280,20 @@ components:
       properties:
         acg_id:
           type: string
+          description: "ACG 명칭"
+          example: "ACG.SGIN.FILE"
         service_type:
           type: string
+          description: "서비스 유형"
+          example: "SERVICE"
         service_id:
           type: string
+          description: "서비스ID 또는 부가서비스ID"
+          example: "FILE (파일연계)"
         system:
           type: string
+          description: "시스템 구분자 (:SYSTEM)"
+          example: "SGIN"
         acg_rule:
           type: array 
           items:
@@ -2300,12 +2308,19 @@ components:
           example: 'INBOUND or OUTBOUND' 
         protocol:
           type: string
+          description: "프로토콜 명시"
+          example: "TCP"
         source_type:
           type: string
+          description: "출발지 유형 (구분: 시스템, IP대역)"
+          example: "SYSTEM or IPSUBNET"
         source:
           type: string
+          description: "출발지 정보"
+          example: "INFR or SGIN or 0.0.0.0/0"
         ports:
           type: string
+          example: "3001-3005"
         description:
           type: string
         add_info:
@@ -2332,10 +2347,16 @@ components:
             properties:
               code:
                 type: string
+                description: 'VPC 고유 코드 정보'
+                example: '22830'
               name: 
                 type: string
+                description: 'VPC 이름'
+                example: 'hanssak-vpc'
               network_range:
                 type: string
+                description: 'VPC 대역정보'
+                example: '172.16.0.0/16'
               add_info:
                 type: string
     private_network_subnet_get_info:
@@ -2343,18 +2364,26 @@ components:
       properties:
         info:
           type: array 
-          description: 'VPC 정보'
+          description: 'Subnet 정보'
           items:
             type: object
             properties:
               code:
                 type: string
+                description: 'Subnet 고유 코드 정보'
+                example: '49460'
               name: 
                 type: string
+                description: 'Subnet 이름'
+                example: 'sgin'
               network_range:
                 type: string
+                description: 'Subnet 대역정보 (VPC 하위 서브넷팅이여야함)'
+                example: '172.16.1.0/24'
               vpc_code:
-                type: string  
+                type: string
+                description: 'Subnet이 속한 VPC 고유코드'
+                example: '22830'
               add_info:
                 type: string        
         
@@ -2363,23 +2392,39 @@ components:
       properties:
         cloud_vpc_code: 
           type: string
+          description: '서버위치를 나타내는 VPC 고유코드'
         cloud_vpc_network_range:
           type: string
+          description: 'VPC의 대역정보'
+          example: '172.16.0.0/16'
         cloud_subnet_code:
           type: string
+          description: '서버위치(subnet)를 나타내는 subnet 고유코드'
         cloud_subnet_network_range:
           type: string
+          description: 'Subnet의 대역정보'
+          example: '172.16.5.0/24'
     server_instance_info:
       type: object
       properties:
         cloud_os_id: 
           type: string
+          description: '서버의 클라우드 os 고유코드 (config에서는 추천 코드를 의미)'
+          example: 'SW.VSVR.OS.LNX64.CNTOS.0708.B050 (CentOS 7.8)'
         cloud_product_id:
           type: string
+          description: '서버의 클라우드 product 고유코드 (config에서는 추천 코드를 의미)'
+          example: 'SPSVRCPU00000003A (Classic G1장비)'
+        system_type:
+          type: string
+          description: '시스템 구분자 (망연계 내부:SGIN, 외부: SGEX)'
+          example: 'SGIN'
         min: 
           type: integer
+          description: '서버 autoscale의 최소 개수'
         max:
           type: integer
+          description: '서버 autoscale의 최대 개수'
     storage_instance_info:
       type: object
       properties:
