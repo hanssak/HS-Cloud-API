@@ -2592,6 +2592,12 @@ components:
               type: string
             manager_rank:
               type: string
+            cloud_private_key:
+              type: string
+            cloud_public_key:
+              type: string
+            key_expire_date:
+              type: string  
             status:
               type: string
             email: 
@@ -2625,15 +2631,15 @@ components:
               type: string
             manager_rank:
               type: string
-            email: 
-              type: string
-            phone:
-              type: string
             cloud_private_key:
               type: string
             cloud_public_key:
               type: string
             key_expire_date:
+              type: string    
+            email: 
+              type: string
+            phone:
               type: string
             payment_info:
               type: object
@@ -2659,15 +2665,15 @@ components:
               type: string
             manager_rank:
               type: string
-            email: 
-              type: string
-            phone:
-              type: string
             cloud_private_key:
               type: string
             cloud_public_key:
               type: string
             key_expire_date:
+              type: string  
+            email: 
+              type: string
+            phone:
               type: string
             payment_info:
               type: object
@@ -2691,17 +2697,17 @@ components:
               type: string
             manager_rank:
               type: string
-            status:
-              type: string
-            email: 
-              type: string
-            phone:
-              type: string
             cloud_private_key:
               type: string
             cloud_public_key:
               type: string
             key_expire_date:
+              type: string
+            status:
+              type: string
+            email: 
+              type: string
+            phone:
               type: string
             payment:
               type: object
