@@ -306,6 +306,16 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: query
+          name: base
+          schema:
+            type: string
+            example: 'q=base%3Dadmin_grade|admin_status'
+        - in: query
+          name: key
+          schema:
+            type: string
+            example: 'q=key%3DSG.FILE.BASIC|SG.FILE.PREMIUM'  
       responses:
         '200':
           description: '제품 모든 목록'
