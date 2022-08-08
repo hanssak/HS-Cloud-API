@@ -177,9 +177,9 @@ paths:
     get:
       tags:
         - "1. 신청"
-      summary: '1.2.1 고객사 특정 테넌트 존재 여부 조회 #GetApplyMember'
+      summary: '1.2.1 고객사 특정 테넌트 존재 여부 조회 #GetManageApplyMember'
       description: '\- 특정 테넌트 조회: 외부 API -> API Gateway -> SaaS Manager <br> 조회 기준은 URL {고객사 테넌트ID}기준으로 지칭'
-      operationId: GetApplyMember
+      operationId: GetManageApplyMember
       parameters: 
         - name: tenant_id
           in: path
@@ -205,9 +205,9 @@ paths:
     post:
       tags:
         - "1. 신청"
-      summary: '1.2.1 고객사 등록: 테넌트 생성 신청 #PostApplyMember' 
+      summary: '1.2.1 고객사 등록: 테넌트 생성 신청 #PostManageApplyMember' 
       description: '\- 테넌트 생성 신청: 외부 API -> API Gateway -> SaaS Manager <br> required를 필수로 지켜야 합니다. 또한 등록 성공 시 SaaS DB가 생성됩니다.'
-      operationId: PostApplyMember
+      operationId: PostManageApplyMember
       requestBody:
         content:
           application/json:
@@ -231,9 +231,9 @@ paths:
     post:
       tags:
         - "1. 신청"
-      summary: '1.2.1 서비스포털 관리자 생성 신청#PostApplySaasAdmin' 
+      summary: '1.2.1 서비스포털 관리자 생성 신청#PostManageApplySaasAdmin' 
       description: '\- 서비스포털 관리자 생성: 외부 API -> API Gateway -> SaaS Manager <br> 회원가입 진행시 서비스 관리자를 추가할수 있습니다.'
-      operationId: PostApplySaasAdmin
+      operationId: PostManageApplySaasAdmin
       requestBody:
         content:
           application/json:
@@ -255,9 +255,9 @@ paths:
     post:
       tags:
         - "1. 신청"
-      summary: "1.2.1 1.2.2 Cloud for PostgreSQL 데이터베이스 생성 신청 #PostBrokerNcpPogresqlDatabase"
+      summary: "1.2.1 1.2.2 Cloud for PostgreSQL 데이터베이스 생성 신청 #PostBrokerNcpPostgresqlDatabase"
       description: "- 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: PostBrokerNcpPogresqlDatabase
+      operationId: PostBrokerNcpPostgresqlDatabase
       security:
         - bearerAuth: []
       parameters:
