@@ -2629,6 +2629,12 @@ components:
               type: string
             phone:
               type: string
+            cloud_private_key:
+              type: string
+            cloud_public_key:
+              type: string
+            key_expire_date:
+              type: string
             payment_info:
               type: object
             add_info:
@@ -2657,6 +2663,12 @@ components:
               type: string
             phone:
               type: string
+            cloud_private_key:
+              type: string
+            cloud_public_key:
+              type: string
+            key_expire_date:
+              type: string
             payment_info:
               type: object
             add_info:
@@ -2684,6 +2696,12 @@ components:
             email: 
               type: string
             phone:
+              type: string
+            cloud_private_key:
+              type: string
+            cloud_public_key:
+              type: string
+            key_expire_date:
               type: string
             payment:
               type: object
