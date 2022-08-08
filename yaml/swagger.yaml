@@ -125,7 +125,7 @@ tags:
   - name: 1. 신청
     description: '회원 가입 신청, 탈퇴, 관리자 승인, 알림등 사용자 이벤트 처리 Cycle'  
   - name: 2. 생성
-    description: '(수정중) Cloud SaaS관련: 제품(솔루션), 인프라, 서버, 네트워크 생성 및 구성'
+    description: 'Cloud SaaS관련: 제품(솔루션), 인프라, 서버, 네트워크 생성 및 구성'
   - name: 3. 인증
     description: '로그인, 인증, 인가, 토큰 발급 (검증)'
   - name: 4. 고객사 관리
@@ -138,6 +138,8 @@ tags:
     description: '[SA연동] SaaS 미터링, 빌링, 청구서 관리'
   - name: 7. 패치
     description: '[SA연동] 업데이트, 백업, 복구'
+  - name: 99. 개발중
+    description: '개발중인 REST API'
   - name: '4.1 관리: 조직관리'
     description: '관리포털에서 사용하는 사용자 조직 관리 (Cloud관리자)'
   - name: '4.2 관리: 사용자 설정'
@@ -1305,7 +1307,7 @@ paths:
   '/{portal}/meta/product/create':
     post:
       tags: 
-        - '2. 생성'
+        - '99. 개발중'
       summary: '2.1.1 SaaS 신청 (4.생성시작): SaaS 생성 시작 명령 #PostMetaProductCreate'
       description: '\- 서비스포털 -> API Gateway -> MetadataManager <br> (Operation) 주문이력을 기준으로 제품생성을 시작 명령 : 테넌트 ID, 제품 리스트 SEQ 필요'
       operationId: PostMetaProductCreate
@@ -1347,7 +1349,7 @@ paths:
   '/build/tf/db/apply':
     post:
       tags:
-        - '2. 생성'
+        - '99. 개발중'
       summary: '[작성예정] 2.1.2 SaaS 신청 (4.생성시작): SaaS 제품 생성 검토요청 #PostBuildTfDbPlan'
       operationId: PostBuildTfDbPlan
       responses:
@@ -1356,7 +1358,7 @@ paths:
   '/build/tf/db/plan':
     post:
       tags:
-        - '2. 생성'
+        - '99. 개발중'
       summary: '[작성예정] 2.1.2 SaaS 신청 (4.생성시작): SaaS 제품 생성요청 #PostBuildTfDbApply'
       operationId: PostBuildTfDbApply
       responses:
@@ -1365,7 +1367,7 @@ paths:
   '/meta/product/system':
     put:
       tags:
-        - '2. 생성'
+        - '99. 개발중'
       summary: '[작성예정] 2.1.2 SaaS 신청 (4.생성시작): SaaS 제품 시스템 상태 업데이트 요청 #PatchMetaProduct'
       operationId: PatchMetaProduct
       responses:
@@ -1374,7 +1376,7 @@ paths:
   '/{portal}/meta/product':
     get:
       tags:
-        - '2. 생성'
+        - '99. 개발중'
       summary: '[작성예정] 2.1.2 SaaS 신청: SaaS 상품 조회 #GetMetaProduct'
       security:
         - bearerAuth: []
