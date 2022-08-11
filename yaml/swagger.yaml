@@ -138,14 +138,16 @@ tags:
     description: '[SA연동] SaaS 미터링, 빌링, 청구서 관리'
   - name: 7. 패치
     description: '[SA연동] 업데이트, 백업, 복구'
+  - name: 98. 클라우드연동
+    description: 'CloudBroker와 연동하는 REST API 모듈 (내부로직에만 사용됨)'
   - name: 99. 개발중
     description: '개발중인 REST API'
-  - name: '4.1 관리: 조직관리'
-    description: '관리포털에서 사용하는 사용자 조직 관리 (Cloud관리자)'
-  - name: '4.2 관리: 사용자 설정'
-    description: '서비스포털에서 사용하는 유저 설정: 서비스 관리자 및 서비스포털 이용자) <br> (탈퇴, 정보 업데이트, 프로필 가져오기, 패스워드변경, 레포트, 구독정보)'
-  - name: '4.3 관리: 시스템'
-    description: '[SA연동] 시스템(Tenent, VM, IW-SA 서비스), Cloud(Network, VM, Storage) 제어 '
+#  - name: '4.1 관리: 조직관리'
+#    description: '관리포털에서 사용하는 사용자 조직 관리 (Cloud관리자)'
+#  - name: '4.2 관리: 사용자 설정'
+#    description: '서비스포털에서 사용하는 유저 설정: 서비스 관리자 및 서비스포털 이용자) <br> (탈퇴, 정보 업데이트, 프로필 가져오기, 패스워드변경, 레포트, 구독정보)'
+#  - name: '4.3 관리: 시스템'
+#    description: '[SA연동] 시스템(Tenent, VM, IW-SA 서비스), Cloud(Network, VM, Storage) 제어 '
 
 
 paths:
@@ -251,39 +253,6 @@ paths:
                 $ref: '#/components/schemas/seq'
         '400':
           $ref: '#/components/responses/badRequest'
-
-
-  '/adm/broker/{vendor}/service/vpostgresql/database':
-    post:
-      tags:
-        - "1. 신청"
-      summary: "1.2.1 1.2.2 Cloud for PostgreSQL 데이터베이스 생성 신청 #PostBrokerNcpPostgresqlDatabase"
-      description: "- 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: PostBrokerNcpPostgresqlDatabase
-      security:
-        - bearerAuth: []
-      parameters:
-        - in: header
-          name: Authorization
-          required: true
-          schema:
-            $ref: '#/components/schemas/parameter_token'
-        - in: path
-          name: vendor
-          required: true
-          schema:
-            $ref: '#/components/schemas/parameter_vendor'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/post_ncp_psql_database'
-      responses:
-        '201':
-          description: 'DB 생성 완료'
-        '409':
-          $ref: '#/components/responses/conflict'
-
 
 ##### 2. 생성
   '/{portal}/order/base-code':
@@ -2079,7 +2048,42 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'
 
-      
+    
+## 클라우드 연동 파트
+  '/adm/broker/{vendor}/service/vpostgresql/database':
+    post:
+      tags:
+        - "1. 신청"
+        - "98. 클라우드연동"
+      summary: "1.2.1 1.2.2 Cloud for PostgreSQL 데이터베이스 생성 신청 #PostBrokerNcpPostgresqlDatabase"
+      description: "- 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpPostgresqlDatabase
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/post_ncp_psql_database'
+      responses:
+        '201':
+          description: 'DB 생성 완료'
+        '409':
+          $ref: '#/components/responses/conflict'
+
+
+  
 components:
   # --> 보안 스키마 정의 
   securitySchemes:
@@ -2741,16 +2745,27 @@ components:
 
 
 ### Cloud 연동 오브젝트
+    commonCode:
+      type: object
+      description: 'https://api.ncloud-docs.com/docs/common-vapidatatype-commoncode'
+      properties:
+        code:
+          type: string
+        codeName:
+          type: string
     post_ncp_psql_database:
       type: object
       properties:
-        database_name:
+        databaseName:
           type: string
         owner:
           type: string
       required:
         - database_name
         - owner
+        
+      
+
 
 ### DB: SaaS Object
     post_apply_saas_admin:
@@ -2965,6 +2980,9 @@ components:
     parameter_vendor:
       type: string
       example: '클라우드 벤더 (ncp, azu, aws)'
+
+
+
 
 ## Unused       
    # vpc:
