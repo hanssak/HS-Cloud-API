@@ -2745,14 +2745,129 @@ components:
 
 
 ### Cloud 연동 오브젝트
-    commonCode:
+    CloudPostgresqlInstance:
+      properties:
+        backupFileRetentionPeriod:
+          type: integer
+        backupTime:
+          type: string
+        cloudPostgresqlImageProductCode:
+          type: string
+        cloudPostgresqlInstanceNo:
+          type: string
+        cloudPostgresqlInstanceOperation:
+          $ref: '#/components/schemas/CommonCode'
+        cloudPostgresqlInstanceStatus:
+          $ref: '#/components/schemas/CommonCode'
+        cloudPostgresqlInstanceStatusName:
+          type: string
+        cloudPostgresqlPort:
+          type: integer
+        cloudPostgresqlServiceName:
+          type: string
+        engineVersion:
+          type: string
+        isBackup:
+          type: boolean
+        isHa:
+          type: boolean
+        isMultiZone:
+          type: boolean
+        license:
+          type: string
       type: object
+    CloudPostgresqlInstanceList:
+      properties:
+        cloudPostgresqlInstanceList:
+          items:
+            $ref: '#/components/schemas/CloudPostgresqlInstance'
+          type: array
+        returnCode:
+          type: string
+        returnMessage:
+          type: string
+        totalRows:
+          description: RequestId     string `json:"requestId,omitempty"`
+          type: integer
+      type: object
+    CommonCode:
       description: 'https://api.ncloud-docs.com/docs/common-vapidatatype-commoncode'
       properties:
         code:
+          description: 코드
           type: string
         codeName:
+          description: 코드명
           type: string
+      type: object
+    Subnet:
+      properties:
+        createDate:
+          description: 생성일시
+          type: string
+        networkAclNo:
+          description: 네트워크ACL번호
+          type: string
+        subnet:
+          description: 서브넷
+          type: string
+        subnetName:
+          description: 서브넷이름
+          type: string
+        subnetNo:
+          description: 서브넷번호
+          type: string
+        subnetStatus:
+          $ref: '#/components/schemas/CommonCode'
+          description: 서브넷상태
+        subnetType:
+          $ref: '#/components/schemas/CommonCode'
+          description: 서브넷유형
+        usageType:
+          $ref: '#/components/schemas/CommonCode'
+          description: 용도유형
+        vpcNo:
+          description: VPC번호
+          type: string
+        zoneCode:
+          description: ZONE코드
+          type: string
+      type: object
+    SubnetList:
+      properties:
+        returnCode:
+          description: RequestId     string `json:"requestId,omitempty"`
+          type: string
+        returnMessage:
+          type: string
+        subnetList:
+          items:
+            $ref: '#/components/schemas/Subnet'
+          type: array
+        totalRows:
+          type: integer
+      type: object
+    Vpc:
+      properties:
+        createDate:
+          description: 생성일시
+          type: string
+        ipv4CidrBlock:
+          description: IPv4 CIDR블록
+          type: string
+        regionCode:
+          description: REGION코드
+          type: string
+        vpcName:
+          description: VPC이름
+          type: string
+        vpcNo:
+          description: VPC번호
+          type: string
+        vpcStatus:
+          $ref: '#/components/schemas/CommonCode'
+          description: VPC상태
+      type: object
     post_ncp_psql_database:
       type: object
       properties:
