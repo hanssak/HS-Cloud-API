@@ -2055,7 +2055,7 @@ paths:
       tags:
         - "1. 신청"
         - "98. 클라우드연동"
-      summary: "1.2.1 1.2.2 Cloud for PostgreSQL 데이터베이스 생성 신청 #PostBrokerNcpPostgresqlDatabase"
+      summary: "1.2.1 1.2.2 4.1.1 Cloud for PostgreSQL 데이터베이스 생성 신청 #PostBrokerNcpPostgresqlDatabase"
       description: "- 내부 서비스간 통신만 허용하는 API입니다. "
       operationId: PostBrokerNcpPostgresqlDatabase
       security:
@@ -2081,9 +2081,280 @@ paths:
           description: 'DB 생성 완료'
         '409':
           $ref: '#/components/responses/conflict'
+  '/adm/broker/{vendor}/service/vpostgresql/database/{name}':
+    delete:
+      tags:
+        - "98. 클라우드연동"
+      summary: "4.3.1 Cloud for PostgreSQL 데이터베이스 삭제 신청 #DeleteBrokerNcpPostgresqlDatabase"
+      description: "- 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: DeleteBrokerNcpPostgresqlDatabase
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - in: path
+          name: name
+          required: true
+          schema:
+            type: string
+            example: 'databasename'
+            description: '삭제할 데이터베이스 이름'
+      responses:
+        '200':
+          description: '데이터 베이스 삭제 완료'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  '/{portal}/broker/{vendor}/service/networing/vpcs':
+    post:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 VPC 생성 #PostBrokerNcpCreateVpc"
+      description: "- 네이버 클라우드에 VPC를 생성합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.)  내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpCreateVpc
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NcpVpcCreateVpcRequest'
+      responses:
+        '201':
+          description: 'VPC 생성 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NcpVpcCreateVpcResponse' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 VPC List 조회 #GetBrokerNcpVpcGetVpcList"
+      description: "- 네이버 클라우드에 VPC를 조회합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.) \n 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: GetBrokerNcpVpcGetVpcList
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      responses:
+        '200':
+          description: 'VPC 리스트 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VpcList' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
+  '/{portal}/broker/{vendor}/service/networing/vpcs/{vpcno}':
+    delete:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 VPC 삭제 요청 #DeleteBrokerNcpVpcDeleteVpc"
+      description: "- 네이버 클라우드에 VPC를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: DeleteBrokerNcpVpcDeleteVpc
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: vpcno 
+          required: true
+          schema:
+            type: string
+            example: 'VPC 번호'
+            description: '삭제할 VPC명'
+      responses:
+        '200':
+          description: 'VPC 삭제 완료'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  '/{portal}/broker/{vendor}/service/networing/subnets':
+    post:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 Subnet 생성 #PostBrokerNcpCreateSubnet"
+      description: "- 네이버 클라우드에 Subnet를 생성합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.)  내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpCreateSubnet
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NcpVpcCreateSubnetRequest'
+      responses:
+        '201':
+          description: 'Subnet 생성 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subnet' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 Subnet List 조회 #GetBrokerNcpVpcGetSubnetList"
+      description: "- 네이버 클라우드에 Subnet를 조회합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.) \n 내부 서비스간 통신만 허용하는 API입니다.  참고: https://api.ncloud-docs.com/docs/networking-vpc-subnetmanagement-getsubnetlist"
+      operationId: GetBrokerNcpVpcGetSubnetList
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+            ## quer params 추가해야함
+        - in: query
+          name: conditionalGetSubnet
+          schema:
+            type: string
+            example: 'q=vpcNo%3Dval,subnet%3Dval,subnetName%3Dval,subnetStatusCode%3Dval'
+            description: '쿼리 조회 시 쿼리 조건 자유롭게 사용가능'
+      responses:
+        '200':
+          description: 'Subnet 리스트 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubnetList' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
+  '/{portal}/broker/{vendor}/service/networing/subnets/{subnet_no}':
+    delete:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 Subnet 삭제 요청 #DeleteBrokerNcpVpcDeleteSubnet"
+      description: "- 네이버 클라우드에 Subnet를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: DeleteBrokerNcpVpcDeleteSubnet
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: subnet_no 
+          required: true
+          schema:
+            type: string
+            example: 'Subnet 번호'
+            description: '삭제할 Subnet명'
+      responses:
+        '200':
+          description: 'Subnet 삭제 완료'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
 
 
-  
+
 components:
   # --> 보안 스키마 정의 
   securitySchemes:
@@ -2125,6 +2396,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/error_response'
+    internalServerError:
+      description: '500: 서버 내부 에러 발생 (에러 메세지 확인 필요)'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error_response'
+ 
+
     
   # --> 데이터 스키마 정의
   schemas:
@@ -2745,6 +3024,16 @@ components:
 
 
 ### Cloud 연동 오브젝트
+    CommonCode:
+      description: 'https://api.ncloud-docs.com/docs/common-vapidatatype-commoncode'
+      properties:
+        code:
+          description: 코드
+          type: string
+        codeName:
+          description: 코드명
+          type: string
+      type: object
     CloudPostgresqlInstance:
       properties:
         backupFileRetentionPeriod:
@@ -2790,15 +3079,114 @@ components:
           description: RequestId     string `json:"requestId,omitempty"`
           type: integer
       type: object
-    CommonCode:
-      description: 'https://api.ncloud-docs.com/docs/common-vapidatatype-commoncode'
+    NcpVpcCreateVpcRequest:
       properties:
-        code:
-          description: 코드
+        ipv4CidrBlock:
           type: string
-        codeName:
-          description: 코드명
+        vpcName:
           type: string
+      required:
+      - ipv4CidrBlock
+      - vpcName
+      type: object
+    NcpVpcCreateVpcResponse:
+      properties:
+        createDate:
+          description: 생성일시
+          type: string
+        ipv4CidrBlock:
+          description: IPv4 CIDR블록
+          type: string
+        regionCode:
+          description: REGION코드
+          type: string
+        vpcName:
+          description: VPC이름
+          type: string
+        vpcNo:
+          description: VPC번호
+          type: string
+        vpcStatus:
+          $ref: '#/components/schemas/CommonCode'
+          description: VPC상태
+      type: object
+    NcpVpcCreateSubnetRequest:
+      properties:
+        networkAclNo:
+          description: 네트워크ACL번호
+          type: string
+        regionCode:
+          description: REGION코드
+          type: string
+        subnet:
+          description: 서브넷
+          type: string
+        subnetName:
+          description: 서브넷이름
+          type: string
+        subnetTypeCode:
+          description: '서브넷유형코드  (Options : PUBLIC (Internet Gateway 전용 Y) | PRIVATE
+            (Internet Gateway 전용 N))'
+          type: string
+        vpcNo:
+          description: VPC번호
+          type: string
+        zoneCode:
+          description: ZONE코드
+          type: string
+      required:
+      - networkAclNo
+      - subnet
+      - subnetTypeCode
+      - vpcNo
+      - zoneCode
+      type: object
+    NcpVpcGetSubnetListRequest:
+      properties:
+        networkAclNo:
+          type: string
+        subnet:
+          type: string
+        subnetName:
+          type: string
+        subnetStatusCode:
+          type: string
+        vpcNo:
+          type: string
+      type: object
+    VpcList:
+      properties:
+        returnCode:
+          type: string
+        returnMessage:
+          type: string
+        totalRows:
+          type: integer
+        vpcList:
+          items:
+            $ref: '#/components/schemas/Vpc'
+          type: array
+      type: object
+    Vpc:
+      properties:
+        createDate:
+          description: 생성일시
+          type: string
+        ipv4CidrBlock:
+          description: IPv4 CIDR블록
+          type: string
+        regionCode:
+          description: REGION코드
+          type: string
+        vpcName:
+          description: VPC이름
+          type: string
+        vpcNo:
+          description: VPC번호
+          type: string
+        vpcStatus:
+          $ref: '#/components/schemas/CommonCode'
+          description: VPC상태
       type: object
     Subnet:
       properties:
@@ -2846,27 +3234,6 @@ components:
           type: array
         totalRows:
           type: integer
-      type: object
-    Vpc:
-      properties:
-        createDate:
-          description: 생성일시
-          type: string
-        ipv4CidrBlock:
-          description: IPv4 CIDR블록
-          type: string
-        regionCode:
-          description: REGION코드
-          type: string
-        vpcName:
-          description: VPC이름
-          type: string
-        vpcNo:
-          description: VPC번호
-          type: string
-        vpcStatus:
-          $ref: '#/components/schemas/CommonCode'
-          description: VPC상태
       type: object
     post_ncp_psql_database:
       type: object
@@ -3095,55 +3462,3 @@ components:
     parameter_vendor:
       type: string
       example: '클라우드 벤더 (ncp, azu, aws)'
-
-
-
-
-## Unused       
-   # vpc:
-   #   type: object
-   #   description: 'VPC 객체 (Cloud Broker와 연동)'
-   #   properties:
-   #     id:
-   #       type: string
-   #       description: 'VPC 고유 번호'
-   #       example: '***04'
-   #     name:
-   #       type: string
-   #       description: 'VPC 이름'
-   #       example: 'test-***'
-   #     ipv4_cidr_block:
-   #       type: string
-   #       description: 'VPC 네트워크 대역'
-   #       example: '***.***.0.0/16'
-   #     status:
-   #       type: string
-   #       description: 'VPC 상태'
-   #     region:
-   #       type: string
-   #       description: 'VPC RegionCode'
-   #       example: 'KR'        
-   # subnet:
-   #   type: object
-   #   description: 'Subnet 객체 (Cloud Broker와 연동)'
-   #   properties:
-   #     id:
-   #       type: string
-   #       description: 'Subnet 고유 번호'
-   #       example: '***04'
-   #     vpc_id:
-   #       type: string
-   #       description: 'Subnet이 속한 Vpc 고유번호'
-   #     name:
-   #       type: string
-   #       description: 'Subnet 이름'
-   #       example: 'test-***'
-   #     ipv4_cidr_block:
-   #       type: string
-   #       description: 'VPC 네트워크 대역'
-   #       example: '***.***.0.0/16'
-   #     status:
-   #       type: string
-   #       description: 'VPC 상태'
-   #     zone:
-   #       type: string
