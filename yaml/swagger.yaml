@@ -3238,7 +3238,7 @@ components:
     post_ncp_psql_database:
       type: object
       properties:
-        databaseName:
+        database_name:
           type: string
         owner:
           type: string
