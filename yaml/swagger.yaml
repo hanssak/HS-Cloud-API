@@ -2300,7 +2300,7 @@ paths:
           name: conditionalGetSubnet
           schema:
             type: string
-            example: 'q=vpcNo%3Dval,subnet%3Dval,subnetName%3Dval,subnetStatusCode%3Dval'
+            example: 'q=vpc_no%3Dval,subnet%3Dval,subnet_name%3Dval,subnet_status_code%3Dval'
             description: '쿼리 조회 시 쿼리 조건 자유롭게 사용가능'
       responses:
         '200':
@@ -2352,7 +2352,132 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError'
-
+          
+  '/{portal}/broker/{vendor}/service/networing/nacls':
+    post:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 NACL 생성 #PostBrokerNcpCreateNacl"
+      description: "- 네이버 클라우드에 NACL를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpCreateNacl
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ncp_vpc_create_network_acl_request'
+      responses:
+        '201':
+          description: 'NACL 생성 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/network_acl'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 NACL List 조회 #GetBrokerNcpVpcGetNaclList"
+      description: "- 네이버 클라우드에 NetworkAclList를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpVpcGetNaclList
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+            ## quer params 추가해야함
+        - in: query
+          name: conditionalGetNetworkAclList
+          schema:
+            type: string
+            example: 'q=vpc_no%3Dval,network_acl_name%3Dval,network_acl_status_code%3Dval'
+            description: '쿼리 조회 시 쿼리 조건 자유롭게 사용가능'
+      responses:
+        '200':
+          description: 'Network Acl List 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/network_acl_list' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
+  '/{portal}/broker/{vendor}/service/networing/nacls/{network_acl_no}':
+    delete:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 NACL 삭제 요청 #DeleteBrokerNcpVpcDeleteNacl"
+      description: "- 네이버 클라우드에 Nacl를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: DeleteBrokerNcpVpcDeleteNacl
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: network_acl_no 
+          required: true
+          schema:
+            type: string
+            example: 'NACL 번호'
+      responses:
+        '200':
+          description: 'NACL 삭제 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/network_acl'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
 
 
 components:
@@ -3245,8 +3370,99 @@ components:
       required:
         - database_name
         - owner
-        
-      
+    ncp_vpc_create_network_acl_request:
+      properties:
+        network_acl_description:
+          description: 네트워크ACL설명
+          type: string
+        network_acl_name:
+          description: 네트워크ACL이름
+          type: string
+        region_code:
+          description: REGION코드
+          type: string
+        vpc_no:
+          description: VPC번호
+          type: string
+      required:
+      - vpc_no
+      type: object
+    ncp_vpc_delete_network_acl_request:
+      properties:
+        network_acl_no:
+          description: 네트워크ACL번호
+          type: string
+        region_code:
+          description: REGION코드
+          type: string
+      required:
+      - network_acl_no
+      type: object
+    ncp_vpc_get_network_acl_list_request:
+      properties:
+        network_acl_name:
+          description: 네트워크ACL이름
+          type: string
+        network_acl_no_list:
+          description: 네트워크ACL번호리스트
+          items:
+            type: string
+          type: array
+        network_acl_status_code:
+          description: 네트워크ACL상태코드
+          type: string
+        page_no:
+          description: 페이지번호
+          type: integer
+        page_size:
+          description: 페이지사이즈
+          type: integer
+        region_code:
+          description: REGION코드
+          type: string
+        vpc_no:
+          description: VPC번호
+          type: string
+      type: object
+    network_acl_list:
+      properties:
+        network_acl_list:
+          items:
+            $ref: '#/components/schemas/network_acl'
+          type: array
+        return_code:
+          type: string
+        return_message:
+          type: string
+        total_rows:
+          type: integer
+      type: object
+    network_acl:
+      properties:
+        create_date:
+          description: 생성일시
+          type: string
+        is_default:
+          description: Default여부
+          type: boolean
+        network_acl_description:
+          description: 네트워크ACL설명
+          type: string
+        network_acl_name:
+          description: 네트워크ACL이름
+          type: string
+        network_acl_no:
+          description: 네트워크ACL번호
+          type: string
+        network_acl_status:
+          $ref: '#/components/schemas/common_code'
+          description: 네트워크ACL상태
+        vpc_no:
+          description: VPC번호
+          type: string
+      type: object
+
+    
 
 
 ### DB: SaaS Object
