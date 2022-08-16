@@ -2478,6 +2478,141 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError'
+  '/{portal}/broker/{vendor}/service/vserver/acgs':
+    post:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 ACG 생성 #PostBrokerNcpVserverCreateACG"
+      description: "- 네이버 클라우드에 ACG를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpVserverCreateACG
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ncp_vserver_create_acg_request'
+      responses:
+        '201':
+          description: 'ACG 생성 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/access_control_group'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 ACG List 조회 #GetBrokerNcpVserverGetAcgList"
+      description: "- 네이버 클라우드에 ACG List를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpVserverGetAcgList
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+            ## quer params 추가해야함
+        - in: query
+          name: conditionalGetAcgList
+          schema:
+            type: string
+            example: 'q=access_control_group_name%3Dval,access_control_group_status_code%3Dval,vpc_no%3Dval'
+            description: '쿼리 조회 시 쿼리 조건 자유롭게 사용가능'
+      responses:
+        '200':
+          description: 'ACG List 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/access_control_group_list' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
+  '/{portal}/broker/{vendor}/service/vserver/acgs/{vpc_no}/{acg_no}':
+    delete:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 ACG 삭제 요청 #DeleteBrokerNcpVserverDeleteAcg"
+      description: "- 네이버 클라우드에 Nacl를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: DeleteBrokerNcpVserverDeleteAcg
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: vpc_no
+          required: true
+          schema:
+            type: string
+            example: 'VPC 번호'
+        - in: path
+          name: acg_no 
+          required: true
+          schema:
+            type: string
+            example: 'ACG 번호'
+      responses:
+        '200':
+          description: 'ACG 삭제 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/access_control_group'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+
+
+
+
 
 
 components:
@@ -3461,7 +3596,99 @@ components:
           description: VPC번호
           type: string
       type: object
-
+    ncp_vserver_create_acg_request:
+      properties:
+        access_control_group_description:
+          description: ACG설명
+          type: string
+        access_control_group_name:
+          description: ACG이름
+          type: string
+        region_code:
+          description: REGION코드
+          type: string
+        vpc_no:
+          description: VPC번호
+          type: string
+      required:
+      - vpc_no
+      type: object
+    ncp_vserver_delete_acg_request:
+      properties:
+        access_control_group_no:
+          description: ACG번호
+          type: string
+        region_code:
+          description: REGION코드
+          type: string
+        vpc_no:
+          description: VPC번호
+          type: string
+      required:
+      - access_control_group_no
+      - vpc_no
+      type: object
+    ncp_vserver_get_acg_list_request:
+      properties:
+        access_control_group_name:
+          description: ACG이름
+          type: string
+        access_control_group_no_list:
+          description: ACG번호리스트
+          items:
+            type: string
+          type: array
+        access_control_group_status_code:
+          description: ACG상태코드
+          type: string
+        page_no:
+          description: 페이지번호
+          type: integer
+        page_size:
+          description: 페이지사이즈
+          type: integer
+        region_code:
+          description: REGION코드
+          type: string
+        vpc_no:
+          description: VPC번호
+          type: string
+      type: object
+    access_control_group:
+      properties:
+        access_control_group_description:
+          description: ACG설명
+          type: string
+        access_control_group_name:
+          description: ACG이름
+          type: string
+        access_control_group_no:
+          description: ACG번호
+          type: string
+        access_control_group_status:
+          $ref: '#/components/schemas/common_code'
+          description: ACG상태
+        is_default:
+          description: Default여부
+          type: boolean
+        vpc_no:
+          description: VPC번호
+          type: string
+      type: object
+    access_control_group_list:
+      properties:
+        access_control_group_list:
+          items:
+            $ref: '#/components/schemas/access_control_group'
+          type: array
+        return_code:
+          type: string
+        return_message:
+          type: string
+        total_rows:
+          type: integer
+      type: object
+    
     
 
 
