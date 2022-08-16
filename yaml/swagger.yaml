@@ -2144,14 +2144,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NcpVpcCreateVpcRequest'
+              $ref: '#/components/schemas/ncp_vpc_create_vpc_request'
       responses:
         '201':
           description: 'VPC 생성 완료'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NcpVpcCreateVpcResponse' 
+                $ref: '#/components/schemas/ncp_vpc_create_vpc_response' 
         '400':
           $ref: '#/components/responses/badRequest'
         '500':
@@ -2186,7 +2186,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/VpcList' 
+                $ref: '#/components/schemas/vpc_list' 
         '400':
           $ref: '#/components/responses/badRequest'
         '500':
@@ -2259,14 +2259,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NcpVpcCreateSubnetRequest'
+              $ref: '#/components/schemas/ncp_vpc_create_subnet_request'
       responses:
         '201':
           description: 'Subnet 생성 완료'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Subnet' 
+                $ref: '#/components/schemas/subnet' 
         '400':
           $ref: '#/components/responses/badRequest'
         '500':
@@ -2308,7 +2308,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SubnetList' 
+                $ref: '#/components/schemas/subnet_list' 
         '400':
           $ref: '#/components/responses/badRequest'
         '500':
@@ -3024,215 +3024,215 @@ components:
 
 
 ### Cloud 연동 오브젝트
-    CommonCode:
+    common_code:
       description: 'https://api.ncloud-docs.com/docs/common-vapidatatype-commoncode'
       properties:
         code:
           description: 코드
           type: string
-        codeName:
+        code_name:
           description: 코드명
           type: string
       type: object
-    CloudPostgresqlInstance:
+    cloud_postgresql_instance:
       properties:
-        backupFileRetentionPeriod:
+        backup_file_retention_period:
           type: integer
-        backupTime:
+        backup_time:
           type: string
-        cloudPostgresqlImageProductCode:
+        cloud_postgresql_image_product_code:
           type: string
-        cloudPostgresqlInstanceNo:
+        cloud_postgresql_instance_no:
           type: string
-        cloudPostgresqlInstanceOperation:
-          $ref: '#/components/schemas/CommonCode'
-        cloudPostgresqlInstanceStatus:
-          $ref: '#/components/schemas/CommonCode'
-        cloudPostgresqlInstanceStatusName:
+        cloud_postgresql_instance_operation:
+          $ref: '#/components/schemas/common_code'
+        cloud_postgresql_instance_status:
+          $ref: '#/components/schemas/common_code'
+        cloud_postgresql_instance_status_name:
           type: string
-        cloudPostgresqlPort:
+        cloud_postgresql_port:
           type: integer
-        cloudPostgresqlServiceName:
+        cloud_postgresql_service_name:
           type: string
-        engineVersion:
+        engine_version:
           type: string
-        isBackup:
+        is_backup:
           type: boolean
-        isHa:
+        is_ha:
           type: boolean
-        isMultiZone:
+        is_multi_zone:
           type: boolean
         license:
           type: string
       type: object
-    CloudPostgresqlInstanceList:
+    cloud_postgresql_instance_list:
       properties:
-        cloudPostgresqlInstanceList:
+        cloud_postgresql_instance_list:
           items:
-            $ref: '#/components/schemas/CloudPostgresqlInstance'
+            $ref: '#/components/schemas/cloud_postgresql_instance'
           type: array
-        returnCode:
+        return_code:
           type: string
-        returnMessage:
+        return_message:
           type: string
-        totalRows:
-          description: RequestId     string `json:"requestId,omitempty"`
+        total_rows:
+          description: request_id     string `json:"request_id,omitempty"`
           type: integer
       type: object
-    NcpVpcCreateVpcRequest:
+    ncp_vpc_create_vpc_request:
       properties:
-        ipv4CidrBlock:
+        ipv4_cidr_block:
           type: string
-        vpcName:
+        vpc_name:
           type: string
       required:
-      - ipv4CidrBlock
-      - vpcName
+      - ipv4_cidr_block
+      - vpc_name
       type: object
-    NcpVpcCreateVpcResponse:
+    ncp_vpc_create_vpc_response:
       properties:
-        createDate:
+        create_date:
           description: 생성일시
           type: string
-        ipv4CidrBlock:
+        ipv4_cidr_block:
           description: IPv4 CIDR블록
           type: string
-        regionCode:
+        region_code:
           description: REGION코드
           type: string
-        vpcName:
+        vpc_name:
           description: VPC이름
           type: string
-        vpcNo:
+        vpc_no:
           description: VPC번호
           type: string
-        vpcStatus:
-          $ref: '#/components/schemas/CommonCode'
+        vpc_status:
+          $ref: '#/components/schemas/common_code'
           description: VPC상태
       type: object
-    NcpVpcCreateSubnetRequest:
+    ncp_vpc_create_subnet_request:
       properties:
-        networkAclNo:
+        network_acl_no:
           description: 네트워크ACL번호
           type: string
-        regionCode:
+        region_code:
           description: REGION코드
           type: string
         subnet:
           description: 서브넷
           type: string
-        subnetName:
+        subnet_name:
           description: 서브넷이름
           type: string
-        subnetTypeCode:
-          description: '서브넷유형코드  (Options : PUBLIC (Internet Gateway 전용 Y) | PRIVATE
-            (Internet Gateway 전용 N))'
+        subnet_type_code:
+          description: '서브넷유형코드  (options : public (internet gateway 전용 y) | private
+            (internet gateway 전용 n))'
           type: string
-        vpcNo:
-          description: VPC번호
+        vpc_no:
+          description: vpc번호
           type: string
-        zoneCode:
-          description: ZONE코드
+        zone_code:
+          description: zone코드
           type: string
       required:
-      - networkAclNo
+      - network_acl_no
       - subnet
-      - subnetTypeCode
-      - vpcNo
-      - zoneCode
+      - subnet_type_code
+      - vpc_no
+      - zone_code
       type: object
-    NcpVpcGetSubnetListRequest:
+    ncp_vpc_get_subnet_list_request:
       properties:
-        networkAclNo:
+        network_acl_no:
           type: string
         subnet:
           type: string
-        subnetName:
+        subnet_name:
           type: string
-        subnetStatusCode:
+        subnet_status_code:
           type: string
-        vpcNo:
+        vpc_no:
           type: string
       type: object
-    VpcList:
+    vpc_list:
       properties:
-        returnCode:
+        return_code:
           type: string
-        returnMessage:
+        return_message:
           type: string
-        totalRows:
+        total_rows:
           type: integer
-        vpcList:
+        vpc_list:
           items:
-            $ref: '#/components/schemas/Vpc'
+            $ref: '#/components/schemas/vpc'
           type: array
       type: object
-    Vpc:
+    vpc:
       properties:
-        createDate:
+        create_date:
           description: 생성일시
           type: string
-        ipv4CidrBlock:
-          description: IPv4 CIDR블록
+        ipv4_cidr_block:
+          description: ipv4 cidr블록
           type: string
-        regionCode:
-          description: REGION코드
+        region_code:
+          description: region코드
           type: string
-        vpcName:
-          description: VPC이름
+        vpc_name:
+          description: vpc이름
           type: string
-        vpcNo:
-          description: VPC번호
+        vpc_no:
+          description: vpc번호
           type: string
-        vpcStatus:
-          $ref: '#/components/schemas/CommonCode'
-          description: VPC상태
+        vpc_status:
+          $ref: '#/components/schemas/common_code'
+          description: vpc상태
       type: object
-    Subnet:
+    subnet:
       properties:
-        createDate:
+        create_date:
           description: 생성일시
           type: string
-        networkAclNo:
-          description: 네트워크ACL번호
+        network_acl_no:
+          description: 네트워크acl번호
           type: string
         subnet:
           description: 서브넷
           type: string
-        subnetName:
+        subnet_name:
           description: 서브넷이름
           type: string
-        subnetNo:
+        subnet_no:
           description: 서브넷번호
           type: string
-        subnetStatus:
-          $ref: '#/components/schemas/CommonCode'
+        subnet_status:
+          $ref: '#/components/schemas/common_code'
           description: 서브넷상태
-        subnetType:
-          $ref: '#/components/schemas/CommonCode'
+        subnet_type:
+          $ref: '#/components/schemas/common_code'
           description: 서브넷유형
-        usageType:
-          $ref: '#/components/schemas/CommonCode'
+        usage_type:
+          $ref: '#/components/schemas/common_code'
           description: 용도유형
-        vpcNo:
-          description: VPC번호
+        vpc_no:
+          description: vpc번호
           type: string
-        zoneCode:
-          description: ZONE코드
+        zone_code:
+          description: zone코드
           type: string
       type: object
-    SubnetList:
+    subnet_list:
       properties:
-        returnCode:
-          description: RequestId     string `json:"requestId,omitempty"`
+        return_code:
+          description: requestid     string `json:"requestid,omitempty"`
           type: string
-        returnMessage:
+        return_message:
           type: string
-        subnetList:
+        subnet_list:
           items:
-            $ref: '#/components/schemas/Subnet'
+            $ref: '#/components/schemas/subnet'
           type: array
-        totalRows:
+        total_rows:
           type: integer
       type: object
     post_ncp_psql_database:
