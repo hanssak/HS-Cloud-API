@@ -2075,7 +2075,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/post_ncp_psql_database'
+              $ref: '#/components/schemas/ncp_psql_create_database'
       responses:
         '201':
           description: 'DB 생성 완료'
@@ -3495,7 +3495,7 @@ components:
         total_rows:
           type: integer
       type: object
-    post_ncp_psql_database:
+    ncp_psql_create_database:
       type: object
       properties:
         database_name:
@@ -3688,6 +3688,11 @@ components:
         total_rows:
           type: integer
       type: object
+    
+    
+    
+    
+    
     
     
 
