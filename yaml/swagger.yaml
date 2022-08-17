@@ -2609,11 +2609,131 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError'
-
-
-
-
-
+  '/{portal}/broker/{vendor}/service/vserver/network-interfaces':
+    post:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 NIC 생성 #PostBrokerNcpVserverNetworkInterface"
+      description: "- 네이버 클라우드에 NIC인터페이스를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpVserverNetworkInterface
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ncp_vserver_create_nic_request'
+      responses:
+        '201':
+          description: ' 생성 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/network_interface'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 NIC List 조회 #GetBrokerNcpVserverNetworkInterfaceList"
+      description: "- 네이버 클라우드에 NIC List를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpVserverNetworkInterfaceList
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+            ## quer params 추가해야함
+        - in: query
+          name: conditionalGetNicList
+          schema:
+            type: string
+            example: 'q=ip%3Dval,instance_no%3Dval,subnet_name%3Dval,server_name%3Dval'
+            description: '쿼리 조회 시 쿼리 조건 자유롭게 사용가능'
+      responses:
+        '200':
+          description: 'NetworkInterface List 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/network_interface_list' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
+  '/{portal}/broker/{vendor}/service/vserver/network-interfaces/{name}':
+    delete:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 NIC 삭제 요청 #DeleteBrokerNcpVserverNetworkInterface"
+      description: "- 네이버 클라우드에 NIC를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: DeleteBrokerNcpVserverNetworkInterface
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: name 
+          required: true
+          schema:
+            type: string
+            example: 'NetworkInterface 일련번호'
+      responses:
+        '200':
+          description: 'NetworkInterface 삭제 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/network_interface'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
 
 components:
   # --> 보안 스키마 정의 
@@ -3688,7 +3808,158 @@ components:
         total_rows:
           type: integer
       type: object
-    
+    ncp_vserver_create_nic_request:
+      properties:
+        access_control_group_no_list:
+          description: ACG번호리스트
+          items:
+            type: string
+          type: array
+        ip:
+          description: IP주소
+          type: string
+        network_interface_description:
+          description: 네트워크인터페이스설명
+          type: string
+        network_interface_name:
+          description: 네트워크인터페이스이름
+          type: string
+        region_code:
+          description: REGION코드
+          type: string
+        secondary_ip_count:
+          description: 보조IP자동할당개수
+          type: integer
+        secondary_ip_list:
+          description: 보조IP리스트
+          items:
+            type: string
+          type: array
+        server_instance_no:
+          description: 서버인스턴스번호
+          type: string
+        subnet_no:
+          description: 서브넷번호
+          type: string
+        vpc_no:
+          description: VPC번호
+          type: string
+      required:
+      - access_control_group_no_list
+      - subnet_no
+      - vpc_no
+      type: object
+    ncp_vserver_delete_nic_request:
+      properties:
+        network_interface_no:
+          description: 네트워크인터페이스번호
+          type: string
+        region_code:
+          description: REGION코드
+          type: string
+      type: object
+    ncp_vserver_get_nic_list_request:
+      properties:
+        device_name:
+          description: 디바이스이름
+          type: string
+        instance_no:
+          description: 인스턴스번호
+          type: string
+        ip:
+          description: IP주소
+          type: string
+        is_default:
+          description: Default여부
+          type: boolean
+        network_interface_name:
+          description: 네트워크인터페이스이름
+          type: string
+        network_interface_no_list:
+          description: 네트워크인터페이스번호리스트
+          items:
+            type: string
+          type: array
+        page_no:
+          description: 페이지번호
+          type: integer
+        page_size:
+          description: 페이지사이즈
+          type: integer
+        region_code:
+          description: REGION코드
+          type: string
+        secondary_ip_list:
+          description: 보조IP리스트
+          items:
+            type: string
+          type: array
+        server_name:
+          description: 서버이름
+          type: string
+        subnet_name:
+          description: 서브넷이름
+          type: string
+      type: object
+    network_interface:
+      properties:
+        access_control_group_no_list:
+          description: ACG번호리스트
+          items:
+            type: string
+          type: array
+        delete_on_termination:
+          description: 디바이스반납시자동반납여부
+          type: boolean
+        device_name:
+          description: 디바이스이름
+          type: string
+        instance_no:
+          description: 인스턴스번호
+          type: string
+        instance_type:
+          $ref: '#/components/schemas/common_code'
+          description: 인스턴스유형
+        ip:
+          description: IP주소
+          type: string
+        is_default:
+          description: Default여부
+          type: boolean
+        network_interface_description:
+          description: 네트워크인터페이스설명
+          type: string
+        network_interface_name:
+          description: 네트워크인터페이스이름
+          type: string
+        network_interface_no:
+          description: 네트워크인터페이스번호
+          type: string
+        network_interface_status:
+          $ref: '#/components/schemas/common_code'
+          description: 네트워크인터페이스상태
+        secondary_ip_list:
+          description: 보조IP리스트
+          items:
+            type: string
+          type: array
+        subnet_no:
+          description: 서브넷번호
+          type: string
+      type: object
+    network_interface_list:
+      properties:
+        network_interface_list:
+          items:
+            $ref: '#/components/schemas/network_interface'
+          type: array
+        return_code:
+          type: string
+        return_message:
+          type: string
+        total_rows:
+          type: integer
+      type: object    
     
     
     
