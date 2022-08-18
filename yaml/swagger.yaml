@@ -2734,6 +2734,169 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError'
+  '/{portal}/broker/{vendor}/service/vserver/login-keys':
+    post:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoginKey 생성 #PostBrokerNcpVserverLoginKey"
+      description: "- 네이버 클라우드에 LoginKey를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpVserverLoginKey
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ncp_vserver_create_login_key_request'
+      responses:
+        '201':
+          description: ' 생성 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_key'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoginKey List 조회 #GetBrokerNcpVserverLoginKeyList"
+      description: "- 네이버 클라우드에 LoginKey List를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpVserverLoginKeyList
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      responses:
+        '200':
+          description: 'LoginKey List 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_key_list' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
+  '/{portal}/broker/{vendor}/service/vserver/login-keys/{name}':
+    delete:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoginKey 삭제 요청 #DeleteBrokerNcpVserverLoginKey"
+      description: "- 네이버 클라우드에 LoginKey를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: DeleteBrokerNcpVserverLoginKey
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: name 
+          required: true
+          schema:
+            type: string
+            description: 'Key 이름'
+            example: 'Key Name (생성할때 기업되는 이름)'
+      responses:
+        '200':
+          description: 'LoginKey 삭제 완료'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoginKey (단일)조회 #GetBrokerNcpVserverLoginKey"
+      description: "- 네이버 클라우드에 LoginKey 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpVserverLoginKey
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: name 
+          required: true
+          schema:
+            type: string
+            description: 'Key 이름'
+            example: 'Key Name (생성할때 기업되는 이름)'
+      responses:
+        '200':
+          description: 'LoginKey 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/login_key' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
+
+
+
+
+
+
 
 components:
   # --> 보안 스키마 정의 
@@ -2783,8 +2946,6 @@ components:
           schema:
             $ref: '#/components/schemas/error_response'
  
-
-    
   # --> 데이터 스키마 정의
   schemas:
     error_response:
@@ -2800,7 +2961,6 @@ components:
         - status
         - code
         - message
-
 ### DB: Common Object
     base_code:
       type: object
@@ -3960,11 +4120,64 @@ components:
         total_rows:
           type: integer
       type: object    
-    
-    
-    
-    
-    
+    ncp_vserver_create_login_key_request:
+      properties:
+        key_name:
+          description: 키이름
+          type: string
+      required:
+      - key_name
+      type: object
+    ncp_vserver_delete_login_key_request:
+      properties:
+        key_name:
+          description: 키이름
+          type: string
+      required:
+      - key_name
+      type: object
+    ncp_vserver_get_login_key_list_request:
+      properties:
+        key_name:
+          description: 키이름
+          type: string
+      required:
+      - key_name
+      type: object
+    login_key:
+      properties:
+        create_date:
+          description: 생성일시
+          type: string
+        fingerprint:
+          description: 핑거프린트
+          type: string
+        key_name:
+          description: 키이름
+          type: string
+        private_key:
+          description: 비밀키
+          type: string
+        public_key:
+          description: 공개키
+          type: string
+      type: object
+    login_key_list:
+      properties:
+        login_key_list:
+          items:
+            $ref: '#/components/schemas/login_key'
+          type: array
+        request_id:
+          type: string
+        return_code:
+          type: string
+        return_message:
+          type: string
+        total_rows:
+          type: integer
+      type: object
+   
     
 
 
