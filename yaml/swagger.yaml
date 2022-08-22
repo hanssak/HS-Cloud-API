@@ -4177,10 +4177,405 @@ components:
         total_rows:
           type: integer
       type: object
-   
-    
-    
-    
+    ncp_vserver_create_block_storage_instance_request:
+      properties:
+        block_storage_description:
+          description: 블록스토리지설명
+          type: string
+        block_storage_disk_detail_type_code:
+          description: 블록스토리지디스크상세유형코드
+          type: string
+        block_storage_name:
+          description: 블록스토리지이름
+          type: string
+        block_storage_size:
+          description: 블록스토리지사이즈
+          type: integer
+        block_storage_snapshot_instance_no:
+          description: 블록스토리지스냅샷인스턴스번호
+          type: string
+        is_return_protection:
+          description: 반납보호여부
+          type: boolean
+        region_code:
+          description: REGION코드
+          type: string
+        server_instance_no:
+          description: 서버인스턴스번호
+          type: string
+        zone_code:
+          description: ZONE코드
+          type: string
+      required:
+      - server_instance_no
+      type: object
+    ncp_vserver_delete_block_storage_instances_request:
+      properties:
+        block_storage_instance_no_list:
+          description: 블록스토리지인스턴스번호리스트
+          items:
+            type: string
+          type: array
+        region_code:
+          description: REGION코드
+          type: string
+      required:
+      - block_storage_instance_no_list
+      type: object
+    ncp_vserver_get_block_storage_instance_list_request:
+      properties:
+        block_storage_disk_detail_type_code:
+          description: 블록스토리지디스크상세유형코드
+          type: string
+        block_storage_disk_type_code:
+          description: 블록스토리지디스크유형코드
+          type: string
+        block_storage_instance_no_list:
+          description: 블록스토리지인스턴스번호리스트
+          items:
+            type: string
+          type: array
+        block_storage_instance_status_code:
+          description: 블록스토리지인스턴스상태코드
+          type: string
+        block_storage_name:
+          description: 블록스토리지이름
+          type: string
+        block_storage_size:
+          description: 블록스토리지사이즈
+          type: integer
+        block_storage_type_code_list:
+          description: 블록스토리지유형코드리스트
+          items:
+            type: string
+          type: array
+        connection_info:
+          description: 연결정보
+          type: string
+        page_no:
+          description: 페이지번호
+          type: integer
+        page_size:
+          description: 페이지사이즈
+          type: integer
+        region_code:
+          description: REGION코드
+          type: string
+        server_instance_no:
+          description: 서버인스턴스번호
+          type: string
+        server_name:
+          description: 서버이름
+          type: string
+      type: object
+    block_storage_instance_list:
+      properties:
+        block_storage_instance_list:
+          items:
+            $ref: '#/components/schemas/block_storage_instance'
+          type: array
+        total_rows:
+          type: integer
+      type: object
+    block_storage_instance:
+      properties:
+        block_storage_description:
+          description: 블록스토리지설명
+          type: string
+        block_storage_disk_detail_type:
+          $ref: '#/components/schemas/common_code'
+          description: 블록스토리지디스크상세유형
+        block_storage_disk_type:
+          $ref: '#/components/schemas/common_code'
+          description: 블록스토리지디스크유형
+        block_storage_instance_no:
+          description: 블록스토리지인스턴스번호
+          type: string
+        block_storage_instance_operation:
+          $ref: '#/components/schemas/common_code'
+          description: 블록스토리지인스턴스OP
+        block_storage_instance_status:
+          $ref: '#/components/schemas/common_code'
+          description: 블록스토리지인스턴스상태
+        block_storage_instance_status_name:
+          description: 블록스토리지인스턴스상태이름
+          type: string
+        block_storage_name:
+          description: 블록스토리지이름
+          type: string
+        block_storage_product_code:
+          description: 블록스토리지상품코드
+          type: string
+        block_storage_size:
+          description: 블록스토리지사이즈
+          type: integer
+        block_storage_type:
+          $ref: '#/components/schemas/common_code'
+          description: 블록스토리지유형
+        create_date:
+          description: 생성일시
+          type: string
+        device_name:
+          description: 디바이스이름
+          type: string
+        is_encrypted_volume:
+          description: 볼륨암호화여부
+          type: boolean
+        is_return_protection:
+          description: 반납보호여부
+          type: boolean
+        max_iops_throughput:
+          description: 최대IOPS
+          type: integer
+        region_code:
+          description: REGION코드
+          type: string
+        server_instance_no:
+          description: 서버인스턴스번호
+          type: string
+        zone_code:
+          description: ZONE코드
+          type: string
+      type: object
+    ncp_vserver_create_server_instances_request:
+      properties:
+        associate_with_public_ip:
+          description: 서버생성시공인IP할당여부
+          type: boolean
+        fee_system_type_code:
+          description: 요금제유형코드
+          type: string
+        init_script_no:
+          description: 초기화스크립트번호
+          type: string
+        is_encrypted_base_block_storage_volume:
+          description: 기본블록스토리지볼륨암호화여부
+          type: boolean
+        is_protect_server_termination:
+          description: 반납보호여부
+          type: boolean
+        login_key_name:
+          description: 로그인키이름
+          type: string
+        member_server_image_instance_no:
+          description: 회원서버이미지인스턴스번호
+          type: string
+        network_interface_list:
+          description: 네트워크인터페이스리스트
+          items:
+            $ref: '#/components/schemas/network_interface_parameter'
+          type: array
+        placement_group_no:
+          description: 물리배치그룹번호
+          type: string
+        region_code:
+          description: REGION코드
+          type: string
+        server_create_count:
+          description: 서버생성개수
+          type: integer
+        server_create_start_no:
+          description: 서버생성시작번호
+          type: integer
+        server_description:
+          description: 서버설명
+          type: string
+        server_image_product_code:
+          description: 서버이미지상품코드
+          type: string
+        server_name:
+          description: 서버이름
+          type: string
+        server_product_code:
+          description: 서버상품코드
+          type: string
+        subnet_no:
+          description: 서브넷번호
+          type: string
+        vpc_no:
+          description: VPC번호
+          type: string
+      required:
+      - network_interface_list
+      - subnet_no
+      - vpc_no
+      type: object
+    ncp_vserver_delete_server_instances_request:
+      properties:
+        region_code:
+          description: REGION코드
+          type: string
+        server_instance_no_list:
+          description: 서버인스턴스번호리스트
+          items:
+            type: string
+          type: array
+      required:
+      - server_instance_no_list
+      type: object
+    ncp_vserver_get_server_instance_list_request:
+      properties:
+        base_block_storage_disk_detail_type_code:
+          description: 기본블록스토리지디스크상세유형코드
+          type: string
+        base_block_storage_disk_type_code:
+          description: 기본블록스토리지디스크유형코드
+          type: string
+        ip:
+          description: IP주소
+          type: string
+        page_no:
+          description: 페이지번호
+          type: integer
+        page_size:
+          description: 페이지사이즈
+          type: integer
+        placement_group_no_list:
+          description: 물리배치그룹번호리스트
+          items:
+            type: string
+          type: array
+        region_code:
+          description: REGION코드
+          type: string
+        server_instance_no_list:
+          description: 서버인스턴스번호리스트
+          items:
+            type: string
+          type: array
+        server_instance_status_code:
+          description: 서버인스턴스상태코드
+          type: string
+        server_name:
+          description: 서버인스턴스이름
+          type: string
+        sorted_by:
+          description: 정렬대상
+          type: string
+        sorting_order:
+          description: 정렬순서
+          type: string
+        vpc_no:
+          description: VPC번호
+          type: string
+      type: object
+    network_interface_parameter:
+      properties:
+        access_control_group_no_list:
+          description: ACG번호리스트
+          items:
+            type: string
+          type: array
+        ip:
+          description: IP주소
+          type: string
+        network_interface_no:
+          description: 네트워크인터페이스번호
+          type: string
+        network_interface_order:
+          description: 네트워크인터페이스순서
+          type: integer
+        subnet_no:
+          description: 서브넷번호
+          type: string
+      required:
+      - network_interface_order
+      type: object
+    server_instances_list:
+      properties:
+        server_instance_list:
+          items:
+            $ref: '#/components/schemas/server_instance'
+          type: array
+        total_rows:
+          type: integer
+      type: object
+    server_instance:
+      properties:
+        base_block_storage_disk_detail_type:
+          $ref: '#/components/schemas/common_code'
+          description: 기본블록스토리지디스크상세유형
+        base_block_storage_disk_type:
+          $ref: '#/components/schemas/common_code'
+          description: 기본블록스토리지디스크유형
+        cpu_count:
+          description: CPU개수
+          type: integer
+        create_date:
+          description: 생성일시
+          type: string
+        init_script_no:
+          description: 초기화스크립트번호
+          type: string
+        is_protect_server_termination:
+          description: 서버반납보호설정여부
+          type: boolean
+        login_key_name:
+          description: 로그인키이름
+          type: string
+        memory_size:
+          description: 메모리사이즈
+          type: integer
+        network_interface_no_list:
+          description: 네트워크인터페이스번호리스트
+          items:
+            type: string
+          type: array
+        placement_group_no:
+          description: 물리배치그룹번호
+          type: string
+        platform_type:
+          $ref: '#/components/schemas/common_code'
+          description: 플랫폼유형
+        public_ip:
+          description: 공인IP주소
+          type: string
+        public_ip_instance_no:
+          description: 공인IP인스턴스번호
+          type: string
+        region_code:
+          description: REGION코드
+          type: string
+        server_description:
+          description: 서버설명
+          type: string
+        server_image_product_code:
+          description: 서버이미지상품코드
+          type: string
+        server_instance_no:
+          description: 서버인스턴스번호
+          type: string
+        server_instance_operation:
+          $ref: '#/components/schemas/common_code'
+          description: 서버인스턴스OP
+        server_instance_status:
+          $ref: '#/components/schemas/common_code'
+          description: 서버인스턴스상태
+        server_instance_status_name:
+          description: 서버인스턴스상태이름
+          type: string
+        server_instance_type:
+          $ref: '#/components/schemas/common_code'
+          description: 서버인스턴스유형
+        server_name:
+          description: 서버이름
+          type: string
+        server_product_code:
+          description: 서버상품코드
+          type: string
+        subnet_no:
+          description: 서브넷번호
+          type: string
+        uptime:
+          description: 업시간
+          type: string
+        vpc_no:
+          description: VPC번호
+          type: string
+        zone_code:
+          description: ZONE코드
+          type: string
+      type: object
 
 
 ### DB: SaaS Object
