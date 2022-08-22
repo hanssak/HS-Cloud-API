@@ -2891,6 +2891,293 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError' 
+  '/{portal}/broker/{vendor}/service/vserver/servers':
+    post:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 Server 생성 #PostBrokerNcpVserverServers"
+      description: "- 네이버 클라우드에 Server를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpVserverServers
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ncp_vserver_create_server_instances_request'
+      responses:
+        '201':
+          description: ' 생성 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/server_instances_list'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 Server List 조회 #GetBrokerNcpVserverServerList"
+      description: "- 네이버 클라우드에 Server List를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpVserverServerList
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      responses:
+        '200':
+          description: 'Server List 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/server_instances_list' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
+  '/{portal}/broker/{vendor}/service/vserver/servers/{name}':
+    delete:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 Server 삭제 요청 #DeleteBrokerNcpVserverServer"
+      description: "- 네이버 클라우드에 Server를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: DeleteBrokerNcpVserverServer
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: name 
+          required: true
+          schema:
+            type: string
+            description: '서버 인스턴스 번호'
+            example: '서버 인스턴스 번호'
+      responses:
+        '200':
+          description: 'Server 삭제 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/server_instance'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 Server (단일)조회 #GetBrokerNcpVserverServer"
+      description: "- 네이버 클라우드에 Server 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpVserverServer
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: name 
+          required: true
+          schema:
+            type: string
+            description: '서버 이름'
+            example: '서버 이름'
+      responses:
+        '200':
+          description: 'Server 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/server_instance' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
+  '/{portal}/broker/{vendor}/service/vserver/storages':
+    post:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 Storage 생성 #PostBrokerNcpVserverStorage"
+      description: "- 네이버 클라우드에 Storage를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpVserverStorage
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ncp_vserver_create_block_storage_instance_request'
+      responses:
+        '201':
+          description: ' 생성 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/block_storage_instance'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 Storage 조회 #GetBrokerNcpVserverStorages"
+      description: "- 네이버 클라우드에 Storage List를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpVserverStorages
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+            ## quer params 추가해야함
+        - in: query
+          name: conditionalGetStorage
+          schema:
+            type: string
+            example: 'q=server_instance_no%3Dval,server_name%3Dval,block_storage_name%3Dval'
+            description: '쿼리 조회 시 쿼리 조건 자유롭게 사용가능'
+      responses:
+        '200':
+          description: 'Storage List 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/block_storage_instance_list' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
+  '/{portal}/broker/{vendor}/service/vserver/storages/{no}':
+    delete:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 Storage 삭제 요청 #DeleteBrokerNcpVserverStorage"
+      description: "- 네이버 클라우드에 Storage를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: DeleteBrokerNcpVserverStorage
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: no
+          required: true
+          schema:
+            type: string
+            example: 'Storage 일련번호'
+      responses:
+        '200':
+          description: 'Storage 삭제 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/block_storage_instance'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+
 
 
 
