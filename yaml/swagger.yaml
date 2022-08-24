@@ -2119,9 +2119,9 @@ paths:
     post:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 VPC 생성 #PostBrokerNcpCreateVpc"
+      summary: "2.1.1 VPC 생성 #PostBrokerNcpVpcVpc"
       description: "- 네이버 클라우드에 VPC를 생성합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.)  내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: PostBrokerNcpCreateVpc
+      operationId: PostBrokerNcpVpcVpc
       security:
         - bearerAuth: []
       parameters:
@@ -2159,9 +2159,9 @@ paths:
     get:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 VPC List 조회 #GetBrokerNcpVpcGetVpcList"
+      summary: "2.1.1 VPC List 조회 #GetBrokerNcpVpcVpcList"
       description: "- 네이버 클라우드에 VPC를 조회합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.) \n 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: GetBrokerNcpVpcGetVpcList
+      operationId: GetBrokerNcpVpcVpcList
       security:
         - bearerAuth: []
       parameters:
@@ -2195,9 +2195,9 @@ paths:
     delete:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 VPC 삭제 요청 #DeleteBrokerNcpVpcDeleteVpc"
+      summary: "2.1.1 VPC 삭제 요청 #DeleteBrokerNcpVpcVpc"
       description: "- 네이버 클라우드에 VPC를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: DeleteBrokerNcpVpcDeleteVpc
+      operationId: DeleteBrokerNcpVpcVpc
       security:
         - bearerAuth: []
       parameters:
@@ -2234,9 +2234,9 @@ paths:
     post:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 Subnet 생성 #PostBrokerNcpCreateSubnet"
+      summary: "2.1.1 Subnet 생성 #PostBrokerNcpVpcSubnet"
       description: "- 네이버 클라우드에 Subnet를 생성합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.)  내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: PostBrokerNcpCreateSubnet
+      operationId: PostBrokerNcpVpcSubnet
       security:
         - bearerAuth: []
       parameters:
@@ -2274,9 +2274,9 @@ paths:
     get:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 Subnet List 조회 #GetBrokerNcpVpcGetSubnetList"
+      summary: "2.1.1 Subnet List 조회 #GetBrokerNcpVpcSubnetList"
       description: "- 네이버 클라우드에 Subnet를 조회합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.) \n 내부 서비스간 통신만 허용하는 API입니다.  참고: https://api.ncloud-docs.com/docs/networking-vpc-subnetmanagement-getsubnetlist"
-      operationId: GetBrokerNcpVpcGetSubnetList
+      operationId: GetBrokerNcpVpcSubnetList
       security:
         - bearerAuth: []
       parameters:
@@ -2317,9 +2317,9 @@ paths:
     delete:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 Subnet 삭제 요청 #DeleteBrokerNcpVpcDeleteSubnet"
+      summary: "2.1.1 Subnet 삭제 요청 #DeleteBrokerNcpVpcSubnet"
       description: "- 네이버 클라우드에 Subnet를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: DeleteBrokerNcpVpcDeleteSubnet
+      operationId: DeleteBrokerNcpVpcSubnet
       security:
         - bearerAuth: []
       parameters:
@@ -2357,9 +2357,9 @@ paths:
     post:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 NACL 생성 #PostBrokerNcpCreateNacl"
+      summary: "2.1.1 NACL 생성 #PostBrokerNcpVpcNacl"
       description: "- 네이버 클라우드에 NACL를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: PostBrokerNcpCreateNacl
+      operationId: PostBrokerNcpVpcNacl
       security:
         - bearerAuth: []
       parameters:
@@ -2397,9 +2397,9 @@ paths:
     get:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 NACL List 조회 #GetBrokerNcpVpcGetNaclList"
+      summary: "2.1.1 NACL List 조회 #GetBrokerNcpVpcNaclList"
       description: "- 네이버 클라우드에 NetworkAclList를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
-      operationId: GetBrokerNcpVpcGetNaclList
+      operationId: GetBrokerNcpVpcNaclList
       security:
         - bearerAuth: []
       parameters:
@@ -2440,9 +2440,9 @@ paths:
     delete:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 NACL 삭제 요청 #DeleteBrokerNcpVpcDeleteNacl"
+      summary: "2.1.1 NACL 삭제 요청 #DeleteBrokerNcpVpcNacl"
       description: "- 네이버 클라우드에 Nacl를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: DeleteBrokerNcpVpcDeleteNacl
+      operationId: DeleteBrokerNcpVpcNacl
       security:
         - bearerAuth: []
       parameters:
@@ -2482,9 +2482,9 @@ paths:
     post:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 ACG 생성 #PostBrokerNcpVserverCreateACG"
+      summary: "2.1.1 ACG 생성 #PostBrokerNcpVserverACG"
       description: "- 네이버 클라우드에 ACG를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: PostBrokerNcpVserverCreateACG
+      operationId: PostBrokerNcpVserverACG
       security:
         - bearerAuth: []
       parameters:
@@ -2522,9 +2522,9 @@ paths:
     get:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 ACG List 조회 #GetBrokerNcpVserverGetAcgList"
+      summary: "2.1.1 ACG List 조회 #GetBrokerNcpVserverAcgList"
       description: "- 네이버 클라우드에 ACG List를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
-      operationId: GetBrokerNcpVserverGetAcgList
+      operationId: GetBrokerNcpVserverAcgList
       security:
         - bearerAuth: []
       parameters:
@@ -2565,9 +2565,9 @@ paths:
     delete:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 ACG 삭제 요청 #DeleteBrokerNcpVserverDeleteAcg"
+      summary: "2.1.1 ACG 삭제 요청 #DeleteBrokerNcpVserverAcg"
       description: "- 네이버 클라우드에 Nacl를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: DeleteBrokerNcpVserverDeleteAcg
+      operationId: DeleteBrokerNcpVserverAcg
       security:
         - bearerAuth: []
       parameters:
