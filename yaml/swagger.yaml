@@ -1282,12 +1282,11 @@ paths:
                     type: array
                     items:
                       type: object
-  
   '/{portal}/meta/product/create':
     post:
       tags: 
         - '99. 개발중'
-      summary: '2.1.1 SaaS 신청 (4.생성시작): SaaS 생성 시작 명령 #PostMetaProductCreate'
+      summary: '2.1.1 SaaS 신청 (4.생성시작): SaaS 생성 시작 및 메타데이터 등록 #PostMetaProductCreate'
       description: '\- 서비스포털 -> API Gateway -> MetadataManager <br> (Operation) 주문이력을 기준으로 제품생성을 시작 명령 : 테넌트 ID, 제품 리스트 SEQ 필요'
       operationId: PostMetaProductCreate
       security:
@@ -1323,40 +1322,13 @@ paths:
           $ref: '#/components/responses/notFound'
         '409':
           $ref: '#/components/responses/conflict'
-
-### Terraform 연동 시 작성 예정
-  '/build/tf/db/apply':
+  '/{portal}/build/service/saas':
     post:
-      tags:
+      tags: 
         - '99. 개발중'
-      summary: '[작성예정] 2.1.2 SaaS 신청 (4.생성시작): SaaS 제품 생성 검토요청 #PostBuildTfDbPlan'
-      operationId: PostBuildTfDbPlan
-      responses:
-        '200':
-          description: ''
-  '/build/tf/db/plan':
-    post:
-      tags:
-        - '99. 개발중'
-      summary: '[작성예정] 2.1.2 SaaS 신청 (4.생성시작): SaaS 제품 생성요청 #PostBuildTfDbApply'
-      operationId: PostBuildTfDbApply
-      responses:
-        '200':
-          description: ''
-  '/meta/product/system':
-    put:
-      tags:
-        - '99. 개발중'
-      summary: '[작성예정] 2.1.2 SaaS 신청 (4.생성시작): SaaS 제품 시스템 상태 업데이트 요청 #PatchMetaProduct'
-      operationId: PatchMetaProduct
-      responses:
-        '200':
-          description: ''
-  '/{portal}/meta/product':
-    get:
-      tags:
-        - '99. 개발중'
-      summary: '[작성예정] 2.1.2 SaaS 신청: SaaS 상품 조회 #GetMetaProduct'
+      summary: '2.1.1 SaaS 신청 (4.생성시작): SaaS 생성 시작 명령 #PostBuildServiceSaas'
+      description: '\- Metadata-Manager => SaaS-Builder <br> (Operation) SaaS DB를 기준으로 제품생성을 클라우드에 실제 시작하는 동작을 수행합니다 : 테넌트 ID, 제품 리스트 SEQ 필요'
+      operationId: PostBuildServiceSaas
       security:
         - bearerAuth: []
       parameters:
@@ -1370,9 +1342,28 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/seq'
+              description: '제품 리스트 SEQ 삽입'
       responses:
-        '200':
-          description: ''
+        '202':
+          description: '제품 생성 요청 완료'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '404':
+          $ref: '#/components/responses/notFound'
+        '409':
+          $ref: '#/components/responses/conflict'
+
+
 
 ##### 3. 인증
   '/adm/gatekeeper/login':
@@ -3526,6 +3517,9 @@ components:
           type: string
           description: 'Subnet의 대역정보'
           example: '172.16.5.0/24'
+      required:
+        - "cloud_vpc_network_range"
+        - "cloud_subnet_network_range"
     server_instance_info:
       type: object
       properties:
@@ -3848,6 +3842,8 @@ components:
               type: integer
             step:
               type: string
+
+
 
 
 ### Cloud 연동 오브젝트
@@ -4996,7 +4992,12 @@ components:
             - "phone"
             - "ip_check"
             - "mac_check"    
-            
+    saas_system:
+      type: object
+      
+    
+    
+    
 ### Commen Properties Object 
     id:
       type: object
