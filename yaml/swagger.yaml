@@ -1175,6 +1175,11 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/acg'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+          
     post:
       tags: 
         - '2. 생성'
@@ -1247,7 +1252,7 @@ paths:
           name: product-list-seq
           schema: 
             type: string 
-            example: 'q=product-list%3D{ProductListSeq}'
+            example: 'q=product-list-seq%3D{ProductListSeq}'
       responses:
         '200':
           description: '주문 전체 정보'
@@ -1282,6 +1287,417 @@ paths:
                     type: array
                     items:
                       type: object
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+  '/{portal}/manage/saas-metadatas':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): Metadata 조회 #GetManageSaasMetadatas'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Metadata 조회'
+      operationId: GetManageSaasMetadatas
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: product-list-seq
+          schema: 
+            type: string 
+            example: 'q=product-list-seq%3D{ProductListSeq}'
+      responses:
+        '200':
+          description: 'Saas Metadata 정보'
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/saas_metadata'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'  
+                  
+  '/{portal}/manage/saas-groups':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): Group 조회 #GetManageSaasGroups'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Group 조회'
+      operationId: GetManageSaasGroups
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: product-list-seq
+          schema: 
+            type: string 
+            example: 'q=product-list-seq%3D{ProductListSeq}'
+        - in: query
+          name: group-id
+          schema: 
+            type: string 
+            example: 'q=group-id%3D{그룹ID}'    
+      responses:
+        '200':
+          description: 'Saas 그룹 정보'
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/saas_group'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+  '/{portal}/manage/saas-systems':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): System 조회 #GetManageSaasSystems'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas System 조회'
+      operationId: GetManageSaasSystems
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: product-list-seq
+          schema: 
+            type: string 
+            example: 'q=product-list-seq%3D{ProductListSeq}'
+        - in: query
+          name: group-id
+          schema: 
+            type: string 
+            example: 'q=group-id%3D{그룹ID}'    
+        - in: query
+          name: system-id
+          schema: 
+            type: string 
+            example: 'q=system-id%3D{시스템ID}' 
+      responses:
+        '200':
+          description: 'Saas 시스템 정보'
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/saas_system'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작ii~iii): System 갱신 #PutManageSaasSystems'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas System 갱신'
+      operationId: PutManageSaasSystems
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/saas_system'
+        required: true
+      responses:
+        '200':
+          description: 'Saas 시스템 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'
+          
+  '/{portal}/manage/saas-system-storages':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): Storage 조회 #GetManageSaasSystemStorages'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas System Storage 조회'
+      operationId: GetManageSaasSystemStorages
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: seq
+          schema: 
+            type: string
+            example: 'q=seq%3D{스토리지Seq}'    
+        - in: query
+          name: product-list-seq
+          schema: 
+            type: string 
+            example: 'q=product-list-seq%3D{ProductListSeq}'
+        - in: query
+          name: group-id
+          schema: 
+            type: string 
+            example: 'q=group-id%3D{그룹ID}'    
+        - in: query
+          name: system-id
+          schema: 
+            type: string 
+            example: 'q=system-id%3D{시스템ID}' 
+      responses:
+        '200':
+          description: 'Saas 시스템 스토리지 정보'
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/saas_system_storage'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작vii): System Storage 갱신 #PutManageSaasSystemStorages'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas System Storage 갱신'
+      operationId: PutManageSaasSystemStorages
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/saas_system_storage'
+        required: true
+      responses:
+        '200':
+          description: 'Saas 시스템 스토리지 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'
+          
+  '/{portal}/manage/saas-acg-unions':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): Acg 조회 #GetManageSaasAcgUnions'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Acg Union 조회'
+      operationId: GetManageSaasAcgUnions
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: seq
+          schema: 
+            type: string
+            example: 'q=seq%3D{ACG Seq}'    
+        - in: query
+          name: product-list-seq
+          schema: 
+            type: string 
+            example: 'q=product-list-seq%3D{ProductListSeq}'
+        - in: query
+          name: group-id
+          schema: 
+            type: string 
+            example: 'q=group-id%3D{그룹ID}'    
+        - in: query
+          name: system-id
+          schema: 
+            type: string 
+            example: 'q=system-id%3D{시스템ID}'
+        - in: query
+          name: nic-dev
+          schema: 
+            type: string 
+            example: 'q=nic-dev%3D{NIC 디바이스명}'     
+      responses:
+        '200':
+          description: 'Saas Acg 집합 정보'
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  $ref: '#/components/schemas/saas_acg'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+  '/{portal}/manage/saas-acgs':
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작iv): Acg 갱신 #PutManageSaasAcgs'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Acg 갱신'
+      operationId: PutManageSaasAcgs
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/put_saas_acg'
+        required: true
+      responses:
+        '200':
+          description: 'Saas Acg 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'  
+  
+          
+  '/{portal}/manage/saas-acl-rules':
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작iv): Acg Rule #PutManageSaasAcgRules'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Acg Rule 갱신'
+      operationId: PutManageSaasAcgRules
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'      
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/saas_acl_rule'
+        required: true
+      responses:
+        '200':
+          description: 'Saas Acg 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'  
+
   '/{portal}/meta/product/create':
     post:
       tags: 
@@ -2110,9 +2526,9 @@ paths:
     post:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 VPC 생성 #PostBrokerNcpVpcVpc"
+      summary: "2.1.1 VPC 생성 #PostBrokerNcpVpcVpcs"
       description: "- 네이버 클라우드에 VPC를 생성합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.)  내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: PostBrokerNcpVpcVpc
+      operationId: PostBrokerNcpVpcVpcs
       security:
         - bearerAuth: []
       parameters:
@@ -2150,9 +2566,9 @@ paths:
     get:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 VPC List 조회 #GetBrokerNcpVpcVpcList"
+      summary: "2.1.1 VPC List 조회 #GetBrokerNcpVpcVpcs"
       description: "- 네이버 클라우드에 VPC를 조회합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.) \n 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: GetBrokerNcpVpcVpcList
+      operationId: GetBrokerNcpVpcVpcs
       security:
         - bearerAuth: []
       parameters:
@@ -2225,9 +2641,9 @@ paths:
     post:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 Subnet 생성 #PostBrokerNcpVpcSubnet"
+      summary: "2.1.1 Subnet 생성 #PostBrokerNcpVpcSubnets"
       description: "- 네이버 클라우드에 Subnet를 생성합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.)  내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: PostBrokerNcpVpcSubnet
+      operationId: PostBrokerNcpVpcSubnets
       security:
         - bearerAuth: []
       parameters:
@@ -2265,9 +2681,9 @@ paths:
     get:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 Subnet List 조회 #GetBrokerNcpVpcSubnetList"
+      summary: "2.1.1 Subnet List 조회 #GetBrokerNcpVpcSubnets"
       description: "- 네이버 클라우드에 Subnet를 조회합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.) \n 내부 서비스간 통신만 허용하는 API입니다.  참고: https://api.ncloud-docs.com/docs/networking-vpc-subnetmanagement-getsubnetlist"
-      operationId: GetBrokerNcpVpcSubnetList
+      operationId: GetBrokerNcpVpcSubnets
       security:
         - bearerAuth: []
       parameters:
@@ -2348,9 +2764,9 @@ paths:
     post:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 NACL 생성 #PostBrokerNcpVpcNacl"
+      summary: "2.1.1 NACL 생성 #PostBrokerNcpVpcNacls"
       description: "- 네이버 클라우드에 NACL를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: PostBrokerNcpVpcNacl
+      operationId: PostBrokerNcpVpcNacls
       security:
         - bearerAuth: []
       parameters:
@@ -2388,9 +2804,9 @@ paths:
     get:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 NACL List 조회 #GetBrokerNcpVpcNaclList"
+      summary: "2.1.1 NACL List 조회 #GetBrokerNcpVpcNacls"
       description: "- 네이버 클라우드에 NetworkAclList를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
-      operationId: GetBrokerNcpVpcNaclList
+      operationId: GetBrokerNcpVpcNacls
       security:
         - bearerAuth: []
       parameters:
@@ -2473,9 +2889,9 @@ paths:
     post:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 ACG 생성 #PostBrokerNcpVserverACG"
+      summary: "2.1.1 ACG 생성 #PostBrokerNcpVserverACGs"
       description: "- 네이버 클라우드에 ACG를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: PostBrokerNcpVserverACG
+      operationId: PostBrokerNcpVserverACGs
       security:
         - bearerAuth: []
       parameters:
@@ -2513,9 +2929,9 @@ paths:
     get:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 ACG List 조회 #GetBrokerNcpVserverAcgList"
+      summary: "2.1.1 ACG List 조회 #GetBrokerNcpVserverAcgs"
       description: "- 네이버 클라우드에 ACG List를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
-      operationId: GetBrokerNcpVserverAcgList
+      operationId: GetBrokerNcpVserverAcgs
       security:
         - bearerAuth: []
       parameters:
@@ -2604,9 +3020,9 @@ paths:
     post:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 NIC 생성 #PostBrokerNcpVserverNetworkInterface"
+      summary: "2.1.1 NIC 생성 #PostBrokerNcpVserverNetworkInterfaces"
       description: "- 네이버 클라우드에 NIC인터페이스를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: PostBrokerNcpVserverNetworkInterface
+      operationId: PostBrokerNcpVserverNetworkInterfaces
       security:
         - bearerAuth: []
       parameters:
@@ -2644,9 +3060,9 @@ paths:
     get:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 NIC List 조회 #GetBrokerNcpVserverNetworkInterfaceList"
+      summary: "2.1.1 NIC List 조회 #GetBrokerNcpVserverNetworkInterfaces"
       description: "- 네이버 클라우드에 NIC List를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
-      operationId: GetBrokerNcpVserverNetworkInterfaceList
+      operationId: GetBrokerNcpVserverNetworkInterfaces
       security:
         - bearerAuth: []
       parameters:
@@ -2729,9 +3145,9 @@ paths:
     post:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 LoginKey 생성 #PostBrokerNcpVserverLoginKey"
+      summary: "2.1.1 LoginKey 생성 #PostBrokerNcpVserverLoginKeys"
       description: "- 네이버 클라우드에 LoginKey를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: PostBrokerNcpVserverLoginKey
+      operationId: PostBrokerNcpVserverLoginKeys
       security:
         - bearerAuth: []
       parameters:
@@ -2769,9 +3185,9 @@ paths:
     get:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 LoginKey List 조회 #GetBrokerNcpVserverLoginKeyList"
+      summary: "2.1.1 LoginKey List 조회 #GetBrokerNcpVserverLoginKeys"
       description: "- 네이버 클라우드에 LoginKey List를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
-      operationId: GetBrokerNcpVserverLoginKeyList
+      operationId: GetBrokerNcpVserverLoginKeys
       security:
         - bearerAuth: []
       parameters:
@@ -2805,9 +3221,9 @@ paths:
     delete:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 LoginKey 삭제 요청 #DeleteBrokerNcpVserverLoginKey"
+      summary: "2.1.1 LoginKey 삭제 요청 #DeleteBrokerNcpVserverLoginKeys"
       description: "- 네이버 클라우드에 LoginKey를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: DeleteBrokerNcpVserverLoginKey
+      operationId: DeleteBrokerNcpVserverLoginKeys
       security:
         - bearerAuth: []
       parameters:
@@ -2926,9 +3342,9 @@ paths:
     get:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 Server List 조회 #GetBrokerNcpVserverServerList"
+      summary: "2.1.1 Server List 조회 #GetBrokerNcpVserverServers"
       description: "- 네이버 클라우드에 Server List를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
-      operationId: GetBrokerNcpVserverServerList
+      operationId: GetBrokerNcpVserverServers
       security:
         - bearerAuth: []
       parameters:
@@ -3047,9 +3463,9 @@ paths:
     post:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 Storage 생성 #PostBrokerNcpVserverStorage"
+      summary: "2.1.1 Storage 생성 #PostBrokerNcpVserverStorages"
       description: "- 네이버 클라우드에 Storage를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
-      operationId: PostBrokerNcpVserverStorage
+      operationId: PostBrokerNcpVserverStorages
       security:
         - bearerAuth: []
       parameters:
@@ -3842,8 +4258,6 @@ components:
               type: integer
             step:
               type: string
-
-
 
 
 ### Cloud 연동 오브젝트
@@ -4992,11 +5406,248 @@ components:
             - "phone"
             - "ip_check"
             - "mac_check"    
+### SaaS DB 오브젝트
+    saas_metadata:
+      type: object
+      properties:
+        product_list_seq:
+          type: integer
+        tenant_id:
+          type: string
+        product_id:
+          type: string
+        service_id:
+          type: string
+        license_id:
+          type: string
+        group:
+          type: string
+      required:
+        - "product_list_seq"
+        
+    saas_group:
+      type: object
+      properties:
+        product_list_seq:
+          type: integer
+        group_id: 
+          type: string
+        cloud_id: 
+          type: string
+        scale_type: 
+          type: string
+        cloud_private_key: 
+          type: string
+        cloud_public_key: 
+          type: string
+        key_expire_date: 
+          type: string
+        add_info: 
+          type: object
+      required:
+        - "product_list_seq"
+        - "group_id"
+    
     saas_system:
       type: object
-      
-    
-    
+      properties:
+        product_list_seq: 
+          type: integer
+        group_id: 
+          type: string
+        system_id: 
+          type: string
+        system_name: 
+          type: string
+        scale_type: 
+          type: string
+        status: 
+          type: string
+        fail: 
+          type: string
+        cloud_region_code: 
+          type: array
+          items:
+            type: object
+            properties:
+              name: 
+                type: string
+              code:
+                type: string
+        cloud_zone_code:
+          type: array
+          items:
+            type: object
+            properties:
+              name: 
+                type: string
+              code:
+                type: string
+        cloud_os_id:
+          type: string
+        cloud_product_id:
+          type: string
+        cloud_public_ip:
+          type: string
+        cloud_login_key_code:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+        cloud_vpc_code:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              code:
+                type: string 
+              ipv4_cidr_block:
+                type: string
+        cloud_nacl_code:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              code:
+                type: string
+        cloud_subnet_code:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              code:
+                type: string
+              ipv4_cidr_block:
+                type: string
+              subnet_type_code:
+                type: string                   
+        cloud_instance_code:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+        cloud_nic_code:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              code:
+                type: string
+              subnet_code:
+                type: string
+              ip:
+                type: string
+              mac:
+                type: string                      
+              device_name:
+                type: string        
+      required:
+        - "product_list_seq"
+        - "group_id"
+        - "system_id"
+        
+    saas_system_storage:
+      type: object
+      properties:
+        seq: 
+          type: integer
+        product_list_seq:
+          type: integer
+        cloud_storage_code:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              code:
+                type: string
+        group_id:
+          type: string
+        system_id:
+          type: string
+        cloud_storage_id:
+           type: string
+        volume:
+          type: integer
+      required:
+        - "seq"
+        
+    saas_acg:    
+      type: object
+      properties:
+        seq:
+          type: integer
+        product_list_seq:
+          type: integer
+        group_id:
+          type: string
+        system_id: 
+          type: string
+        nic_dev: 
+          type: string
+        cloud_acg_code: 
+          type: string
+        name: 
+          type: string
+        description: 
+          type: string
+        acg_rule: 
+          type: array
+          items:
+            $ref: '#/components/schemas/saas_acl_rule'
+      required:
+        - "product_list_seq"
+        
+    put_saas_acg:
+      type: object
+      properties:
+        seq:
+          type: integer
+        cloud_acg_code:
+          type: string
+        cloud_id: 
+          type: string
+        name: 
+          type: string
+        description: 
+          type: string
+      required:
+       - "seq"
+       
+    saas_acl_rule:
+      type: object
+      properties:
+        seq:
+          type: integer
+        cloud_acl_code:
+          type: string
+        direction:
+          type: string
+        protocol:
+          type: string
+        source: 
+          type: string
+        ports: 
+          type: string
+        add_info:
+          type: object
+        description:
+          type: string
+      required:
+        - "seq"
     
 ### Commen Properties Object 
     id:
