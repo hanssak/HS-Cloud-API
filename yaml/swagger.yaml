@@ -1661,7 +1661,7 @@ paths:
           $ref: '#/components/responses/notFound'  
   
           
-  '/{portal}/manage/saas-acl-rules':
+  '/{portal}/manage/saas-acg-rules':
     put:
       tags:
         - '2. 생성'
