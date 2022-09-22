@@ -1701,7 +1701,7 @@ paths:
   '/{portal}/meta/product/create':
     post:
       tags: 
-        - '2'
+        - '2. 생성'
       summary: '2.1.1 SaaS 신청 (4.생성시작): SaaS 생성 시작 및 메타데이터 등록 #PostMetaProductCreate'
       description: '\- 서비스포털 -> API Gateway -> MetadataManager <br> (Operation) 주문이력을 기준으로 제품생성을 시작 명령 : 테넌트 ID, 제품 리스트 SEQ 필요'
       operationId: PostMetaProductCreate
