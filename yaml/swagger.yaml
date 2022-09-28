@@ -3957,6 +3957,12 @@ components:
         max:
           type: integer
           description: '서버 autoscale의 최대 개수'
+        nic_dev_list:
+          type: array
+          items: 
+            properties:
+            type: string
+            
     storage_instance_info:
       type: object
       properties:
