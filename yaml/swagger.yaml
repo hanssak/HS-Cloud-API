@@ -1007,6 +1007,10 @@ paths:
                         type: integer
                       max:
                         type: integer
+                      nic_dev_list:
+                        type: array
+                        items:
+                          type: string
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -3960,7 +3964,6 @@ components:
         nic_dev_list:
           type: array
           items: 
-            properties:
             type: string
             
     storage_instance_info:
