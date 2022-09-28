@@ -3830,11 +3830,12 @@ components:
         nic_dev:
           type: string
           description: "NIC 디바이스명"
-        acg_rule:
+        acl_rule:
           type: array 
           items:
-            $ref: '#/components/schemas/acg_rule'
-    acg_rule:
+            $ref: '#/components/schemas/acl_rule'
+            
+    acl_rule:
       description: '(Base) ACG Rule'
       type: object
       properties:
@@ -5797,7 +5798,7 @@ components:
           type: string
         description: 
           type: string
-        acg_rule: 
+        acl_rule: 
           type: array
           items:
             $ref: '#/components/schemas/saas_acl_rule'
