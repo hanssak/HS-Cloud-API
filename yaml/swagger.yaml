@@ -1461,7 +1461,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/saas_system'
+                $ref: '#/components/schemas/put_saas_system'
         required: true
       responses:
         '200':
@@ -1554,7 +1554,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/saas_system_storage'
+                $ref: '#/components/schemas/put_saas_system_storage'
         required: true
       responses:
         '200':
@@ -5516,6 +5516,15 @@ components:
                 type: string
               code:
                 type: string
+        cloud_instance_code:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              code:
+                type: string
         cloud_subnet_code:
           type: array
           items:
@@ -5528,13 +5537,8 @@ components:
               ipv4_cidr_block:
                 type: string
               subnet_type_code:
-                type: string                   
-        cloud_instance_code:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
+                type: string
+              zone_code:
                 type: string
         cloud_nic_code:
           type: array
@@ -5547,6 +5551,10 @@ components:
                 type: string
               subnet_code:
                 type: string
+              subnet_ipv4_cidr_block:
+                type: string
+              vpc_code:
+                type: string
               ip:
                 type: string
               mac:
@@ -5557,7 +5565,150 @@ components:
         - "product_list_seq"
         - "group_id"
         - "system_id"
-        
+
+    put_saas_system:
+      type: object
+      properties:
+        product_list_seq: 
+          type: integer
+        group_id: 
+          type: string
+        system_id: 
+          type: string
+        system_name: 
+          type: string
+        scale_type: 
+          type: string
+        status: 
+          type: string
+        fail: 
+          type: string
+        cloud_region_code: 
+          type: array
+          items:
+            type: object
+            properties:
+              operation:
+                type: string
+                example: "insert or update or delete"
+              name: 
+                type: string
+              code:
+                type: string
+        cloud_zone_code:
+          type: array
+          items:
+            type: object
+            properties:
+              operation:
+                type: string            
+                example: "insert or update or delete"
+              name: 
+                type: string
+              code:
+                type: string
+        cloud_os_id:
+          type: string
+        cloud_product_id:
+          type: string
+        cloud_public_ip:
+          type: string
+        cloud_login_key_code:
+          type: array
+          items:
+            type: object
+            properties:
+              operation:
+                type: string
+                example: "insert or update or delete"
+              name:
+                type: string
+        cloud_vpc_code:
+          type: array
+          items:
+            type: object
+            properties:
+              operation:
+                type: string
+                example: "insert or update or delete"
+              name:
+                type: string
+              code:
+                type: string 
+              ipv4_cidr_block:
+                type: string
+        cloud_nacl_code:
+          type: array
+          items:
+            type: object
+            properties:
+              operation:
+                type: string
+                example: "insert or update or delete"
+              name:
+                type: string
+              code:
+                type: string
+        cloud_instance_code:
+          type: array
+          items:
+            type: object
+            properties:
+              operation:
+                type: string
+                example: "insert or update or delete"
+              name:
+                type: string
+              code:
+                type: string
+        cloud_subnet_code:
+          type: array
+          items:
+            type: object
+            properties:
+              operation:
+                type: string
+                example: "insert or update or delete"
+              name:
+                type: string
+              code:
+                type: string
+              ipv4_cidr_block:
+                type: string
+              subnet_type_code:
+                type: string
+              zone_code:
+                type: string
+        cloud_nic_code:
+          type: array
+          items:
+            type: object
+            properties:
+              operation:
+                type: string            
+                example: "insert or update or delete"
+              name:
+                type: string
+              code:
+                type: string
+              subnet_code:
+                type: string
+              subnet_ipv4_cidr_block:
+                type: string
+              vpc_code:
+                type: string
+              ip:
+                type: string
+              mac:
+                type: string                      
+              device_name:
+                type: string        
+      required:
+        - "product_list_seq"
+        - "group_id"
+        - "system_id"
+  
+
     saas_system_storage:
       type: object
       properties:
@@ -5570,6 +5721,36 @@ components:
           items:
             type: object
             properties:
+              name:
+                type: string
+              code:
+                type: string
+        group_id:
+          type: string
+        system_id:
+          type: string
+        cloud_storage_id:
+           type: string
+        volume:
+          type: integer
+      required:
+        - "seq"
+
+    put_saas_system_storage:
+      type: object
+      properties:
+        seq: 
+          type: integer
+        product_list_seq:
+          type: integer
+        cloud_storage_code:
+          type: array
+          items:
+            type: object
+            properties:
+              operation:
+                type: string
+                example: "insert or update or delete"
               name:
                 type: string
               code:
