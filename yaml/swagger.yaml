@@ -1019,10 +1019,10 @@ paths:
                           properties:
                             name: 
                               type: string
-                              example: DEFAULT
+                              example: IN_SEND
                             cloud_subnet_network_range: 
                               type: string
-                            cloud_subent_network_type:
+                            cloud_subnet_network_type:
                               type: string
                               example: PUBLIC, PRIVATE
         '401':
@@ -3979,20 +3979,6 @@ components:
         max:
           type: integer
           description: '서버 autoscale의 최대 개수'
-        nic_dev_list:
-          type: array
-          items: 
-            type: object
-            properties:
-              name: 
-                type: string
-                example: DEFAULT
-              cloud_subnet_network_range: 
-                type: string
-              cloud_subnet_network_type:
-                type: string
-                example: PUBLIC, PRIVATE
-                              
             
     storage_instance_info:
       type: object
