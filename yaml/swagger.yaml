@@ -1015,7 +1015,16 @@ paths:
                       nic_dev_list:
                         type: array
                         items:
-                          type: string
+                          type: object
+                          properties:
+                            name: 
+                              type: string
+                              example: DEFAULT
+                            cloud_subnet_network_range: 
+                              type: string
+                            cloud_subent_network_type:
+                              type: string
+                              example: PUBLIC, PRIVATE
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -3973,7 +3982,17 @@ components:
         nic_dev_list:
           type: array
           items: 
-            type: string
+            type: object
+            properties:
+              name: 
+                type: string
+                example: DEFAULT
+              cloud_subnet_network_range: 
+                type: string
+              cloud_subnet_network_type:
+                type: string
+                example: PUBLIC, PRIVATE
+                              
             
     storage_instance_info:
       type: object
