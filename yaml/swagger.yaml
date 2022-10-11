@@ -3708,6 +3708,9 @@ components:
               type: string
             price:
               type: integer
+            subnet_range:
+              type: string
+              example: 'none,auto,xxx.xxx.xxx.0/24'
             description:
               type: string
     cloud:
