@@ -5813,13 +5813,114 @@ components:
           type: string
         ports: 
           type: string
+        status:
+          type: string
         add_info:
           type: object
         description:
           type: string
       required:
         - "seq"
-    
+
+    saas_acg_map:
+      type: object
+      properties:
+        product_list_seq:
+          type: integer
+        acg_seq:
+          type: integer
+        nic_seq:
+          type: integer
+
+    saas_vpc_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_vpc'
+      
+    saas_vpc:
+      type: object
+      properties:
+        seq:
+          type: integer
+        name:
+          type: string
+        cloud_region_code:
+          type: string 
+        cloud_vpc_code:
+          type: string
+        cidr_block:
+          type: string
+
+    saas_subnet_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_subnet'
+         
+    saas_subnet:
+      type: object
+      properties:
+        seq:
+          type: integer
+        product_list_seq:
+          type: integer
+        vpc_seq:
+          type: integer
+        name:
+          type: string
+        cloud_zone_code:
+          type: string
+        cloud_region_code:
+          type: string
+        cloud_vpc_code:
+          type: string
+        cloud_nacl_code:
+          type: string
+        cidr_block:
+          type: string
+        network_type:
+          type: string
+        usage_type:
+          type: string
+        status:
+          type: string
+
+    saas_nic_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_nic'
+         
+    saas_nic:
+      type: object
+      properties:
+        seq:
+          type: integer
+        product_list_seq:
+          type: integer
+        group_id:
+          type: string
+        system_id:
+          type: string
+        name:
+          type: string
+        cloud_region_code:
+          type: string
+        cloud_vpc_code:
+          type: string
+        cloud_subnet_code:
+          type: string
+        cloud_nic_code:
+          type: string
+        device_name:
+          type: string
+        ip:
+          type: string 
+        mac:
+          type: string
+        status:
+          type: string
+      required:
+        - "seq"
+	
 ### Commen Properties Object 
     id:
       type: object
