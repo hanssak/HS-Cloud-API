@@ -983,12 +983,7 @@ paths:
           schema:
             type: string
             example: 'q=cloud-os-id%3D{CloudOsId}'
-          required: true  
-        - in: query
-          name: add-service-id-list 
-          schema:
-            type: string
-            example: 'q=add-service-id-list%3D{부가서비스ID},{부가서비스ID},...'
+          required: true
       responses:
         '200':
           description: 'Server 데이터 정보 모두 조회'
@@ -1012,19 +1007,6 @@ paths:
                         type: integer
                       max:
                         type: integer
-                      nic_dev_list:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            name: 
-                              type: string
-                              example: IN_SEND
-                            cloud_subnet_network_range: 
-                              type: string
-                            cloud_subnet_network_type:
-                              type: string
-                              example: PUBLIC, PRIVATE
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -1093,6 +1075,61 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'
           
+  '/{portal}/order/server/nic':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (2.제품구성): SaaS서버 데이터 조회 #GetOrderServerNic'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 서비스에 사전정의된 서버 모듈 정보들을 조회합니다. 해당 정보들은 서버의 실제 코드들도 내포되어 있습니다. (입력 데이터는 주문정보에 저장됩니다.)'
+      operationId: GetOrderServerNic
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: query
+          name: license-id 
+          schema:
+            type: string
+            example: 'q=license-id%3D{LicenseID}'
+          required: true
+        - in: query
+          name: cloud-id 
+          schema:
+            type: string
+            example: 'q=cloud-id%3D{CloudID}'
+          required: true
+        - in: query
+          name: add-service-list 
+          schema:
+            type: string
+            example: 'q=add-service-list%3D{부가서비스 리스트}'
+          required: true
+        - in: query
+          name: system 
+          schema:
+            type: string
+            example: 'q=system%3D{System구분자}'
+          required: true
+      responses:
+        '200':
+          description: 'NIC 데이터 정보 조회'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  server_nic_dev_list:
+                    $ref: '#/components/schemas/nic_dev_list_instance_info'
+
   '/{portal}/order/server':
     post:
       tags: 
@@ -1133,6 +1170,7 @@ paths:
                           properties:
                             system_type:
                               type: string
+                              example: "SGIN, SGEX, SGVF.."
                             system:
                               type: object
                               allOf:
@@ -1143,6 +1181,9 @@ paths:
                                 type: object
                                 allOf:
                                   - $ref: '#/components/schemas/storage_instance_info'
+                            nic_dev_list:
+                              $ref: '#/components/schemas/nic_dev_list_instance_info'
+                              
       responses:
         '201':
           description: '주문 이력 등록 완료'
@@ -3972,16 +4013,14 @@ components:
           type: string
           description: '서버의 클라우드 product 고유코드 (config에서는 추천 코드를 의미)'
           example: 'SPSVRCPU00000003A (Classic G1장비)'
-        system_type:
-          type: string
-          description: '시스템 구분자 (망연계 내부:SGIN, 외부: SGEX)'
-          example: 'SGIN'
         min: 
           type: integer
           description: '서버 autoscale의 최소 개수'
         max:
           type: integer
           description: '서버 autoscale의 최대 개수'
+        subnet_id:
+          type: string
             
     storage_instance_info:
       type: object
@@ -3992,6 +4031,23 @@ components:
           type: integer
         create_num:
           type: integer
+    
+    nic_dev_list_instance_info:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          subnet_id:
+            type: string
+          subnet_type:
+            type: string
+            example: "PRIVATE, PUBLIC"
+          link_type:
+            type: string
+            example: "1:1, N:N"
+          
 
 ### DB: Admin Object
     post_admin:
@@ -5483,23 +5539,12 @@ components:
           type: string
         system_id: 
           type: string
+        vpc_seq:
+          type: integer
+        subnet_seq:
+          type: integer
         system_name: 
           type: string
-        scale_type: 
-          type: string
-        status: 
-          type: string
-        fail: 
-          type: string
-        cloud_region_code: 
-          type: array
-          items:
-            type: object
-            properties:
-              name: 
-                type: string
-              code:
-                type: string
         cloud_zone_code:
           type: array
           items:
@@ -5509,29 +5554,14 @@ components:
                 type: string
               code:
                 type: string
-        cloud_os_id:
-          type: string
-        cloud_product_id:
-          type: string
-        cloud_public_ip:
-          type: string
-        cloud_login_key_code:
+        cloud_region_code: 
           type: array
           items:
             type: object
             properties:
-              name:
-                type: string
-        cloud_vpc_code:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
+              name: 
                 type: string
               code:
-                type: string 
-              ipv4_cidr_block:
                 type: string
         cloud_nacl_code:
           type: array
@@ -5542,6 +5572,13 @@ components:
                 type: string
               code:
                 type: string
+        cloud_login_key_code:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
         cloud_instance_code:
           type: array
           items:
@@ -5551,42 +5588,18 @@ components:
                 type: string
               code:
                 type: string
-        cloud_subnet_code:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              code:
-                type: string
-              ipv4_cidr_block:
-                type: string
-              subnet_type_code:
-                type: string
-              zone_code:
-                type: string
-        cloud_nic_code:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              code:
-                type: string
-              subnet_code:
-                type: string
-              subnet_ipv4_cidr_block:
-                type: string
-              vpc_code:
-                type: string
-              ip:
-                type: string
-              mac:
-                type: string                      
-              device_name:
-                type: string        
+        scale_type: 
+          type: string
+        status: 
+          type: string
+        fail: 
+          type: string
+        cloud_os_id:
+          type: string
+        cloud_product_id:
+          type: string
+        cloud_public_ip:
+          type: string
       required:
         - "product_list_seq"
         - "group_id"
@@ -5601,14 +5614,24 @@ components:
           type: string
         system_id: 
           type: string
+        vpc_seq:
+          type: integer
+        subnet_seq:
+          type: integer
         system_name: 
           type: string
-        scale_type: 
-          type: string
-        status: 
-          type: string
-        fail: 
-          type: string
+        cloud_zone_code:
+          type: array
+          items:
+            type: object
+            properties:
+              operation:
+                type: string
+                example: "insert or update or delete"
+              name: 
+                type: string
+              code:
+                type: string
         cloud_region_code: 
           type: array
           items:
@@ -5620,48 +5643,6 @@ components:
               name: 
                 type: string
               code:
-                type: string
-        cloud_zone_code:
-          type: array
-          items:
-            type: object
-            properties:
-              operation:
-                type: string            
-                example: "insert or update or delete"
-              name: 
-                type: string
-              code:
-                type: string
-        cloud_os_id:
-          type: string
-        cloud_product_id:
-          type: string
-        cloud_public_ip:
-          type: string
-        cloud_login_key_code:
-          type: array
-          items:
-            type: object
-            properties:
-              operation:
-                type: string
-                example: "insert or update or delete"
-              name:
-                type: string
-        cloud_vpc_code:
-          type: array
-          items:
-            type: object
-            properties:
-              operation:
-                type: string
-                example: "insert or update or delete"
-              name:
-                type: string
-              code:
-                type: string 
-              ipv4_cidr_block:
                 type: string
         cloud_nacl_code:
           type: array
@@ -5675,6 +5656,16 @@ components:
                 type: string
               code:
                 type: string
+        cloud_login_key_code:
+          type: array
+          items:
+            type: object
+            properties:
+              operation:
+                type: string
+                example: "insert or update or delete"
+              name:
+                type: string
         cloud_instance_code:
           type: array
           items:
@@ -5687,53 +5678,22 @@ components:
                 type: string
               code:
                 type: string
-        cloud_subnet_code:
-          type: array
-          items:
-            type: object
-            properties:
-              operation:
-                type: string
-                example: "insert or update or delete"
-              name:
-                type: string
-              code:
-                type: string
-              ipv4_cidr_block:
-                type: string
-              subnet_type_code:
-                type: string
-              zone_code:
-                type: string
-        cloud_nic_code:
-          type: array
-          items:
-            type: object
-            properties:
-              operation:
-                type: string            
-                example: "insert or update or delete"
-              name:
-                type: string
-              code:
-                type: string
-              subnet_code:
-                type: string
-              subnet_ipv4_cidr_block:
-                type: string
-              vpc_code:
-                type: string
-              ip:
-                type: string
-              mac:
-                type: string                      
-              device_name:
-                type: string        
+        scale_type: 
+          type: string
+        status: 
+          type: string
+        fail: 
+          type: string
+        cloud_os_id:
+          type: string
+        cloud_product_id:
+          type: string
+        cloud_public_ip:
+          type: string
       required:
         - "product_list_seq"
         - "group_id"
         - "system_id"
-  
 
     saas_system_storage:
       type: object
@@ -5755,6 +5715,8 @@ components:
           type: string
         system_id:
           type: string
+        stauts:
+          type: string  
         cloud_storage_id:
            type: string
         volume:
@@ -5785,13 +5747,15 @@ components:
           type: string
         system_id:
           type: string
+        stauts:
+          type: string  
         cloud_storage_id:
            type: string
         volume:
           type: integer
       required:
         - "seq"
-        
+      
     saas_acg:    
       type: object
       properties:
