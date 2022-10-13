@@ -1385,9 +1385,7 @@ paths:
           content:
             application/json:
               schema: 
-                type: array
-                items: 
-                  $ref: '#/components/schemas/saas_metadata'
+                $ref: '#/components/schemas/saas_metadata_list'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -1432,9 +1430,7 @@ paths:
           content:
             application/json:
               schema: 
-                type: array
-                items: 
-                  $ref: '#/components/schemas/saas_group'
+                $ref: '#/components/schemas/saas_group_list'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -1484,9 +1480,7 @@ paths:
           content:
             application/json:
               schema: 
-                type: array
-                items: 
-                  $ref: '#/components/schemas/saas_system'
+                $ref: '#/components/schemas/saas_system_list'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -1518,9 +1512,7 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/put_saas_system'
+              $ref: '#/components/schemas/put_saas_system_list'
         required: true
       responses:
         '200':
@@ -1577,9 +1569,7 @@ paths:
           content:
             application/json:
               schema: 
-                type: array
-                items: 
-                  $ref: '#/components/schemas/saas_system_storage'
+                $ref: '#/components/schemas/saas_system_storage_list'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -1611,16 +1601,467 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/put_saas_system_storage'
+              $ref: '#/components/schemas/put_saas_system_storage_list'
         required: true
       responses:
         '200':
           description: 'Saas 시스템 스토리지 업데이트 성공'
         '404':
           $ref: '#/components/responses/notFound'
+
+  '/{portal}/manage/saas-vpcs':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): VPC 조회 #GetManageSaasVpcs'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas VPC 조회'
+      operationId: GetManageSaasVpcs
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: seq
+          schema: 
+            type: string
+            example: 'q=seq%3D{VPC Seq}'    
+        - in: query
+          name: name
+          schema: 
+            type: string 
+            example: 'q=name%3D{VPC 명}'
+        - in: query
+          name: cloud-vpc-code
+          schema: 
+            type: string 
+            example: 'q=cloud-vpc-code%3D{클라우드 VPC 코드}' 
+      responses:
+        '200':
+          description: 'Saas VPC 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/saas_vpc_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작vii): VPC 갱신 #PutManageSaasVpc'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Vpc 갱신'
+      operationId: PutManageSaasVpcs
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saas_vpc_list'
+        required: true
+      responses:
+        '200':
+          description: 'Saas VPC 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+  '/{portal}/manage/saas-subnets':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): Subnet 조회 #GetManageSaasSubnets'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Subnet 조회'
+      operationId: GetManageSaasSubnets
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: seq
+          schema: 
+            type: string
+            example: 'q=seq%3D{Subnet Seq}'
+        - in: query
+          name: product-list-seq
+          schema: 
+            type: string
+            example: 'q=product-list-seq%3D{제품 리스트 Seq}'    
+        - in: query
+          name: vpc-seq
+          schema: 
+            type: string
+            example: 'q=vpc-seq%3D{VPC Seq}'    
+        - in: query
+          name: name
+          schema: 
+            type: string 
+            example: 'q=name%3D{Subnet 명}'
+        - in: query
+          name: cloud-subnet-code
+          schema: 
+            type: string 
+            example: 'q=cloud-subnet-code%3D{클라우드 Subnet 고유 코드}'
+      responses:
+        '200':
+          description: 'Saas Subnet 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/saas_subnet_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작vii): Subnet 갱신 #PutManageSaasSubnets'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Subnet 갱신'
+      operationId: PutManageSaasSubnets
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saas_subnet_list'
+        required: true
+      responses:
+        '200':
+          description: 'Saas Subnet 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+
+  '/{portal}/manage/saas-nics':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): NIC 조회 #GetManageSaasNics'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Nic 조회'
+      operationId: GetManageSaasNics
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: seq
+          schema: 
+            type: string
+            example: 'q=seq%3D{NIC Seq}'
+        - in: query
+          name: product-list-seq
+          schema: 
+            type: string
+            example: 'q=product-list-seq%3D{제품 리스트 Seq}'    
+        - in: query
+          name: group-id
+          schema: 
+            type: string
+            example: 'q=group-id%3D{그룹 ID}'    
+        - in: query
+          name: system-id
+          schema: 
+            type: string
+            example: 'q=system-id%3D{시스템 ID}'    
+        - in: query
+          name: name
+          schema: 
+            type: string 
+            example: 'q=name%3D{NIC 명}'
+        - in: query
+          name: cloud-nic-code
+          schema: 
+            type: string
+            example: 'q=cloud-nic-code%3D{클라우드 NIC 고유 코드}'
+      responses:
+        '200':
+          description: 'Saas NIC 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/saas_nic_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작vii): NIC 갱신 #PutManageSaasNics'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas NIC 갱신'
+      operationId: PutManageSaasNics
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saas_nic_list'
+        required: true
+      responses:
+        '200':
+          description: 'Saas Subnet 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'
           
+
+  '/{portal}/manage/saas-acgs':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): ACG 조회 #GetManageSaasAcgs'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Acg 조회'
+      operationId: GetManageSaasAcgs
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: seq
+          schema: 
+            type: string
+            example: 'q=seq%3D{ACG Seq}'
+        - in: query
+          name: vpc-seq
+          schema: 
+            type: string
+            example: 'q=vpc-seq%3D{VPC Seq}'    
+        - in: query
+          name: name
+          schema: 
+            type: string
+            example: 'q=name%3D{ACG 명}'    
+        - in: query
+          name: cloud-acg-code
+          schema: 
+            type: string
+            example: 'q=cloud-acg-code%3D{클라우드 ACG 고유 코드}'
+      responses:
+        '200':
+          description: 'Saas ACG 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/saas_acg_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+    
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작iv): ACG 갱신 #PutManageSaasAcgs'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas ACG 갱신'
+      operationId: PutManageSaasAcgs
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/put_saas_acg_list'
+        required: true
+      responses:
+        '200':
+          description: 'Saas Acg 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'  
+  
+          
+  '/{portal}/manage/saas-acl-rules':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): ACG 조회 #GetManageSaasAclRules'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Acl Rule 조회'
+      operationId: GetManageSaasAclRules
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: seq
+          schema: 
+            type: string
+            example: 'q=seq%3D{ACL Rule Seq}'
+        - in: query
+          name: acg-seq
+          schema: 
+            type: string
+            example: 'q=acg-seq%3D{ACG Seq}'    
+        - in: query
+          name: cloud-acl-code
+          schema: 
+            type: string
+            example: 'q=cloud-acl-code%3D{클라우드 ACL Rule 고유 코드}'    
+      responses:
+        '200':
+          description: 'Saas ACG 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/saas_acg_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작iv): Acg Rule #PutManageSaasAcgRules'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Acg Rule 갱신'
+      operationId: PutManageSaasAcgRules
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'      
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saas_acl_rule_list'
+        required: true
+      responses:
+        '200':
+          description: 'Saas Acg 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'  
+
   '/{portal}/manage/saas-acg-unions':
     get:
       tags: 
@@ -1650,112 +2091,32 @@ paths:
             type: string
             example: 'q=seq%3D{ACG Seq}'    
         - in: query
-          name: product-list-seq
+          name: vpc-seq
           schema: 
             type: string 
-            example: 'q=product-list-seq%3D{ProductListSeq}'
+            example: 'q=vpc-seq%3D{VPC Seq}'
         - in: query
-          name: group-id
+          name: name
           schema: 
             type: string 
-            example: 'q=group-id%3D{그룹ID}'    
+            example: 'q=name%3D{ACG 명}'
         - in: query
-          name: system-id
+          name: cloud-acg-code
           schema: 
             type: string 
-            example: 'q=system-id%3D{시스템ID}'
-        - in: query
-          name: nic-dev
-          schema: 
-            type: string 
-            example: 'q=nic-dev%3D{NIC 디바이스명}'     
+            example: 'q=cloud-acg-code%3D{클라우드 ACG 고유 코드}'
       responses:
         '200':
           description: 'Saas Acg 집합 정보'
           content:
             application/json:
               schema: 
-                type: array
-                items: 
-                  $ref: '#/components/schemas/saas_acg'
+                $ref: '#/components/schemas/saas_acg_union_list'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
           $ref: '#/components/responses/notFound'
-  '/{portal}/manage/saas-acgs':
-    put:
-      tags:
-        - '2. 생성'
-      summary: '2.1.1 SaaS 신청 (4.생성 시작iv): Acg 갱신 #PutManageSaasAcgs'
-      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Acg 갱신'
-      operationId: PutManageSaasAcgs
-      security:
-        - bearerAuth: []
-      parameters: 
-        - in: header
-          name: Authorization
-          schema:
-            $ref: '#/components/schemas/parameter_token'
-        - in: header
-          name: X-TenantId
-          schema:
-            $ref: '#/components/schemas/parameter_x_tenant_id'
-        - name: portal
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/parameter_portal'    
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/put_saas_acg'
-        required: true
-      responses:
-        '200':
-          description: 'Saas Acg 업데이트 성공'
-        '404':
-          $ref: '#/components/responses/notFound'  
-  
-          
-  '/{portal}/manage/saas-acg-rules':
-    put:
-      tags:
-        - '2. 생성'
-      summary: '2.1.1 SaaS 신청 (4.생성 시작iv): Acg Rule #PutManageSaasAcgRules'
-      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas Acg Rule 갱신'
-      operationId: PutManageSaasAcgRules
-      security:
-        - bearerAuth: []
-      parameters: 
-        - in: header
-          name: Authorization
-          schema:
-            $ref: '#/components/schemas/parameter_token'
-        - in: header
-          name: X-TenantId
-          schema:
-            $ref: '#/components/schemas/parameter_x_tenant_id'      
-        - name: portal
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/parameter_portal'    
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/saas_acl_rule'
-        required: true
-      responses:
-        '200':
-          description: 'Saas Acg 업데이트 성공'
-        '404':
-          $ref: '#/components/responses/notFound'  
+
 
   '/{portal}/meta/product/create':
     post:
@@ -5488,7 +5849,13 @@ components:
             - "phone"
             - "ip_check"
             - "mac_check"    
+            
 ### SaaS DB 오브젝트
+    saas_metadata_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_metadata'
+
     saas_metadata:
       type: object
       properties:
@@ -5506,6 +5873,12 @@ components:
           type: string
       required:
         - "product_list_seq"
+    
+    saas_group_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_group'
+
         
     saas_group:
       type: object
@@ -5529,6 +5902,12 @@ components:
       required:
         - "product_list_seq"
         - "group_id"
+    
+    saas_system_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_system'
+
     
     saas_system:
       type: object
@@ -5604,6 +5983,11 @@ components:
         - "product_list_seq"
         - "group_id"
         - "system_id"
+
+    put_saas_system_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/put_saas_system'
 
     put_saas_system:
       type: object
@@ -5695,6 +6079,11 @@ components:
         - "group_id"
         - "system_id"
 
+    saas_system_storage_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_system_storage'
+
     saas_system_storage:
       type: object
       properties:
@@ -5715,7 +6104,7 @@ components:
           type: string
         system_id:
           type: string
-        stauts:
+        status:
           type: string  
         cloud_storage_id:
            type: string
@@ -5723,6 +6112,12 @@ components:
           type: integer
       required:
         - "seq"
+
+    put_saas_system_storage_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/put_saas_system_storage'
+
 
     put_saas_system_storage:
       type: object
@@ -5747,7 +6142,7 @@ components:
           type: string
         system_id:
           type: string
-        stauts:
+        status:
           type: string  
         cloud_storage_id:
            type: string
@@ -5755,82 +6150,6 @@ components:
           type: integer
       required:
         - "seq"
-      
-    saas_acg:    
-      type: object
-      properties:
-        seq:
-          type: integer
-        product_list_seq:
-          type: integer
-        group_id:
-          type: string
-        system_id: 
-          type: string
-        nic_dev: 
-          type: string
-        cloud_acg_code: 
-          type: string
-        name: 
-          type: string
-        description: 
-          type: string
-        acl_rule: 
-          type: array
-          items:
-            $ref: '#/components/schemas/saas_acl_rule'
-      required:
-        - "product_list_seq"
-        
-    put_saas_acg:
-      type: object
-      properties:
-        seq:
-          type: integer
-        cloud_acg_code:
-          type: string
-        cloud_id: 
-          type: string
-        name: 
-          type: string
-        description: 
-          type: string
-      required:
-       - "seq"
-       
-    saas_acl_rule:
-      type: object
-      properties:
-        seq:
-          type: integer
-        cloud_acl_code:
-          type: string
-        direction:
-          type: string
-        protocol:
-          type: string
-        source: 
-          type: string
-        ports: 
-          type: string
-        status:
-          type: string
-        add_info:
-          type: object
-        description:
-          type: string
-      required:
-        - "seq"
-
-    saas_acg_map:
-      type: object
-      properties:
-        product_list_seq:
-          type: integer
-        acg_seq:
-          type: integer
-        nic_seq:
-          type: integer
 
     saas_vpc_list:
       type: array
@@ -5849,6 +6168,8 @@ components:
         cloud_vpc_code:
           type: string
         cidr_block:
+          type: string
+        status:
           type: string
 
     saas_subnet_list:
@@ -5920,7 +6241,105 @@ components:
           type: string
       required:
         - "seq"
-	
+
+
+    saas_acg_map_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_acg_map'
+         
+    saas_acg_map:
+      type: object
+      properties:
+        product_list_seq:
+          type: integer
+        acg_seq:
+          type: integer
+        nic_seq:
+          type: integer
+
+      
+    saas_acg_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_acg'
+
+    saas_acg:
+      type: object
+      properties:
+        seq:
+          type: integer
+        vpc_seq:
+          type: integer
+        cloud_acg_code: 
+          type: string
+        cloud_id: 
+          type: string
+        name: 
+          type: string
+        status: 
+          type: string  
+        description: 
+          type: string
+    
+    saas_acl_rule_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_acl_rule'
+         
+    saas_acl_rule:
+      type: object
+      properties:
+        seq:
+          type: integer
+        cloud_acl_code:
+          type: string
+        direction:
+          type: string
+        protocol:
+          type: string
+        source: 
+          type: string
+        ports: 
+          type: string
+        status:
+          type: string
+        add_info:
+          type: object
+        description:
+          type: string
+      required:
+        - "seq"
+
+
+    saas_acg_union_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_acg_union'
+
+    saas_acg_union:    
+      type: object
+      properties:
+        seq:
+          type: integer
+        vpc_seq:
+          type: integer
+        cloud_acg_code: 
+          type: string
+        cloud_id: 
+          type: string
+        name: 
+          type: string
+        status: 
+          type: string  
+        description: 
+          type: string
+        acl_rule: 
+          $ref: '#/components/schemas/saas_acl_rule_list'
+      required:
+        - "seq"
+
+  
 ### Commen Properties Object 
     id:
       type: object
