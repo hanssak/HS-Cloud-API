@@ -1888,6 +1888,90 @@ paths:
           $ref: '#/components/responses/notFound'
           
 
+  '/{portal}/manage/saas-acg-maps':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): ACG 조회 #GetManageSaasAcgMaps'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas ACG Map 조회'
+      operationId: GetManageSaasAcgMaps
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: product-list-seq
+          schema: 
+            type: string
+            example: 'q=product-list-seq%3D{제품 리스트 Seq}'
+        - in: query
+          name: acg-seq
+          schema: 
+            type: string
+            example: 'q=acg-seq%3D{VPC Seq}'
+        - in: query
+          name: nic-seq
+          schema: 
+            type: string
+            example: 'q=nic-seq%3D{VPC Seq}'
+      responses:
+        '200':
+          description: 'Saas ACG 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/saas_acg_map_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+    
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작iv): ACG MAP 갱신 #PutManageSaasAcgMaps'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas ACG Map 갱신'
+      operationId: PutManageSaasAcgMaps
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saas_acg_map_list'
+        required: true
+      responses:
+        '200':
+          description: 'Saas ACG Map 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'  
+  
   '/{portal}/manage/saas-acgs':
     get:
       tags: 
@@ -1969,7 +2053,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/put_saas_acg_list'
+              $ref: '#/components/schemas/saas_acg_list'
         required: true
       responses:
         '200':
@@ -1977,7 +2061,6 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'  
   
-          
   '/{portal}/manage/saas-acl-rules':
     get:
       tags: 
@@ -2022,7 +2105,7 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/saas_acg_list'
+                $ref: '#/components/schemas/saas_acl_rule_list'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -6291,6 +6374,8 @@ components:
       type: object
       properties:
         seq:
+          type: integer
+        acg_seq:
           type: integer
         cloud_acl_code:
           type: string
