@@ -1544,10 +1544,10 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_x_tenant_id'
         - in: query
-          name: seq
+          name: id
           schema: 
             type: string
-            example: 'q=seq%3D{스토리지Seq}'    
+            example: 'q=id%3D{스토리지ID}'    
         - in: query
           name: product-list-seq
           schema: 
@@ -1633,15 +1633,10 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_x_tenant_id'
         - in: query
-          name: seq
+          name: id
           schema: 
             type: string
-            example: 'q=seq%3D{VPC Seq}'    
-        - in: query
-          name: name
-          schema: 
-            type: string 
-            example: 'q=name%3D{VPC 명}'
+            example: 'q=id%3D{VPC ID}'
         - in: query
           name: cloud-vpc-code
           schema: 
@@ -1717,25 +1712,20 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_x_tenant_id'
         - in: query
-          name: seq
+          name: id
           schema: 
             type: string
-            example: 'q=seq%3D{Subnet Seq}'
+            example: 'q=id%3D{Subnet ID}'
         - in: query
           name: product-list-seq
           schema: 
             type: string
             example: 'q=product-list-seq%3D{제품 리스트 Seq}'    
         - in: query
-          name: vpc-seq
+          name: vpc-id
           schema: 
             type: string
-            example: 'q=vpc-seq%3D{VPC Seq}'    
-        - in: query
-          name: name
-          schema: 
-            type: string 
-            example: 'q=name%3D{Subnet 명}'
+            example: 'q=vpc-id%3D{VPC ID}'    
         - in: query
           name: cloud-subnet-code
           schema: 
@@ -1812,10 +1802,10 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_x_tenant_id'
         - in: query
-          name: seq
+          name: id
           schema: 
             type: string
-            example: 'q=seq%3D{NIC Seq}'
+            example: 'q=id%3D{NIC ID}'
         - in: query
           name: product-list-seq
           schema: 
@@ -1831,11 +1821,6 @@ paths:
           schema: 
             type: string
             example: 'q=system-id%3D{시스템 ID}'    
-        - in: query
-          name: name
-          schema: 
-            type: string 
-            example: 'q=name%3D{NIC 명}'
         - in: query
           name: cloud-nic-code
           schema: 
@@ -1917,18 +1902,18 @@ paths:
             type: string
             example: 'q=product-list-seq%3D{제품 리스트 Seq}'
         - in: query
-          name: acg-seq
+          name: acg-id
           schema: 
             type: string
-            example: 'q=acg-seq%3D{VPC Seq}'
+            example: 'q=acg-id%3D{VPC ID}'
         - in: query
-          name: nic-seq
+          name: nic-id
           schema: 
             type: string
-            example: 'q=nic-seq%3D{VPC Seq}'
+            example: 'q=nic-id%3D{VPC ID}'
       responses:
         '200':
-          description: 'Saas ACG 정보'
+          description: 'Saas ACG Map 정보'
           content:
             application/json:
               schema: 
@@ -1996,20 +1981,15 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_x_tenant_id'
         - in: query
-          name: seq
+          name: id
           schema: 
             type: string
-            example: 'q=seq%3D{ACG Seq}'
+            example: 'q=id%3D{ACG ID}'
         - in: query
-          name: vpc-seq
+          name: vpc-id
           schema: 
             type: string
-            example: 'q=vpc-seq%3D{VPC Seq}'    
-        - in: query
-          name: name
-          schema: 
-            type: string
-            example: 'q=name%3D{ACG 명}'    
+            example: 'q=vpc-id%3D{VPC ID}'
         - in: query
           name: cloud-acg-code
           schema: 
@@ -2090,10 +2070,10 @@ paths:
             type: string
             example: 'q=seq%3D{ACL Rule Seq}'
         - in: query
-          name: acg-seq
+          name: acg-id
           schema: 
             type: string
-            example: 'q=acg-seq%3D{ACG Seq}'    
+            example: 'q=acg-id%3D{ACG ID}'    
         - in: query
           name: cloud-acl-code
           schema: 
@@ -2169,20 +2149,15 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_x_tenant_id'
         - in: query
-          name: seq
+          name: id
           schema: 
             type: string
-            example: 'q=seq%3D{ACG Seq}'    
+            example: 'q=id%3D{ACG ID}'    
         - in: query
-          name: vpc-seq
+          name: vpc-id
           schema: 
             type: string 
-            example: 'q=vpc-seq%3D{VPC Seq}'
-        - in: query
-          name: name
-          schema: 
-            type: string 
-            example: 'q=name%3D{ACG 명}'
+            example: 'q=vpc-id%3D{VPC ID}'
         - in: query
           name: cloud-acg-code
           schema: 
@@ -6001,10 +5976,10 @@ components:
           type: string
         system_id: 
           type: string
-        vpc_seq:
-          type: integer
-        subnet_seq:
-          type: integer
+        vpc_id:
+          type: string
+        subnet_id:
+          type: string
         system_name: 
           type: string
         cloud_zone_code:
@@ -6081,10 +6056,10 @@ components:
           type: string
         system_id: 
           type: string
-        vpc_seq:
-          type: integer
-        subnet_seq:
-          type: integer
+        vpc_id:
+          type: string
+        subnet_id:
+          type: string
         system_name: 
           type: string
         cloud_zone_code:
@@ -6170,8 +6145,8 @@ components:
     saas_system_storage:
       type: object
       properties:
-        seq: 
-          type: integer
+        id: 
+          type: string
         product_list_seq:
           type: integer
         cloud_storage_code:
@@ -6194,7 +6169,7 @@ components:
         volume:
           type: integer
       required:
-        - "seq"
+        - "id"
 
     put_saas_system_storage_list:
       type: array
@@ -6205,8 +6180,8 @@ components:
     put_saas_system_storage:
       type: object
       properties:
-        seq: 
-          type: integer
+        id: 
+          type: string
         product_list_seq:
           type: integer
         cloud_storage_code:
@@ -6232,7 +6207,7 @@ components:
         volume:
           type: integer
       required:
-        - "seq"
+        - "id"
 
     saas_vpc_list:
       type: array
@@ -6242,9 +6217,7 @@ components:
     saas_vpc:
       type: object
       properties:
-        seq:
-          type: integer
-        name:
+        id:
           type: string
         cloud_region_code:
           type: string 
@@ -6254,6 +6227,8 @@ components:
           type: string
         status:
           type: string
+      required:
+        - "id"
 
     saas_subnet_list:
       type: array
@@ -6263,13 +6238,11 @@ components:
     saas_subnet:
       type: object
       properties:
-        seq:
-          type: integer
+        id:
+          type: string
         product_list_seq:
           type: integer
-        vpc_seq:
-          type: integer
-        name:
+        vpc_id:
           type: string
         cloud_zone_code:
           type: string
@@ -6279,6 +6252,8 @@ components:
           type: string
         cloud_nacl_code:
           type: string
+        cloud_subnet_code:
+          type: string
         cidr_block:
           type: string
         network_type:
@@ -6287,6 +6262,8 @@ components:
           type: string
         status:
           type: string
+      required:
+        - "id"
 
     saas_nic_list:
       type: array
@@ -6296,15 +6273,13 @@ components:
     saas_nic:
       type: object
       properties:
-        seq:
-          type: integer
+        id:
+          type: string
         product_list_seq:
           type: integer
         group_id:
           type: string
         system_id:
-          type: string
-        name:
           type: string
         cloud_region_code:
           type: string
@@ -6323,7 +6298,7 @@ components:
         status:
           type: string
       required:
-        - "seq"
+        - "id"
 
 
     saas_acg_map_list:
@@ -6336,10 +6311,10 @@ components:
       properties:
         product_list_seq:
           type: integer
-        acg_seq:
-          type: integer
-        nic_seq:
-          type: integer
+        acg_id:
+          type: string
+        nic_id:
+          type: string
 
       
     saas_acg_list:
@@ -6350,20 +6325,20 @@ components:
     saas_acg:
       type: object
       properties:
-        seq:
-          type: integer
-        vpc_seq:
-          type: integer
+        id:
+          type: string
+        vpc_id:
+          type: string
         cloud_acg_code: 
           type: string
         cloud_id: 
-          type: string
-        name: 
           type: string
         status: 
           type: string  
         description: 
           type: string
+      required:
+        - "id"
     
     saas_acl_rule_list:
       type: array
@@ -6375,8 +6350,8 @@ components:
       properties:
         seq:
           type: integer
-        acg_seq:
-          type: integer
+        acg_id:
+          type: string
         cloud_acl_code:
           type: string
         direction:
@@ -6405,15 +6380,13 @@ components:
     saas_acg_union:    
       type: object
       properties:
-        seq:
-          type: integer
-        vpc_seq:
-          type: integer
+        id:
+          type: string
+        vpc_id:
+          type: string
         cloud_acg_code: 
           type: string
         cloud_id: 
-          type: string
-        name: 
           type: string
         status: 
           type: string  
@@ -6422,7 +6395,7 @@ components:
         acl_rule: 
           $ref: '#/components/schemas/saas_acl_rule_list'
       required:
-        - "seq"
+        - "id"
 
   
 ### Commen Properties Object 
