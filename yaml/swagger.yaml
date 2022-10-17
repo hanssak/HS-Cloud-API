@@ -823,7 +823,7 @@ paths:
                                             server:
                                               allOf:
                                                 - $ref: '#/components/schemas/form_header'
-                                                - $ref: '#/components/schemas/server_instance_info'
+                                                - $ref: '#/components/schemas/config_server_instance_info'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -4432,6 +4432,27 @@ components:
       required:
         - "cloud_vpc_network_range"
         - "cloud_subnet_network_range"
+    config_server_instance_info:
+      type: object
+      properties:
+        system_type:
+          type: string
+          description: '시스템구분자'
+          example: 'SGIN,SGEX,SGVF...'
+        cloud_os_id: 
+          type: string
+          description: '서버의 클라우드 os 고유코드 (config에서는 추천 코드를 의미)'
+          example: 'SW.VSVR.OS.LNX64.CNTOS.0708.B050 (CentOS 7.8)'
+        cloud_product_id:
+          type: string
+          description: '서버의 클라우드 product 고유코드 (config에서는 추천 코드를 의미)'
+          example: 'SPSVRCPU00000003A (Classic G1장비)'
+        min: 
+          type: integer
+          description: '서버 autoscale의 최소 개수'
+        max:
+          type: integer
+          description: '서버 autoscale의 최대 개수'    
     server_instance_info:
       type: object
       properties:
