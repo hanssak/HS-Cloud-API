@@ -4409,13 +4409,19 @@ components:
     server_network_info: 
       type: object
       properties:
-        cloud_vpc_code: 
+        cloud_vpc_name:
+          type: string
+          description: '클라우드 VPC명'
+        cloud_vpc_code:
           type: string
           description: '서버위치를 나타내는 VPC 고유코드'
         cloud_vpc_network_range:
           type: string
           description: 'VPC의 대역정보'
           example: '172.16.0.0/16'
+        cloud_subnet_name:
+          type: string
+          description: 'Subnet명'
         cloud_subnet_code:
           type: string
           description: '서버위치(subnet)를 나타내는 subnet 고유코드'
