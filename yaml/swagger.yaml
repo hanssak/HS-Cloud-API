@@ -1216,12 +1216,12 @@ paths:
           name: service_id 
           schema:
             type: string
-            example: 'q=service_id%3D{ServiceID or AddServiceID}'
+            example: 'q=service-id%3D{ServiceID or AddServiceID}'
         - in: query
           name: service_type 
           schema:
             type: string
-            example: 'q=service_type%3D{ServiceType}'
+            example: 'q=service-type%3D{ServiceType}'
       responses:
         '200':
           description: 'ACG - 해당 서비스 모든 정보 조회'
@@ -1277,6 +1277,90 @@ paths:
                           type: array
                           items:
                             $ref: '#/components/schemas/acg'
+      responses:
+        '201':
+          description: '주문 이력 등록 완료'
+        '409':
+          $ref: '#/components/responses/conflict'
+
+  '/{portal}/order/nic-subnet':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (3.검토): 추가된 NIC의 Subnet 데이터 조회 #GetOrderSubnet'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 추가 NIC에 대한 Subnet 정책 정보들을 조회합니다. (이 데이터는 주문정보에 저장됩니다.)'
+      operationId: GetOrderNicSubnet
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: query
+          name: product-list-seq
+          schema:
+            type: string
+            example: 'q=product-list-seq%3D{제품 리스트 SEQ}'
+      responses:
+        '200':
+          description: '추가 NIC의 Subnet 정보 조회'
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  subnet:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/nic_subnet'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+          
+    post:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (3.검토): 추가된 NIC의 Subnet 신청정보 등록 #PostOrderSubnet'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 추가된 NIC에 대한 Subnet 정보를 주문 정보 테이블에 저장합니다.'
+      operationId: PostOrderNicSubnet
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/order_header'
+                - type: object
+                  properties:
+                    order_info:
+                      type: object
+                      properties:
+                        nic_subnet:
+                          $ref: '#/components/schemas/nic_subnet'
       responses:
         '201':
           description: '주문 이력 등록 완료'
@@ -4289,6 +4373,52 @@ components:
               type: object
             description:
               type: string
+    
+    nic_subnet:
+      description: '추가 NIC Subnet'
+      type: object
+      properties:
+        subnet:
+          type: array 
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: 'Subnet 구분자'
+              cidr_block:
+                type: string
+                description: '추천 CIDR 영역'
+              network_type:
+                type: string
+                description: 'Subnet 네트워크 유형'
+        group:
+          type: array 
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              system:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    index: 
+                      type: integer
+                    nic:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          subnet_id:
+                            type: string
+                            description: 'Subnet ID'
+
     acg: 
       description: '(Base) ACG'
       type: object
