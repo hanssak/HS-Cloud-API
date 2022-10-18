@@ -1074,62 +1074,7 @@ paths:
           $ref: '#/components/responses/unauthorized'
         '404':
           $ref: '#/components/responses/notFound'
-          
-  '/{portal}/order/server/nic':
-    get:
-      tags: 
-        - '2. 생성'
-      summary: '2.1.1 SaaS 신청 (2.제품구성): SaaS서버 데이터 조회 #GetOrderServerNic'
-      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 서비스에 사전정의된 서버 모듈 정보들을 조회합니다. 해당 정보들은 서버의 실제 코드들도 내포되어 있습니다. (입력 데이터는 주문정보에 저장됩니다.)'
-      operationId: GetOrderServerNic
-      security:
-        - bearerAuth: []
-      parameters: 
-        - name: portal
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/parameter_portal'
-        - in: header
-          name: Authorization
-          required: true
-          schema:
-            $ref: '#/components/schemas/parameter_token'
-        - in: query
-          name: license-id 
-          schema:
-            type: string
-            example: 'q=license-id%3D{LicenseID}'
-          required: true
-        - in: query
-          name: cloud-id 
-          schema:
-            type: string
-            example: 'q=cloud-id%3D{CloudID}'
-          required: true
-        - in: query
-          name: add-service-list 
-          schema:
-            type: string
-            example: 'q=add-service-list%3D{부가서비스 리스트}'
-          required: true
-        - in: query
-          name: system 
-          schema:
-            type: string
-            example: 'q=system%3D{System구분자}'
-          required: true
-      responses:
-        '200':
-          description: 'NIC 데이터 정보 조회'
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  server_nic_dev_list:
-                    $ref: '#/components/schemas/nic_dev_list_instance_info'
-
+      
   '/{portal}/order/server':
     post:
       tags: 
@@ -1228,7 +1173,7 @@ paths:
                   nic-subnet:
                     type: array
                     items:
-                      $ref: '#/components/schemas/nic_subnet'
+                      $ref: '#/components/schemas/nic_subnet_instance_info'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -1269,7 +1214,7 @@ paths:
                       type: object
                       properties:
                         nic_subnet:
-                          $ref: '#/components/schemas/nic_subnet'
+                          $ref: '#/components/schemas/nic_subnet_instance_info'
       responses:
         '201':
           description: '주문 이력 등록 완료'
@@ -4375,51 +4320,6 @@ components:
             description:
               type: string
     
-    nic_subnet:
-      description: '추가 NIC Subnet'
-      type: object
-      properties:
-        subnet:
-          type: array 
-          items:
-            type: object
-            properties:
-              id:
-                type: string
-                description: 'Subnet 구분자'
-              cidr_block:
-                type: string
-                description: '추천 CIDR 영역'
-              network_type:
-                type: string
-                description: 'Subnet 네트워크 유형'
-        group:
-          type: array 
-          items:
-            type: object
-            properties:
-              index:
-                type: integer
-              system:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    type:
-                      type: string
-                    index: 
-                      type: integer
-                    nic:
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            type: string
-                          subnet_id:
-                            type: string
-                            description: 'Subnet ID'
-
     acg: 
       description: '(Base) ACG'
       type: object
@@ -4612,22 +4512,50 @@ components:
         create_num:
           type: integer
     
-    nic_dev_list_instance_info:
-      type: array
-      items:
-        type: object
-        properties:
-          name:
-            type: string
-          subnet_id:
-            type: string
-          subnet_type:
-            type: string
-            example: "PRIVATE, PUBLIC"
-          link_type:
-            type: string
-            example: "1:1, N:N"
-          
+    nic_subnet_instance_info:
+      description: '추가 NIC Subnet'
+      type: object
+      properties:
+        subnet:
+          type: array 
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: 'Subnet 구분자'
+              cidr_block:
+                type: string
+                description: '추천 CIDR 영역'
+              network_type:
+                type: string
+                description: 'Subnet 네트워크 유형'
+        group:
+          type: array 
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              system:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    index: 
+                      type: integer
+                    nic:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          subnet_id:
+                            type: string
+                            description: 'Subnet ID'
 
 ### DB: Admin Object
     post_admin:
