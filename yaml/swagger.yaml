@@ -780,6 +780,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
         - in: query
           name: license-id 
           schema:
@@ -1126,9 +1130,6 @@ paths:
                                 type: object
                                 allOf:
                                   - $ref: '#/components/schemas/storage_instance_info'
-                            nic_dev_list:
-                              $ref: '#/components/schemas/nic_dev_list_instance_info'
-                              
       responses:
         '201':
           description: '주문 이력 등록 완료'
@@ -1157,6 +1158,10 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
         - in: query
           name: product-list-seq
           schema:
@@ -1369,6 +1374,10 @@ paths:
                     items:
                       type: object
                   server:
+                    type: array
+                    items:
+                      type: object
+                  nic_subnet:
                     type: array
                     items:
                       type: object
@@ -4526,7 +4535,8 @@ components:
                 description: 'Subnet 구분자'
               cidr_block:
                 type: string
-                description: '추천 CIDR 영역'
+                description: 'GET인 경우 추천 CIDR 영역으로 예제의 xxx 부분은 사용자가 직접 수정 가능'
+                example: 'xxx.xxx.xxx.xxx/30'
               network_type:
                 type: string
                 description: 'Subnet 네트워크 유형'
