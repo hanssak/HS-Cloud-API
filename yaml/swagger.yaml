@@ -1175,7 +1175,7 @@ paths:
               schema: 
                 type: object
                 properties:
-                  nic-subnet:
+                  nic_subnet:
                     type: array
                     items:
                       $ref: '#/components/schemas/nic_subnet_instance_info'
