@@ -4829,7 +4829,7 @@ components:
               type: string
             phone:
               type: string
-            payment:
+            payment_info:
               type: object
             add_info:
               type: object
