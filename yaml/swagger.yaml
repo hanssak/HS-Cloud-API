@@ -795,7 +795,6 @@ paths:
           schema:
             type: string
             example: 'q=cloud-id%3D{CloudID}'
-          required: true
         - in: query
           name: add-service-id-list 
           schema:
