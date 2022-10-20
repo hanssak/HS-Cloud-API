@@ -796,6 +796,12 @@ paths:
             type: string
             example: 'q=cloud-id%3D{CloudID}'
           required: true
+        - in: query
+          name: add-service-id-list 
+          schema:
+            type: string
+            example: 'q=add-service-id-list%3D{신청한 부가서비스ID List 구분자는 콤마(,)}'
+          required: true  
       responses:
         '200':
           description: '서비스 구성을 위한 모든 폼 데이터 조회'
