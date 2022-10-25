@@ -4355,9 +4355,9 @@ components:
           type: string
           description: "시스템 구분자 (:SYSTEM)"
           example: "SGIN"
-        nic_dev:
+        nic_id:
           type: string
-          description: "NIC 디바이스명"
+          description: "NIC ID"
         acl_rule:
           type: array 
           items:
