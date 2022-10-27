@@ -1072,14 +1072,16 @@ paths:
                     type: object
                     properties:
                       storage:
-                        type: object
-                        properties:
-                          recommand_volume:
-                            type: integer
-                          create_num:
-                            type: integer
-                          cloud_storage:
-                            $ref: '#/components/schemas/cloud_storage'
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            recommand_volume:
+                              type: integer
+                            create_num:
+                              type: integer
+                            cloud_storage:
+                              $ref: '#/components/schemas/cloud_storage'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
