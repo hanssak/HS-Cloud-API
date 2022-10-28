@@ -4447,6 +4447,10 @@ components:
                 type: string
                 description: 'Subnet 대역정보 (VPC 하위 서브넷팅이여야함)'
                 example: '172.16.1.0/24'
+              network_type:
+                type: string
+                description: '네트워크 유형'
+                example: 'PUBLIC/PRIVATE'  
               vpc_code:
                 type: string
                 description: 'Subnet이 속한 VPC 고유코드'
@@ -4477,6 +4481,10 @@ components:
           type: string
           description: 'Subnet의 대역정보'
           example: '172.16.5.0/24'
+        cloud_subnet_network_type:
+          type: string
+          description: 'Subnet의 네트워크 유형'
+          example: 'PUBLIC/PRIVATE'
       required:
         - "cloud_vpc_network_range"
         - "cloud_subnet_network_range"
