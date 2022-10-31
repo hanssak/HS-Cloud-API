@@ -2222,6 +2222,48 @@ paths:
           $ref: '#/components/responses/notFound'
 
 
+  '/{portal}/manage/infrawares':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작viii): Infraware 시스템 정보 조회 #GetManageInfrawares'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Infraware 시스템 정보 조회'
+      operationId: GetManageInfrawares
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: query
+          name: hostname
+          schema: 
+            type: string
+            example: 'q=hostname%3D{시스템명}'    
+        - in: query
+          name: k8s-cp-type
+          schema: 
+            type: string 
+            example: 'q=k8s-cp-type%3D{K8S Controll Plan 유형}'
+      responses:
+        '200':
+          description: 'Infrawares 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/infraware_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+
   '/{portal}/meta/product/create':
     post:
       tags: 
@@ -6419,8 +6461,37 @@ components:
           $ref: '#/components/schemas/saas_acl_rule_list'
       required:
         - "id"
+        
+    infraware_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/infraware'
 
-  
+    infraware:    
+      type: object
+      properties:
+        hostname:
+          type: string
+          example: 'INFRAWARE001'
+        k8s_cp_type:
+          type: string
+          example: 'LEADER/FOLLOWER'
+        k8s_lb_ip:
+          type: string
+          description: 'Kubernetes Loadbalancer IP'  
+        private_ip:
+          type: string
+        public_ip:
+          type: string
+        userid:
+          type: string
+        password:
+          type: string
+          description: '사용자 계정 암호'
+        root_password:
+          type: string
+          description: 'root 계정 암호'  
+
 ### Commen Properties Object 
     id:
       type: object
