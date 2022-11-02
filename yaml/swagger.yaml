@@ -6221,14 +6221,7 @@ components:
         product_list_seq:
           type: integer
         cloud_storage_code:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              code:
-                type: string
+          type: string
         group_id:
           type: string
         system_id:
@@ -6256,17 +6249,7 @@ components:
         product_list_seq:
           type: integer
         cloud_storage_code:
-          type: array
-          items:
-            type: object
-            properties:
-              operation:
-                type: string
-                example: "insert or update or delete"
-              name:
-                type: string
-              code:
-                type: string
+          type: string
         group_id:
           type: string
         system_id:
