@@ -1729,6 +1729,90 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'
 
+  '/{portal}/manage/saas-nacls':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): NACL 조회 #GetManageSaasNacls'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas NACL 조회'
+      operationId: GetManageSaasNacls
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: id
+          schema: 
+            type: string
+            example: 'q=id%3D{NACL ID}'
+        - in: query
+          name: vpc-id
+          schema: 
+            type: string
+            example: 'q=vpc-id%3D{VPC ID}'
+        - in: query
+          name: cloud-nacl-code
+          schema: 
+            type: string 
+            example: 'q=cloud-nacl-code%3D{클라우드 NACL 고유 코드}'
+      responses:
+        '200':
+          description: 'Saas NACL 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/saas_nacl_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작vii): NACL 갱신 #PutManageSaasNacls'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas NACL 갱신'
+      operationId: PutManageSaasNacls
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saas_nacl_list'
+        required: true
+      responses:
+        '200':
+          description: 'Saas NACL 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'
+
   '/{portal}/manage/saas-subnets':
     get:
       tags: 
@@ -1766,7 +1850,12 @@ paths:
           name: vpc-id
           schema: 
             type: string
-            example: 'q=vpc-id%3D{VPC ID}'    
+            example: 'q=vpc-id%3D{VPC ID}'
+        - in: query
+          name: nacl-id
+          schema: 
+            type: string
+            example: 'q=nacl-id%3D{NACL ID}'        
         - in: query
           name: cloud-subnet-code
           schema: 
@@ -6284,6 +6373,25 @@ components:
       required:
         - "id"
 
+    saas_nacl_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_nacl'
+         
+    saas_nacl:
+      type: object
+      properties:
+        id:
+          type: string
+        vpc_id:
+          type: string
+        cloud_nacl_code:
+          type: string
+        description:
+          type: string
+      required:
+        - "id"
+
     saas_subnet_list:
       type: array
       items:  
@@ -6298,6 +6406,8 @@ components:
           type: integer
         vpc_id:
           type: string
+        nacl_id:
+          type: string  
         cloud_zone_code:
           type: string
         cloud_nacl_code:
