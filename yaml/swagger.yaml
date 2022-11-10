@@ -5063,7 +5063,8 @@ components:
           type: string
         vpc_name:
           type: string
-        reg
+        region_code:
+          type: string
       required:
       - ipv4_cidr_block
       - vpc_name
