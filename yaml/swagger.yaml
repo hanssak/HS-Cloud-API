@@ -4147,7 +4147,7 @@ paths:
             description: '서버 인스턴스 번호'
             example: '서버 인스턴스 번호'
         - in: header
-          name: PrivateKey
+          name: private-key
           required: true
           schema:
             type: string
