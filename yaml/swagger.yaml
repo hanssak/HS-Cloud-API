@@ -3671,6 +3671,89 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError'
+  '/{portal}/broker/{vendor}/service/vserver/acg-inbound-rules':
+    post:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 ACG RULE 추가 요청 #PostBrokerNcpVserverAcgInboundRules"
+      description: "- 네이버 클라우드에 ACG-Rule 추가요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpVserverAcgInboundRules
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/add_access_control_group_rule_request'
+      responses:
+        '201':
+          description: 'ACG-Rule 추가 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/access_control_group_rule_list'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  '/{portal}/broker/{vendor}/service/vserver/acg-outbound-rules':
+    post:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 ACG RULE 추가 요청 #PostBrokerNcpVserverAcgOutboundRules"
+      description: "- 네이버 클라우드에 ACG-Rule 추가요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpVserverAcgOutboundRules
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/add_access_control_group_rule_request'
+      responses:
+        '201':
+          description: 'ACG-Rule 추가 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/access_control_group_rule_list'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'          
+          
   '/{portal}/broker/{vendor}/service/vserver/network-interfaces':
     post:
       tags:
@@ -6074,6 +6157,87 @@ components:
         server_instance_no:
           description: 서버 인스턴스 번호
           type: string
+    access_control_group_rule:
+      properties:
+        access_control_group_no:
+          description: ACG번호
+          type: string
+        access_control_group_rule_description:
+          description: ACGRule설명
+          type: string
+        access_control_group_rule_type:
+          $ref: '#/components/schemas/common_code'
+          description: ACGRule유형
+        access_control_group_sequence:
+          description: 접근소스ACG
+          type: string
+        ip_block:
+          description: IP블록
+          type: string
+        port_range:
+          description: 포트범위
+          type: string
+        protocol_type:
+          $ref: '#/components/schemas/common_code'
+          description: 프로토콜유형
+      type: object
+    access_control_group_rule_list:
+      properties:
+        access_control_group_rule_list:
+          items:
+            $ref: '#/components/schemas/access_control_group_rule'
+          type: array
+        request_id:
+          type: string
+        return_code:
+          type: string
+        return_message:
+          type: string
+        total_rows:
+          type: integer
+      type: object
+    add_access_control_group_rule_parameter:
+      properties:
+        access_control_group_rule_description:
+          description: ACGRule설명
+          type: string
+        access_control_group_sequence:
+          description: 접근소스ACG
+          type: string
+        ip_block:
+          description: IP블록
+          type: string
+        port_range:
+          description: 포트범위
+          type: string
+        protocol_type_code:
+          description: 프로토콜유형코드
+          type: string
+      type: object
+    add_access_control_group_rule_request:
+      properties:
+        access_control_group_no:
+          description: ACG번호
+          type: string
+        access_control_group_rule_list:
+          description: ACGRule리스트
+          items:
+            $ref: '#/components/schemas/add_access_control_group_rule_parameter'
+          type: array
+        region_code:
+          description: REGION코드
+          type: string
+        response_format_type:
+          description: 응답결과 포맷
+          type: string
+        vpc_no:
+          description: VPC번호
+          type: string
+      type: object
+
+
+
+
 
 ### DB: SaaS Object
     post_apply_saas_admin:
