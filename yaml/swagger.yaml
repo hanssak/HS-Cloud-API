@@ -2311,6 +2311,249 @@ paths:
           $ref: '#/components/responses/notFound'
 
 
+  '/{portal}/manage/saas-add-services':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): 부가서비스 조회 #GetManageSaasAddServices'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas 부가서비스 조회'
+      operationId: GetManageSaasAddServices
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: product-list-seq
+          schema: 
+            type: string
+            example: 'q=product-list-seq%3D{제품 리스트 SEQ}'
+        - in: query
+          name: add-service-id
+          schema: 
+            type: string
+            example: 'q=add-service-id%3D{부가서비스 ID}'
+      responses:
+        '200':
+          description: 'Saas 부가서비스 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/saas_add_service_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+    
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작iv): 부가서비스 갱신 #PutManageSaasAddServices'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas 부가서비스 갱신'
+      operationId: PutManageSaasAddServices
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saas_add_service_list'
+        required: true
+      responses:
+        '200':
+          description: 'Saas 부가서비스 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'  
+
+  '/{portal}/manage/saas-group-scale-policy':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): 그룹 Scale 정책 조회 #GetManageSaasGroupScalePolicys'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas 그룹 Scale 정책 조회'
+      operationId: GetManageSaasGroupScalePolicys
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: product-list-seq
+          schema: 
+            type: string
+            example: 'q=product-list-seq%3D{제품 리스트 SEQ}'
+        - in: query
+          name: scale-policy-id
+          schema: 
+            type: string
+            example: 'q=scale-policy-id%3D{그룹 Scale정책 ID}'
+      responses:
+        '200':
+          description: 'Saas 그룹 Scale 정책 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/saas_group_scale_policy_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+    
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작iv): 그룹 Scale 정책 갱신 #PutManageSaasGroupScalePolicys'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas 그룹 Scale 정책 갱신' 
+      operationId: PutManageSaasGroupScalePolicys
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saas_group_scale_policy_list'
+        required: true
+      responses:
+        '200':
+          description: 'Saas 그룹 Scale 정책 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'  
+
+  '/{portal}/manage/saas-system-scale-policy':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): 시스템 Scale 정책 조회 #GetManageSaasSystemScalePolicys'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas 시스템 Scale 정책 조회'
+      operationId: GetManageSaasSystemScalePolicys
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: product-list-seq
+          schema: 
+            type: string
+            example: 'q=product-list-seq%3D{제품 리스트 SEQ}'
+        - in: query
+          name: scale-policy-id
+          schema: 
+            type: string
+            example: 'q=scale-policy-id%3D{시스템 Scale 정책 ID}'
+        - in: query
+          name: system
+          schema: 
+            type: string
+            example: 'q=system%3D{시스템 구분자}'    
+      responses:
+        '200':
+          description: 'Saas 시스템 Scale 정책 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/saas_system_scale_policy_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+    
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작iv): 시스템 Scale 정책 갱신 #PutManageSaasSystemScalePolicys'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas 시스템 Scale 정책 갱신' 
+      operationId: PutManageSaasSystemScalePolicys
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saas_system_scale_policy_list'
+        required: true
+      responses:
+        '200':
+          description: 'Saas 시스템 Scale 정책 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'  
+
+
   '/{portal}/manage/infrawares':
     get:
       tags: 
@@ -6777,7 +7020,59 @@ components:
           $ref: '#/components/schemas/saas_acl_rule_list'
       required:
         - "id"
-        
+
+    saas_add_service_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_add_service'
+
+    saas_add_service:
+      type: object
+      properties:
+        product_list_seq:
+          type: integer
+        add_service_id: 
+          type: string
+      required:
+        - "product_list_seq"
+
+    saas_group_scale_policy_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_group_scale_policy'
+
+    saas_group_scale_policy:
+      type: object
+      properties:
+        product_list_seq:
+          type: integer
+        scale_policy_id: 
+          type: string
+        act_value:
+          type: integer
+      required:
+        - "product_list_seq"
+
+    saas_system_scale_policy_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_system_scale_policy'
+
+    saas_system_scale_policy:
+      type: object
+      properties:
+        product_list_seq:
+          type: integer
+        scale_policy_id: 
+          type: string
+        system:
+          type: string
+        act_value:
+          type: integer
+      required:
+        - "product_list_seq"
+
+
     infraware_list:
       type: array
       items:  
