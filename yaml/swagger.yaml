@@ -3661,6 +3661,48 @@ paths:
         '500':
           $ref: '#/components/responses/internalServerError' 
   '/{portal}/broker/{vendor}/service/networing/subnets/{subnet_no}':
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 Subnet 조회 #GetBrokerNcpVpcSubnetDetail"
+      description: "- 네이버 클라우드에 Subnet를 조회합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.) \n 내부 서비스간 통신만 허용하는 API입니다.  참고: https://api.ncloud-docs.com/docs/networking-vpc-subnetmanagement-getsubnetlist"
+      operationId: GetBrokerNcpVpcSubnetDetail
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: subnet_no 
+          required: true
+          schema:
+            type: string
+            example: 'Subnet 코드'
+            description: '조회할 Subnet 번호'
+      responses:
+        '200':
+          description: 'Subnet 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/subnet' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'   
     delete:
       tags:
         - "98. 클라우드연동"
