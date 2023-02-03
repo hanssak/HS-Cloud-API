@@ -3497,6 +3497,48 @@ paths:
         '500':
           $ref: '#/components/responses/internalServerError' 
   '/{portal}/broker/{vendor}/service/networing/vpcs/{vpcno}':
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 VPC 단일 조회 #GetBrokerNcpVpcVpcDetail"
+      description: "- 네이버 클라우드에 VPC를 조회합니다. (API Key는 내부에서 keymanager를 통해 사용합니다.) \n 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: GetBrokerNcpVpcVpcDetail
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: vpcno 
+          required: true
+          schema:
+            type: string
+            example: 'VPC 번호'
+            description: '조회할 VPC Code'   
+      responses:
+        '200':
+          description: 'VPC 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vpc' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
     delete:
       tags:
         - "98. 클라우드연동"
@@ -5466,6 +5508,27 @@ components:
           $ref: '#/components/schemas/common_code'
           description: VPC상태
       type: object
+    vpc:
+      properties:
+        create_date:
+          description: 생성일시
+          type: string
+        ipv4_cidr_block:
+          description: ipv4 cidr블록
+          type: string
+        region_code:
+          description: region코드
+          type: string
+        vpc_name:
+          description: vpc이름
+          type: string
+        vpc_no:
+          description: vpc번호
+          type: string
+        vpc_status:
+          $ref: '#/components/schemas/common_code'
+          description: vpc상태
+      type: object
     ncp_vpc_create_subnet_request:
       properties:
         network_acl_no:
@@ -5522,27 +5585,6 @@ components:
           items:
             $ref: '#/components/schemas/vpc'
           type: array
-      type: object
-    vpc:
-      properties:
-        create_date:
-          description: 생성일시
-          type: string
-        ipv4_cidr_block:
-          description: ipv4 cidr블록
-          type: string
-        region_code:
-          description: region코드
-          type: string
-        vpc_name:
-          description: vpc이름
-          type: string
-        vpc_no:
-          description: vpc번호
-          type: string
-        vpc_status:
-          $ref: '#/components/schemas/common_code'
-          description: vpc상태
       type: object
     subnet:
       properties:
