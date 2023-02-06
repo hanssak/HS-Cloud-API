@@ -4552,6 +4552,12 @@ paths:
           required: true
           schema:
             $ref: '#/components/schemas/parameter_portal'
+        - in: query
+          name: conditionalGetServerList
+          schema:
+            type: string
+            example: 'q=server_instance_no_list%3Dval,server_name%3Dval,ip%3Dval'
+            description: '쿼리 조회 시 쿼리 조건 자유롭게 사용가능'
       responses:
         '200':
           description: 'Server List 조회 완료'
@@ -4563,7 +4569,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError' 
-  '/{portal}/broker/{vendor}/service/vserver/servers/{name}':
+  '/{portal}/broker/{vendor}/service/vserver/servers/{no}':
     delete:
       tags:
         - "98. 클라우드연동"
@@ -4589,7 +4595,7 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: path
-          name: name 
+          name: no
           required: true
           schema:
             type: string
@@ -4609,9 +4615,9 @@ paths:
     get:
       tags:
         - "98. 클라우드연동"
-      summary: "2.1.1 Server (단일)조회 #GetBrokerNcpVserverServer"
+      summary: "2.1.1 Server (단일)조회 #GetBrokerNcpVserverServerDetail"
       description: "- 네이버 클라우드에 Server 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
-      operationId: GetBrokerNcpVserverServer
+      operationId: GetBrokerNcpVserverServerDetail
       security:
         - bearerAuth: []
       parameters:
@@ -4631,12 +4637,12 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: path
-          name: name 
+          name: no
           required: true
           schema:
             type: string
-            description: '서버 이름'
-            example: '서버 이름'
+            description: '서버 인스턴스 코드'
+            example: '서버 인스턴스 코드'
       responses:
         '200':
           description: 'Server 조회 완료'
