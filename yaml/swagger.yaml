@@ -3826,6 +3826,47 @@ paths:
         '500':
           $ref: '#/components/responses/internalServerError' 
   '/{portal}/broker/{vendor}/service/networing/nacls/{network_acl_no}':
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 NACL Detail 조회 #GetBrokerNcpVpcNaclDetail"
+      description: "- 네이버 클라우드에 NetworkAcl 세부정보를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpVpcNaclDetail
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: network_acl_no 
+          required: true
+          schema:
+            type: string
+            example: 'NACL 번호'
+      responses:
+        '200':
+          description: 'Network Acl 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/network_acl' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
     delete:
       tags:
         - "98. 클라우드연동"
