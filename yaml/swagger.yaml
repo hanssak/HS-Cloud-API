@@ -3420,7 +3420,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError'
-  '/{portal}/broker/{vendor}/service/networing/vpcs':
+  '/{portal}/broker/{vendor}/service/networking/vpcs':
     post:
       tags:
         - "98. 클라우드연동"
@@ -3496,7 +3496,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError' 
-  '/{portal}/broker/{vendor}/service/networing/vpcs/{vpcno}':
+  '/{portal}/broker/{vendor}/service/networking/vpcs/{vpcno}':
     get:
       tags:
         - "98. 클라우드연동"
@@ -3577,7 +3577,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError'
-  '/{portal}/broker/{vendor}/service/networing/subnets':
+  '/{portal}/broker/{vendor}/service/networking/subnets':
     post:
       tags:
         - "98. 클라우드연동"
@@ -3660,7 +3660,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError' 
-  '/{portal}/broker/{vendor}/service/networing/subnets/{subnet_no}':
+  '/{portal}/broker/{vendor}/service/networking/subnets/{subnet_no}':
     get:
       tags:
         - "98. 클라우드연동"
@@ -3742,7 +3742,7 @@ paths:
         '500':
           $ref: '#/components/responses/internalServerError'
           
-  '/{portal}/broker/{vendor}/service/networing/nacls':
+  '/{portal}/broker/{vendor}/service/networking/nacls':
     post:
       tags:
         - "98. 클라우드연동"
@@ -3825,7 +3825,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError' 
-  '/{portal}/broker/{vendor}/service/networing/nacls/{network_acl_no}':
+  '/{portal}/broker/{vendor}/service/networking/nacls/{network_acl_no}':
     get:
       tags:
         - "98. 클라우드연동"
