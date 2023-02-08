@@ -7108,6 +7108,8 @@ components:
           type: string
         cloud_nacl_code:
           type: string
+        status:
+          type: string  
         description:
           type: string
       required:
