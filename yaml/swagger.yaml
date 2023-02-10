@@ -2636,13 +2636,13 @@ paths:
           $ref: '#/components/responses/notFound'
         '409':
           $ref: '#/components/responses/conflict'
-  '/{portal}/build/service/saas':
+  '/{portal}/build/services/saas':
     post:
       tags: 
-        - '99. 개발중'
+        - '2. 생성'
       summary: '2.1.1 SaaS 신청 (4.생성시작): SaaS 생성 시작 명령 #PostBuildServiceSaas'
       description: '\- Metadata-Manager => SaaS-Builder <br> (Operation) SaaS DB를 기준으로 제품생성을 클라우드에 실제 시작하는 동작을 수행합니다 : 테넌트 ID, 제품 리스트 SEQ 필요'
-      operationId: PostBuildServiceSaas
+      operationId: PostBuildServicesSaas
       security:
         - bearerAuth: []
       parameters:
