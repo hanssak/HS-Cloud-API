@@ -2636,7 +2636,7 @@ paths:
           $ref: '#/components/responses/notFound'
         '409':
           $ref: '#/components/responses/conflict'
-  '/{portal}/build/services/saas':
+  '/{portal}/build/service/saas':
     post:
       tags: 
         - '2. 생성'
