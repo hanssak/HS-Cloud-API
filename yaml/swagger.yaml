@@ -1229,6 +1229,94 @@ paths:
           $ref: '#/components/responses/conflict'
 
 
+  '/{portal}/order/lb':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (2.생성): 로드발란서 데이터 조회 #GetOrderLb'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 로드발란서 정책 정보들을 조회합니다. (이 데이터는 주문정보에 저장됩니다.)'
+      operationId: GetOrderLb
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: product-list-seq
+          schema:
+            type: string
+            example: 'q=product-list-seq%3D{제품 리스트 SEQ}'
+      responses:
+        '200':
+          description: '로드발란서 정보 조회'
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  nic_subnet:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/lb_instance_info'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+          
+    post:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (2.생성): 로드발란서 신청정보 등록 #PostOrderLb'
+      description: '\- 서비스포털 -> API Gateway -> Configurator <br> 로드발란서 정보를 주문 정보 테이블에 저장합니다.'
+      operationId: PostOrderLb
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/order_header'
+                - type: object
+                  properties:
+                    order_info:
+                      type: object
+                      properties:
+                        lb:
+                          $ref: '#/components/schemas/lb_instance_info'
+      responses:
+        '201':
+          description: '주문 이력 등록 완료'
+        '409':
+          $ref: '#/components/responses/conflict'
+
   '/{portal}/order/acg':
     get:
       tags: 
@@ -2310,6 +2398,278 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'
 
+
+  '/{portal}/manage/saas-lb-maps':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): LB 조회 #GetManageSaasLbMaps'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas 로드발란서 Map 조회'
+      operationId: GetManageSaasLbMaps
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: product-list-seq
+          schema: 
+            type: string
+            example: 'q=product-list-seq%3D{제품 리스트 Seq}'
+        - in: query
+          name: lb-rule-id
+          schema: 
+            type: string
+            example: 'q=lb-rule-id%3D{로드발란서 규칙 ID}'
+        - in: query
+          name: group-id
+          schema: 
+            type: string
+            example: 'q=group-id%3D{그룹 ID}'
+        - in: query
+          name: system-id
+          schema: 
+            type: string
+            example: 'q=system-id%3D{시스템 ID}'    
+      responses:
+        '200':
+          description: 'Saas 로드발란서 Map 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/saas_lb_map_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+    
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작iv): ACG MAP 갱신 #PutManageSaasLbMaps'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas 로드발란서 Map 갱신'
+      operationId: PutManageSaasLbMaps
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saas_lb_map_list'
+        required: true
+      responses:
+        '200':
+          description: 'Saas 로드발란서 Map 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'  
+  
+  '/{portal}/manage/saas-lbs':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): ACG 조회 #GetManageSaasLbs'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas 로드발란서 조회'
+      operationId: GetManageSaasLbs
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: id
+          schema: 
+            type: string
+            example: 'q=id%3D{로드발란서 ID}'
+        - in: query
+          name: vpc-id
+          schema: 
+            type: string
+            example: 'q=vpc-id%3D{VPC ID}'
+        - in: query
+          name: subnet-id
+          schema: 
+            type: string
+            example: 'q=subnet-id%3D{SUBNET ID}'    
+        - in: query
+          name: cloud-lb-code
+          schema: 
+            type: string
+            example: 'q=cloud-lb-code%3D{클라우드 로드발란서 고유 코드}'
+      responses:
+        '200':
+          description: 'Saas 로드발란서 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/saas_lb_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+    
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작iv): 로드발란서 갱신 #PutManageSaasLbs'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas 로드발란서 갱신'
+      operationId: PutManageSaasLbs
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saas_lb_list'
+        required: true
+      responses:
+        '200':
+          description: 'Saas 로드발란서 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'  
+  
+  '/{portal}/manage/saas-lb-rules':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작i): 로드발란서 조회 #GetManageSaasLbRules'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas 로드발란서 Rule 조회'
+      operationId: GetManageSaasLbRules
+      security:
+        - bearerAuth: []
+      parameters: 
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'
+        - in: query
+          name: id
+          schema: 
+            type: string
+            example: 'q=id%3D{로드발란서 Rule ID}'
+        - in: query
+          name: lb-id
+          schema: 
+            type: string
+            example: 'q=lb-id%3D{로드발란서 ID}'    
+        - in: query
+          name: cloud-lb-listener-code
+          schema: 
+            type: string
+            example: 'q=cloud-lb-listener-code%3D{클라우드 로드발란서 Listener 고유 코드}'
+        - in: query
+          name: cloud-lb-listener-rule-code
+          schema: 
+            type: string
+            example: 'q=cloud-lb-listener-rule-code%3D{클라우드 로드발란서 Listener Rule 고유 코드}'
+        - in: query
+          name: cloud-lb-target-group-code
+          schema: 
+            type: string
+            example: 'q=cloud-lb-target-group-code%3D{클라우드 로드발란서 Target Group 고유 코드}'
+      responses:
+        '200':
+          description: 'Saas 로드발란서 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/saas_lb_rule_list'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
+
+    put:
+      tags:
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작iv): Acg Rule #PutManageSaasLbRules'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> Saas 로드발란서 Rule 갱신'
+      operationId: PutManageSaasLbRules
+      security:
+        - bearerAuth: []
+      parameters: 
+        - in: header
+          name: Authorization
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: header
+          name: X-TenantId
+          schema:
+            $ref: '#/components/schemas/parameter_x_tenant_id'      
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'    
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/saas_acl_rule_list'
+        required: true
+      responses:
+        '200':
+          description: 'Saas Acg 업데이트 성공'
+        '404':
+          $ref: '#/components/responses/notFound'  
 
   '/{portal}/manage/saas-add-services':
     get:
@@ -5338,6 +5698,67 @@ components:
                           subnet_id:
                             type: string
                             description: 'Subnet ID'
+                            
+    lb_instance_info:
+      description: '로드발란서'
+      type: object
+      properties:
+        id:
+          type: string
+          description: '로드발란서 구분자'
+        name:
+          type: string
+          description: '로드발란서 명칭'
+        type:
+          type: string
+          description: '로드발란서 유형'
+        throughput_type: 
+          type: string
+          description: '전송량 성능 유형'
+        description:
+          type: string
+          description: '설명'
+        subnet:
+          type: array
+          items:
+            type: object
+            properties:
+              id: 
+                type: string
+                description: 'Subnet 구분자'
+              cidr_block:
+                type: string
+                description: 'GET인 경우 추천 CIDR 영역으로 예제의 xxx 부분은 사용자가 직접 수정 가능'
+                example: 'xxx.xxx.xxx.xxx/30'
+              network_type:
+                type: string
+                description: 'Subnet 네트워크 유형'
+              usage:
+                type: string
+                description: 'Subnet 용도'
+        rule:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: '로드발란서 규칙'
+              protocol:
+                type: string
+                description: '프로토콜'
+              listener_port:
+                type: integer
+                description: '로드발란서 리스너 포트'
+              target_port:
+                type: integer
+                description: '대상 포트'
+              target_system:
+                type: string
+                description: '대상 시스템구분자'  
+              description:
+                type: string
+                description: '설명'
 
 ### DB: Admin Object
     post_admin:
@@ -7277,6 +7698,83 @@ components:
           $ref: '#/components/schemas/saas_acl_rule_list'
       required:
         - "id"
+
+    saas_lb_map_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_lb_map'
+         
+    saas_lb_map:
+      type: object
+      properties:
+        product_list_seq:
+          type: integer
+        lb_rule_id:
+          type: string
+        group_id:
+          type: string
+        system_id:
+          type: string
+
+    saas_lb_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_lb'
+         
+    saas_lb:
+      type: object
+      properties:
+        id:
+          type: string
+        vpc_id:
+          type: string
+        cloud_id:
+          type: string
+        subnet_id:
+          type: string
+        cloud_lb_code:
+          type: string
+        domain:
+          type: string
+        network_type:
+          type: string
+        type:
+          type: string
+        status:
+          type: string
+        description:
+          type: string
+
+    saas_lb_rule_list:
+      type: array
+      items:  
+         $ref: '#/components/schemas/saas_lb_rule'
+         
+    saas_lb_rule:
+      type: object
+      properties:
+        id:
+          type: string
+        lb_id:
+          type: string
+        cloud_lb_listener_code:
+          type: string
+        cloud_lb_listener_rule_code:
+          type: string
+        cloud_lb_target_group_code:
+          type: string
+        protocol:
+          type: string
+        listener_port:
+          type: string
+        target_port:
+          type: string
+        status:
+          type: string
+        add_info:
+          type: object
+        description:
+          type: string
 
     saas_add_service_list:
       type: array
