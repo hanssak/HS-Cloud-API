@@ -5336,9 +5336,9 @@ components:
               type: string
             price:
               type: integer
-            subnet_range:
+            use_type:
               type: string
-              example: 'none,auto,xxx.xxx.xxx.0/24'
+              example: 'MANDATORY,OPTIONAL,DISABLE'
             description:
               type: string
     cloud:
