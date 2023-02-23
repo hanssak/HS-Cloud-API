@@ -5669,7 +5669,7 @@ components:
                 type: string
                 description: 'GET인 경우 추천 CIDR 영역으로 예제의 xxx 부분은 사용자가 직접 수정 가능'
                 example: 'xxx.xxx.xxx.xxx/30'
-              UsageType:
+              usage_type:
                 type: string
               network_type:
                 type: string
