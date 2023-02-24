@@ -1266,7 +1266,7 @@ paths:
               schema: 
                 type: object
                 properties:
-                  nic_subnet:
+                  lb:
                     type: array
                     items:
                       $ref: '#/components/schemas/lb_instance_info'
