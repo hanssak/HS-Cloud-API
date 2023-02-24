@@ -5735,7 +5735,7 @@ components:
               network_type:
                 type: string
                 description: 'Subnet 네트워크 유형'
-              usage:
+              usage_type:
                 type: string
                 description: 'Subnet 용도'
         rule:
