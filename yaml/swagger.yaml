@@ -2405,7 +2405,7 @@ paths:
           name: cloud-lb-code
           schema: 
             type: string 
-            example: 'q=cloud-acg-code%3D{클라우드 로드발란서 고유 코드}'
+            example: 'q=cloud-lb-code%3D{클라우드 로드발란서 고유 코드}'
       responses:
         '200':
           description: 'Saas 로드발란서 집합 정보'
