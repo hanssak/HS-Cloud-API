@@ -5282,9 +5282,171 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError'
-
-
-
+  '/{portal}/broker/{vendor}/service/vloadbalancer/instances':
+    post:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoadBalancer Instance 생성 #PostBrokerNcpVlbInstances"
+      description: "- 네이버 클라우드에 LB Instance를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpVlbInstances
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ncp_vlb_create_load_balancer_instance_request'
+      responses:
+        '201':
+          description: '생성 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/load_balancer_instance'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoadBalancer Instance List 조회 #GetBrokerNcpVlbInstances"
+      description: "- 네이버 클라우드에 LB Instance List를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpVlbInstances
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: query
+          name: conditionalGetLoadBalancerList
+          schema:
+            type: string
+            example: 'q=vpc_no%3Dval,load_balancer_network_type_code%3Dval,load_balancer_type_code%3Dval'
+            description: '쿼리 조회 시 쿼리 조건 자유롭게 사용가능'
+      responses:
+        '200':
+          description: 'LB List 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/load_balancer_instance_list' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
+  '/{portal}/broker/{vendor}/service/vloadbalancer/instances/{no}':
+    delete:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoadBalancer Instance 삭제 요청 #DeleteBrokerNcpNcpVlbInstance"
+      description: "- 네이버 클라우드에 LoadBalancer Instance를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: DeleteBrokerNcpNcpVlbInstance
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: no
+          required: true
+          schema:
+            type: string
+            example: '인스턴스 번호'
+      responses:
+        '200':
+          description: 'LoadBalancer Instance 삭제 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/load_balancer_instance'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoadBalancer Instance (단일)조회 #GetBrokerNcpNcpVlbInstance"
+      description: "- 네이버 클라우드에 LB Instance 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpNcpVlbInstance
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: no
+          required: true
+          schema:
+            type: string
+            example: '인스턴스 코드'
+      responses:
+        '200':
+          description: 'Server 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/load_balancer_instance' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
 
 
 
@@ -7005,6 +7167,635 @@ components:
           description: VPC번호
           type: string
       type: object
+    ncp_vlb_create_load_balancer_instance_request:
+      properties:
+        idle_timeout:
+          description: 연결타임아웃
+          type: integer
+        load_balancer_description:
+          description: 로드밸런서설명
+          type: string
+        load_balancer_listener_list:
+          description: 로드밸런서리스너리스트
+          items:
+            $ref: '#/components/schemas/load_balancer_listener_parameter'
+          type: array
+        load_balancer_name:
+          description: 로드밸런서이름
+          type: string
+        load_balancer_network_type_code:
+          description: 로드밸런서네트워크유형코드
+          type: string
+        load_balancer_subnet_list:
+          description: 로드밸런서서브넷리스트
+          items:
+            $ref: '#/components/schemas/load_balancer_subnet_parameter'
+          type: array
+        load_balancer_type_code:
+          description: 로드밸런서유형코드
+          type: string
+        region_code:
+          description: REGION코드
+          type: string
+        subnet_no_list:
+          description: 서브넷번호리스트
+          items:
+            type: string
+          type: array
+        throughput_type_code:
+          description: 부하처리성능유형코드
+          type: string
+        vpc_no:
+          description: VPC번호
+          type: string
+      required:
+      - load_balancer_type_code
+      - subnet_no_list
+      - vpc_no
+      type: object
+    ncp_vlb_create_load_balancer_listener_request:
+      properties:
+        cipher_suite_list:
+          description: 암호화스위트리스트
+          items:
+            type: string
+          type: array
+        load_balancer_instance_no:
+          description: 로드밸런서인스턴스번호
+          type: string
+        port:
+          description: 포트
+          type: integer
+        protocol_type_code:
+          description: 프로토콜유형코드
+          type: string
+        region_code:
+          description: REGION코드
+          type: string
+        ssl_certificate_no:
+          description: SSL인증서번호
+          type: string
+        target_group_no:
+          description: 타겟그룹번호
+          type: string
+        tls_min_version_type_code:
+          description: TLS최소지원버전유형코드
+          type: string
+        use_http2:
+          description: HTTP2사용여부
+          type: boolean
+      required:
+      - load_balancer_instance_no
+      - port
+      - protocol_type_code
+      - target_group_no
+      type: object
+    ncp_vlb_create_target_group_request:
+      properties:
+        health_check_cycle:
+          description: 헬스체크주기
+          type: integer
+        health_check_down_threshold:
+          description: 헬스체크실패임계값
+          type: integer
+        health_check_http_method_type_code:
+          description: 헬스체크HTTP메소드유형코드
+          type: string
+        health_check_port:
+          description: 헬스체크포트
+          type: integer
+        health_check_protocol_type_code:
+          description: 헬스체크프로토콜유형코드
+          type: string
+        health_check_up_threshold:
+          description: 헬스체크정상임계값
+          type: integer
+        health_check_url_path:
+          description: 헬스체크URL경로
+          type: string
+        region_code:
+          description: REGION코드
+          type: string
+        target_group_description:
+          description: 타겟그룹설명
+          type: string
+        target_group_name:
+          description: 타겟그룹이름
+          type: string
+        target_group_port:
+          description: 타겟그룹포트
+          type: integer
+        target_group_protocol_type_code:
+          description: 타겟그룹프로토콜유형코드
+          type: string
+        target_no_list:
+          description: 타겟번호리스트
+          items:
+            type: string
+          type: array
+        target_type_code:
+          description: 타겟유형코드
+          type: string
+        vpc_no:
+          description: VPC번호
+          type: string
+      required:
+      - health_check_protocol_type_code
+      - target_group_protocol_type_code
+      - vpc_no
+      type: object
+    ncp_vlb_get_load_balancer_instance_list_request:
+      properties:
+        load_balancer_instance_no_list:
+          description: 로드밸런서인스턴스번호리스트
+          items:
+            type: string
+          type: array
+        load_balancer_network_type_code:
+          description: 로드밸런서네트워크유형코드
+          type: string
+        load_balancer_type_code:
+          description: 로드밸런서유형코드
+          type: string
+        page_no:
+          description: 페이지번호
+          type: integer
+        page_size:
+          description: 페이지사이즈
+          type: integer
+        region_code:
+          description: REGION코드
+          type: string
+        sort_list:
+          description: 정렬리스트
+          type: string
+        vpc_no:
+          description: VPC번호
+          type: string
+      type: object
+    ncp_vlb_get_target_group_detail_request:
+      properties:
+        region_code:
+          description: REGION코드
+          type: string
+        target_group_no:
+          description: 타겟그룹번호
+          type: string
+      required:
+      - target_group_no
+      type: object
+    ncp_vlb_get_target_group_list_request:
+      properties:
+        page_no:
+          description: 페이지번호
+          type: integer
+        page_size:
+          description: 페이지사이즈
+          type: integer
+        region_code:
+          description: REGION코드
+          type: string
+        sort_list:
+          description: 정렬리스트
+          type: string
+        target_type_code:
+          description: 타겟유형코드
+          type: string
+        target_group_no_list:
+          description: 타겟그룹번호리스트
+          items:
+            type: string
+          type: array
+        vpc_no:
+          description: VPC번호
+          type: string
+      type: object
+    path_pattern_condition:
+      properties:
+        path_pattern_list:
+          description: 경로패턴리스트
+          items:
+            type: string
+          type: array
+      type: object
+    redirection_action:
+      properties:
+        host:
+          description: 호스트
+          type: string
+        path:
+          description: 경로
+          type: string
+        port:
+          description: 포트
+          type: string
+        protocol:
+          description: 프로토콜
+          type: string
+        query:
+          description: 쿼리
+          type: string
+        status_code:
+          description: 상태코드
+          type: string
+      type: object
+    target:
+      properties:
+        health_check_response:
+          description: 헬스체크응답
+          type: string
+        health_check_status:
+          $ref: '#/components/schemas/common_code'
+          description: 헬스체크상태
+        target_no:
+          description: 타겟번호
+          type: string
+      type: object
+    target_group:
+      properties:
+        algorithm_type:
+          $ref: '#/components/schemas/common_code'
+          description: 알고리즘유형
+        create_date:
+          description: 생성일시
+          type: string
+        health_check_cycle:
+          description: 헬스체크주기
+          type: integer
+        health_check_down_threshold:
+          description: 헬스체크실패임계값
+          type: integer
+        health_check_http_method_type:
+          $ref: '#/components/schemas/common_code'
+          description: 헬스체크HTTP메소드유형
+        health_check_port:
+          description: 타겟그룹포트
+          type: integer
+        health_check_protocol_type:
+          $ref: '#/components/schemas/common_code'
+          description: 헬스체크프로토콜유형
+        health_check_up_threshold:
+          description: 헬스체크정상임계값
+          type: integer
+        health_check_url_path:
+          description: 헬스체크URL경로
+          type: string
+        load_balancer_instance_no:
+          description: 로드밸런서인스턴스번호
+          type: string
+        region_code:
+          description: REGION코드
+          type: string
+        target_group_description:
+          description: 타겟그룹설명
+          type: string
+        target_group_name:
+          description: 타겟그룹이름
+          type: string
+        target_group_no:
+          description: 타겟그룹번호
+          type: string
+        target_group_port:
+          description: 타겟그룹포트
+          type: integer
+        target_group_protocol_type:
+          $ref: '#/components/schemas/common_code'
+          description: 타겟그룹프로토콜유형
+        target_no_list:
+          description: 타겟번호리스트
+          items:
+            type: string
+          type: array
+        target_type:
+          $ref: '#/components/schemas/common_code'
+          description: 타겟유형
+        use_proxy_protocol:
+          description: 프록시프로토콜사용여부
+          type: boolean
+        use_sticky_session:
+          description: 세션별접근사용여부
+          type: boolean
+        vpc_no:
+          description: VPC번호
+          type: string
+      type: object
+    target_group_action:
+      properties:
+        target_group_weight_list:
+          description: 타겟그룹가중치리스트
+          items:
+            $ref: '#/components/schemas/target_group_weight'
+          type: array
+        use_sticky_session:
+          description: 세션별접근사용여부
+          type: boolean
+      type: object
+    target_group_list:
+      properties:
+        return_code:
+          type: string
+        return_message:
+          type: string
+        target_group_list:
+          items:
+            $ref: '#/components/schemas/target_group'
+          type: array
+        total_rows:
+          type: integer
+      type: object
+    target_group_weight:
+      properties:
+        target_group_no:
+          description: 타겟그룹번호
+          type: string
+        weight:
+          description: 가중치
+          type: integer
+      type: object
+    target_list:
+      properties:
+        request_id:
+          type: string
+        return_code:
+          type: string
+        return_message:
+          type: string
+        target_list:
+          items:
+            $ref: '#/components/schemas/target'
+          type: array
+        total_rows:
+          type: integer
+      type: object
+    host_header_condition:
+      properties:
+        host_header_list:
+          description: 호스트헤더리스트
+          items:
+            type: string
+          type: array
+      type: object
+    load_balancer_instance:
+      properties:
+        create_date:
+          description: 생성일시
+          type: string
+        idle_timeout:
+          description: 연결타임아웃
+          type: integer
+        load_balancer_description:
+          description: 로드밸런서설명
+          type: string
+        load_balancer_domain:
+          description: 로드밸런서도메인
+          type: string
+        load_balancer_instance_no:
+          description: 로드밸런서인스턴스번호
+          type: string
+        load_balancer_instance_operation:
+          $ref: '#/components/schemas/common_code'
+          description: 로드밸런서인스턴스OP
+        load_balancer_instance_status:
+          $ref: '#/components/schemas/common_code'
+          description: 로드밸런서인스턴스상태
+        load_balancer_instance_status_name:
+          description: 로드밸런서인스턴스상태이름
+          type: string
+        load_balancer_ip_list:
+          description: 로드밸런서IP리스트
+          items:
+            type: string
+          type: array
+        load_balancer_listener_no_list:
+          description: 로드밸런서리스너번호리스트
+          items:
+            type: string
+          type: array
+        load_balancer_name:
+          description: 로드밸런서이름
+          type: string
+        load_balancer_network_type:
+          $ref: '#/components/schemas/common_code'
+          description: 로드밸런서네트워크유형
+        load_balancer_subnet_list:
+          description: 로드밸런서서브넷리스트
+          items:
+            $ref: '#/components/schemas/load_balancer_subnet'
+          type: array
+        load_balancer_type:
+          $ref: '#/components/schemas/common_code'
+          description: 로드밸런서유형
+        region_code:
+          description: REGION코드
+          type: string
+        subnet_no_list:
+          description: 서브넷번호리스트
+          items:
+            type: string
+          type: array
+        throughput_type:
+          $ref: '#/components/schemas/common_code'
+          description: 부하처리성능유형
+        vpc_no:
+          description: VPC번호
+          type: string
+      type: object
+    load_balancer_instance_list:
+      properties:
+        load_balancer_instance_list:
+          items:
+            $ref: '#/components/schemas/load_balancer_instance'
+          type: array
+        request_id:
+          type: string
+        return_code:
+          type: string
+        return_message:
+          type: string
+        total_rows:
+          type: integer
+      type: object
+    load_balancer_listener:
+      properties:
+        cipher_suite_list:
+          description: 암호화스위트리스트
+          items:
+            type: string
+          type: array
+        load_balancer_instance_no:
+          description: 로드밸런서인스턴스번호
+          type: string
+        load_balancer_listener_no:
+          description: 로드밸런서리스너번호
+          type: string
+        load_balancer_rule_no_list:
+          description: 로드밸런서룰번호리스트
+          items:
+            type: string
+          type: array
+        port:
+          description: 포트
+          type: integer
+        protocol_type:
+          $ref: '#/components/schemas/common_code'
+          description: 프로토콜유형
+        ssl_certificate_no:
+          description: SSL인증서번호
+          type: string
+        tls_min_version_type:
+          $ref: '#/components/schemas/common_code'
+          description: TLS최소지원버전유형
+        use_http2:
+          description: HTTP2사용여부
+          type: boolean
+      type: object
+    load_balancer_listener_list:
+      properties:
+        load_balancer_listener_list:
+          items:
+            $ref: '#/components/schemas/load_balancer_listener'
+          type: array
+        request_id:
+          type: string
+        return_code:
+          type: string
+        return_message:
+          type: string
+        total_rows:
+          type: integer
+      type: object
+    load_balancer_listener_parameter:
+      properties:
+        cipher_suite_list:
+          description: 암호화스위트리스트
+          items:
+            type: string
+          type: array
+        port:
+          description: 포트
+          type: integer
+        protocol_type_code:
+          description: 프로토콜유형코드
+          type: string
+        ssl_certificate_no:
+          description: SSL인증서번호
+          type: string
+        target_group_no:
+          description: 타겟그룹번호
+          type: string
+        tls_min_version_type_code:
+          description: TLS최소지원버전유형코드
+          type: string
+        use_http2:
+          description: HTTP2사용여부
+          type: boolean
+      required:
+      - target_group_no
+      type: object
+    load_balancer_rule:
+      properties:
+        load_balancer_listener_no:
+          description: 로드밸런서리스너번호
+          type: string
+        load_balancer_rule_action_list:
+          description: 로드밸런서룰액션리스트
+          items:
+            $ref: '#/components/schemas/load_balancer_rule_action'
+          type: array
+        load_balancer_rule_condition_list:
+          description: 로드밸런서룰조건리스트
+          items:
+            $ref: '#/components/schemas/load_balancer_rule_condition'
+          type: array
+        load_balancer_rule_no:
+          description: 로드밸런서룰번호
+          type: string
+        priority:
+          description: 우선순위
+          type: integer
+      type: object
+    load_balancer_rule_action:
+      properties:
+        redirection_action:
+          $ref: '#/components/schemas/redirection_action'
+          description: 리다이렉션액션
+        rule_action_type:
+          $ref: '#/components/schemas/common_code'
+          description: 룰액션유형
+        target_group_action:
+          $ref: '#/components/schemas/target_group_action'
+          description: 타겟그룹액션
+      type: object
+    load_balancer_rule_condition:
+      properties:
+        host_header_condition:
+          $ref: '#/components/schemas/host_header_condition'
+          description: 호스트헤더조건
+        path_pattern_condition:
+          $ref: '#/components/schemas/path_pattern_condition'
+          description: 경로패턴조건
+        rule_condition_type:
+          $ref: '#/components/schemas/common_code'
+          description: 룰조건유형
+      type: object
+    load_balancer_rule_list:
+      properties:
+        load_balancer_rule_list:
+          items:
+            $ref: '#/components/schemas/load_balancer_rule'
+          type: array
+        request_id:
+          type: string
+        return_code:
+          type: string
+        return_message:
+          type: string
+        total_rows:
+          type: integer
+      type: object
+    load_balancer_subnet:
+      properties:
+        public_ip_instance_no:
+          description: 공인IP인스턴스번호
+          type: string
+        subnet_no:
+          description: 서브넷번호
+          type: string
+        zone_code:
+          description: ZONE코드
+          type: string
+      type: object
+    load_balancer_subnet_parameter:
+      properties:
+        public_ip_instance_no:
+          description: 공인IP인스턴스번호
+          type: string
+        subnet_no:
+          description: 서브넷번호
+          type: string
+      type: object
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     network_interface_parameter:
       properties:
         access_control_group_no_list:
