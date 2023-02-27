@@ -5447,10 +5447,379 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError'
-
-
-
-
+  '/{portal}/broker/{vendor}/service/vloadbalancer/target-groups':
+    post:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoadBalancer TargetGroup 생성 #PostBrokerNcpVlbTargetGroups"
+      description: "- 네이버 클라우드에 LB TargetGroup를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpVlbTargetGroups
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ncp_vlb_create_target_group_request'
+      responses:
+        '201':
+          description: '생성 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/target_group'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoadBalancer TargetGroup List 조회 #GetBrokerNcpVlbTargetGroups"
+      description: "- 네이버 클라우드에 LoadBalancer TargetGroup List를 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpVlbTargetGroups
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: query
+          name: conditionalGetTargetGroupList
+          schema:
+            type: string
+            example: 'q=vpc_no%3Dval,target_type_code%3Dval'
+            description: '쿼리 조회 시 쿼리 조건 자유롭게 사용가능'
+      responses:
+        '200':
+          description: 'LoadBalancer TargetGroup List 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/target_group_list' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
+  '/{portal}/broker/{vendor}/service/vloadbalancer/target-groups/{no}':
+    delete:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoadBalancer TargetGroup 삭제 요청 #DeleteBrokerNcpNcpVlbTargetGroup"
+      description: "- 네이버 클라우드에 LoadBalancer TargetGroup를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: DeleteBrokerNcpNcpVlbTargetGroup
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: no
+          required: true
+          schema:
+            type: string
+            example: 'TargetGroup 고유코드'
+      responses:
+        '200':
+          description: 'LoadBalancer TargetGroup 삭제 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/target_group'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoadBalancer TargetGroup (단일)조회 #GetBrokerNcpNcpVlbTargetGroup"
+      description: "- 네이버 클라우드에 LoadBalancer TargetGroup 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpNcpVlbTargetGroup
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: no
+          required: true
+          schema:
+            type: string
+            example: 'TargetGroup 고유코드'
+      responses:
+        '200':
+          description: 'LoadBalancer TargetGroup List 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/target_group_list' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  '/{portal}/broker/{vendor}/service/vloadbalancer/listeners':
+    post:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoadBalancer Listener 생성 #PostBrokerNcpVlbListeners"
+      description: "- 네이버 클라우드에 LoadBalancer Listener를 생성합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: PostBrokerNcpVlbListeners
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ncp_vlb_create_load_balancer_listener_request'
+      responses:
+        '201':
+          description: '생성 완료 (전체 리스너 정보 출력 됨)'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/load_balancer_listener_list'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  '/{portal}/broker/{vendor}/service/vloadbalancer/listeners/{no}':
+    delete:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoadBalancer Listener 삭제 요청 #DeleteBrokerNcpNcpVlbListener"
+      description: "- 네이버 클라우드에 LoadBalancer Listener를 삭제요청합니다. 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: DeleteBrokerNcpNcpVlbListener
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: no
+          required: true
+          schema:
+            type: string
+            example: 'Listener 고유코드'
+      responses:
+        '200':
+          description: 'LoadBalancer TargetGroup 삭제 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/load_balancer_listener_list'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoadBalancer Listener 조회 #GetBrokerNcpNcpVlbListener"
+      description: "- 네이버 클라우드에 LoadBalancer Listener 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpNcpVlbListener
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: no
+          required: true
+          schema:
+            type: string
+            example: 'LoadBalancer Instance 고유코드'
+      responses:
+        '200':
+          description: 'LoadBalancer Listener List 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/load_balancer_listener_list' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  '/{portal}/broker/{vendor}/service/vloadbalancer/targets/{no}':
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoadBalancer Target List 조회 #GetBrokerNcpNcpVlbTargetList"
+      description: "- 네이버 클라우드에 LoadBalancer Target 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpNcpVlbTargetList
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: no
+          required: true
+          schema:
+            type: string
+            example: 'LoadBalancer TargetGroup 고유코드'
+      responses:
+        '200':
+          description: 'LoadBalancer Target List 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/target_list' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
+  '/{portal}/broker/{vendor}/service/vloadbalancer/listener-rules/{no}':
+    get:
+      tags:
+        - "98. 클라우드연동"
+      summary: "2.1.1 LoadBalancer Listener Rule List 조회 #GetBrokerNcpVlbListenerRuleList"
+      description: "- 네이버 클라우드에 LoadBalancer Listener Rule 조회합니다. 내부 서비스간 통신만 허용하는 API입니다."
+      operationId: GetBrokerNcpVlbListenerRuleList
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_token'
+        - in: path
+          name: vendor
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_vendor'
+        - name: portal
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/parameter_portal'
+        - in: path
+          name: no
+          required: true
+          schema:
+            type: string
+            example: 'LoadBalancer Listener 고유코드'
+      responses:
+        '200':
+          description: 'LoadBalancer Listener Rule List 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/load_balancer_rule_list' 
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError'
 
 components:
   # --> 보안 스키마 정의 
