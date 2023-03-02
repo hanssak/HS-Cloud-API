@@ -6183,7 +6183,7 @@ components:
         cloud_subnet_usage_type:
           type: string
           description: 'Subnet 용도'
-          example: 'GENERAL/LOADBALANCER, BAREMETAL'
+          example: 'GENERAL/LOADBALANCER,BAREMETAL'
         cloud_subnet_network_type:
           type: string
           description: 'Subnet의 네트워크 유형'
