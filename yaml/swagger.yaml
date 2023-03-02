@@ -6304,12 +6304,12 @@ components:
         throughput_type: 
           type: string
           description: '전송량 성능 유형'
-        system_type:
-          type: string
-          description: '시스템 구분자'
         description:
           type: string
           description: '설명'
+        system_type:
+          type: string
+          description: '시스템 구분자'  
         subnet:
           type: array
           items:
