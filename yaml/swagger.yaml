@@ -6180,6 +6180,10 @@ components:
           type: string
           description: 'Subnet의 대역정보'
           example: '172.16.5.0/24'
+        cloud_subnet_usage_type:
+          type: string
+          description: 'Subnet 용도'
+          example: 'GENERAL/LOADBALANCER, BAREMETAL'
         cloud_subnet_network_type:
           type: string
           description: 'Subnet의 네트워크 유형'
