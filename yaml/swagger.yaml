@@ -6304,6 +6304,9 @@ components:
         throughput_type: 
           type: string
           description: '전송량 성능 유형'
+        system_type:
+          type: string
+          description: 'SYSTEM_TYPE'
         description:
           type: string
           description: '설명'
@@ -6342,9 +6345,6 @@ components:
               target_port:
                 type: integer
                 description: '대상 포트'
-              target_system:
-                type: string
-                description: '대상 시스템구분자'  
               description:
                 type: string
                 description: '설명'
