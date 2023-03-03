@@ -2125,10 +2125,10 @@ paths:
             type: string
             example: 'q=product-list-seq%3D{제품 리스트 Seq}'
         - in: query
-          name: lb-rule-id
+          name: lb-id
           schema: 
             type: string
-            example: 'q=lb-rule-id%3D{로드발란서 규칙 ID}'
+            example: 'q=lb-id%3D{로드발란서 ID}'
         - in: query
           name: group-id
           schema: 
@@ -6146,6 +6146,10 @@ components:
                 type: string
                 description: 'Subnet 대역정보 (VPC 하위 서브넷팅이여야함)'
                 example: '172.16.1.0/24'
+              usage_type:
+                type: string
+                description: 'Subnet 용도'
+                example: 'GENERAL/LOADBALANCER/BAREMETAL'
               network_type:
                 type: string
                 description: '네트워크 유형'
@@ -6258,6 +6262,8 @@ components:
                 example: 'xxx.xxx.xxx.xxx/30'
               usage_type:
                 type: string
+                description: 'Subnet 용도'
+                example: 'GENERAL/LOADBALANCER/BAREMETAL'
               network_type:
                 type: string
                 description: 'Subnet 네트워크 유형'
@@ -8829,7 +8835,7 @@ components:
       properties:
         product_list_seq:
           type: integer
-        lb_rule_id:
+        lb_id:
           type: string
         group_id:
           type: string
