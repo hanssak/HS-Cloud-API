@@ -5348,11 +5348,20 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: query
-          name: conditionalGetLoadBalancerList
+          name: vpc_no
           schema:
             type: string
-            example: 'q=vpc_no%3Dval,load_balancer_network_type_code%3Dval,load_balancer_type_code%3Dval'
-            description: '쿼리 조회 시 쿼리 조건 자유롭게 사용가능'
+            example: 'q=vpc_no%3D{VPC번호}'
+        - in: query
+          name: load_balancer_network_type_code
+          schema:
+            type: string
+            example: 'q=load_balancer_network_type_code%3D{val}'
+        - in: query
+          name: load_balancer_type_code
+          schema:
+            type: string
+            example: 'q=load_balancer_type_code%3D{val}'
       responses:
         '200':
           description: 'LB List 조회 완료'
