@@ -5522,11 +5522,15 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: query
-          name: conditionalGetTargetGroupList
+          name: vpc_no
           schema:
             type: string
-            example: 'q=vpc_no%3Dval,target_type_code%3Dval'
-            description: '쿼리 조회 시 쿼리 조건 자유롭게 사용가능'
+            example: 'q=vpc_no%3D{vpc번호}'
+        - in: query
+          name: target_type_code
+          schema:
+            type: string
+            example: 'q=target_type_code%3D{타겟타입코드:VSVR}'
       responses:
         '200':
           description: 'LoadBalancer TargetGroup List 조회 완료'
