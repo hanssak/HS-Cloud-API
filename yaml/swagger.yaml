@@ -2802,7 +2802,7 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'  
 
-  '/{portal}/manage/saas-group-scale-policy':
+  '/{portal}/manage/saas-group-scale-policys':
     get:
       tags: 
         - '2. 생성'
@@ -2881,7 +2881,7 @@ paths:
         '404':
           $ref: '#/components/responses/notFound'  
 
-  '/{portal}/manage/saas-system-scale-policy':
+  '/{portal}/manage/saas-system-scale-policys':
     get:
       tags: 
         - '2. 생성'
