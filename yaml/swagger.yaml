@@ -5661,7 +5661,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/load_balancer_listener_list'
+                $ref: '#/components/schemas/load_balancer_listener'
         '400':
           $ref: '#/components/responses/badRequest'
         '500':
