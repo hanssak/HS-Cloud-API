@@ -6317,13 +6317,13 @@ components:
         name:
           type: string
           description: '로드발란서 명칭'
-        type:
-          type: string
-          description: '로드발란서 유형'
         network_type: 
           type: string
           description: '네트워크 유형'  
           example: 'PUBLIC/PRIVATE '
+        type:
+          type: string
+          description: '로드발란서 유형'
         throughput_type: 
           type: string
           description: '전송량 성능 유형'
