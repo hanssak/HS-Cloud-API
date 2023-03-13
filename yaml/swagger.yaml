@@ -1132,6 +1132,9 @@ paths:
                                 type: object
                                 allOf:
                                   - $ref: '#/components/schemas/storage_instance_info'
+                            public_ip_use:
+                              type: boolean
+                              example: "true/false"
       responses:
         '201':
           description: '주문 이력 등록 완료'
