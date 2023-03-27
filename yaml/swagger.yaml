@@ -8644,6 +8644,7 @@ components:
       properties:
         product_list_seq: 
           type: integer
+          x-go-custom-tag: 'condition:"product_list_seq"'
         group_id: 
           type: string
         system_id: 
