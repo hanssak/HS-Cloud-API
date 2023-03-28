@@ -5202,7 +5202,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError' 
-  '/{portal}/broker/{vendor}/service/vserver/storages/{no}':
+  '/{portal}/broker/{vendor}/service/vserver/storages/{num}':
     get:
       tags:
         - "98. 클라우드연동"
@@ -5228,7 +5228,7 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: path
-          name: no
+          name: num
           required: true
           schema:
             type: string
@@ -5269,7 +5269,7 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: path
-          name: no
+          name: num
           required: true
           schema:
             type: string
@@ -5376,7 +5376,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError' 
-  '/{portal}/broker/{vendor}/service/vloadbalancer/instances/{no}':
+  '/{portal}/broker/{vendor}/service/vloadbalancer/instances/{num}':
     delete:
       tags:
         - "98. 클라우드연동"
@@ -5402,7 +5402,7 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: path
-          name: no
+          name: num
           required: true
           schema:
             type: string
@@ -5443,7 +5443,7 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: path
-          name: no
+          name: num
           required: true
           schema:
             type: string
@@ -5545,7 +5545,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError' 
-  '/{portal}/broker/{vendor}/service/vloadbalancer/target-groups/{no}':
+  '/{portal}/broker/{vendor}/service/vloadbalancer/target-groups/{num}':
     delete:
       tags:
         - "98. 클라우드연동"
@@ -5571,7 +5571,7 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: path
-          name: no
+          name: num
           required: true
           schema:
             type: string
@@ -5612,7 +5612,7 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: path
-          name: no
+          name: num
           required: true
           schema:
             type: string
@@ -5669,7 +5669,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError'
-  '/{portal}/broker/{vendor}/service/vloadbalancer/listeners/{no}':
+  '/{portal}/broker/{vendor}/service/vloadbalancer/listeners/{num}':
     delete:
       tags:
         - "98. 클라우드연동"
@@ -5695,7 +5695,7 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: path
-          name: no
+          name: num
           required: true
           schema:
             type: string
@@ -5736,7 +5736,7 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: path
-          name: no
+          name: num
           required: true
           schema:
             type: string
@@ -5752,7 +5752,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError'
-  '/{portal}/broker/{vendor}/service/vloadbalancer/targets/{no}':
+  '/{portal}/broker/{vendor}/service/vloadbalancer/targets/{num}':
     get:
       tags:
         - "98. 클라우드연동"
@@ -5778,7 +5778,7 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: path
-          name: no
+          name: num
           required: true
           schema:
             type: string
@@ -5794,7 +5794,7 @@ paths:
           $ref: '#/components/responses/badRequest'
         '500':
           $ref: '#/components/responses/internalServerError'
-  '/{portal}/broker/{vendor}/service/vloadbalancer/listener-rules/{no}':
+  '/{portal}/broker/{vendor}/service/vloadbalancer/listener-rules/{num}':
     get:
       tags:
         - "98. 클라우드연동"
@@ -5820,7 +5820,7 @@ paths:
           schema:
             $ref: '#/components/schemas/parameter_portal'
         - in: path
-          name: no
+          name: num
           required: true
           schema:
             type: string
