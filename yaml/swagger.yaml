@@ -150,6 +150,8 @@ tags:
 #    description: '[SA연동] 시스템(Tenent, VM, IW-SA 서비스), Cloud(Network, VM, Storage) 제어 '
 
 
+## npx @openapitools/openapi-generator-cli  generate -i ./HS-API.yaml -g go -o ./dto/ --package-name dto --global-property models
+
 paths:
 ##### 1. 신청
   '/noti/invite':
@@ -4537,419 +4539,419 @@ components:
       properties:
         base:
           type: string
-          x-go-custom-tag: query:"base"
+          x-go-custom-tag: mapstructure:"base" query:"base"
         
     schema_query_key:
       type: object
       properties:
         key:
           type: string
-          x-go-custom-tag: query:"key"
+          x-go-custom-tag: mapstructure:"key" query:"key"
     
     schema_query_product-id:
       type: object
       properties:
         product_id:
           type: string
-          x-go-custom-tag: query:"product-id"
+          x-go-custom-tag: mapstructure:"product_id" query:"product-id"
     
     schema_query_service-id:
       type: object
       properties:
         service_id:
           type: string
-          x-go-custom-tag: query:"service-id"
+          x-go-custom-tag: mapstructure:"service_id" query:"service-id"
     
     schema_query_service-type:
       type: object
       properties:
         service_type:
           type: string
-          x-go-custom-tag: query:"service-type"
+          x-go-custom-tag: mapstructure:"service_type" query:"service-type"
     
     schema_query_license-id:
       type: object
       properties:
         license_id:
           type: string
-          x-go-custom-tag: query:"license-id"
+          x-go-custom-tag: mapstructure:"license_id" query:"license-id"
     
     schema_query_cloud-id:
       type: object
       properties:
         cloud_id:
           type: string
-          x-go-custom-tag: query:"cloud-id"
+          x-go-custom-tag: mapstructure:"cloud_id" query:"cloud-id"
     
     schema_query_region:
       type: object
       properties:
         region:
           type: string
-          x-go-custom-tag: query:"region"
+          x-go-custom-tag: mapstructure:"region" query:"region"
     
     schema_query_add-service-id:
       type: object
       properties:
         add_service_id:
           type: string
-          x-go-custom-tag: query:"add-service-id"
+          x-go-custom-tag: mapstructure:"add_service_id" query:"add-service-id"
     
     schema_query_group-id:
       type: object
       properties:
         group_id:
           type: string
-          x-go-custom-tag: query:"group-id"
+          x-go-custom-tag: mapstructure:"group_id" query:"group-id"
     
     schema_query_system-id:
       type: object
       properties:
         system_id:
           type: string
-          x-go-custom-tag: query:"system-id"
+          x-go-custom-tag: mapstructure:"system_id" query:"system-id"
 
     schema_query_storage_id:
       type: object
       properties:
         id:
           type: string
-          x-go-custom-tag: query:"id"
+          x-go-custom-tag: mapstructure:"id" query:"id"
     
     schema_query_product-list-seq:
       properties:
-        product-list-seq:
+        product_list_seq:
           type: string
-          x-go-custom-tag: query:"product-list-seq"
+          x-go-custom-tag: mapstructure:"product_list_seq" query:"product-list-seq"
     
     schema_query_vpc_id:
       type: object
       properties:
         id:
           type: string
-          x-go-custom-tag: query:"id"
+          x-go-custom-tag: mapstructure:"id" query:"id"
     
     schema_query_vpc-id:
       type: object
       properties:
         vpc_id:
           type: string
-          x-go-custom-tag: query:"vpc-id"
+          x-go-custom-tag: mapstructure:"vpc_id" query:"vpc-id"
 
     schema_query_vpc-no:
       type: object
       properties:
         vpc_no:
           type: string
-          x-go-custom-tag: query:"vpc-no"
+          x-go-custom-tag: mapstructure:"vpc_no" query:"vpc-no"
 
     schema_query_cloud-vpc-code:
       type: object
       properties:
         cloud_vpc_code:
           type: string
-          x-go-custom-tag: query:"cloud-vpc-code"
+          x-go-custom-tag: mapstructure:"cloud_vpc_code" query:"cloud-vpc-code"
 
     schema_query_nacl_id:
       type: object
       properties:
         id:
           type: string
-          x-go-custom-tag: query:"id"
+          x-go-custom-tag: mapstructure:"id" query:"id"
     
     schema_query_nacl-id:
       type: object
       properties:
         nacl_id:
           type: string
-          x-go-custom-tag: query:"nacl-id"
+          x-go-custom-tag: mapstructure:"nacl_id" query:"nacl-id"
 
     schema_query_cloud-nacl-code:
       type: object
       properties:
         cloud_nacl_code:
           type: string
-          x-go-custom-tag: query:"cloud-nacl-code"
+          x-go-custom-tag: mapstructure:"cloud_nacl_code" query:"cloud-nacl-code"
   
     schema_query_subnet_id:
       type: object
       properties:
         id:
           type: string
-          x-go-custom-tag: query:"id"
+          x-go-custom-tag: mapstructure:"id" query:"id"
     
     schema_query_subnet-id:
       type: object
       properties:
         subnet_id:
           type: string
-          x-go-custom-tag: query:"subnet-id"
+          x-go-custom-tag: mapstructure:"subnet_id" query:"subnet-id"
 
     schema_query_cloud-subnet-code:
       type: object
       properties:
         cloud_subnet_code:
           type: string
-          x-go-custom-tag: query:"cloud-subnet-code"
+          x-go-custom-tag: mapstructure:"cloud_subnet_code" query:"cloud-subnet-code"
     
     schema_query_nic_id:
       type: object
       properties:
         id:
           type: string
-          x-go-custom-tag: query:"id"
+          x-go-custom-tag: mapstructure:"id" query:"id"
     
     schema_query_nic-id:
       type: object
       properties:
         nic_id:
           type: string
-          x-go-custom-tag: query:"nic-id"
+          x-go-custom-tag: mapstructure:"nic_id" query:"nic-id"
     
     schema_query_cloud-nic-code:
       type: object
       properties:
         cloud_nic_code:
           type: string
-          x-go-custom-tag: query:"cloud-nic-code"
+          x-go-custom-tag: mapstructure:"cloud_nic_code" query:"cloud-nic-code"
 
     schema_query_lb_id:
       type: object
       properties:
         id:
           type: string
-          x-go-custom-tag: query:"id"
+          x-go-custom-tag: mapstructure:"id" query:"id"
     
     schema_query_lb-id:
       type: object
       properties:
         lb_id:
           type: string
-          x-go-custom-tag: query:"lb-id"
+          x-go-custom-tag: mapstructure:"lb_id" query:"lb-id"
 
     schema_query_cloud-lb-code:
       type: object
       properties:
         cloud_lb_code:
           type: string
-          x-go-custom-tag: query:"cloud-lb-code"
+          x-go-custom-tag: mapstructure:"cloud_lb_code" query:"cloud-lb-code"
 
     schema_query_lb_rule_id:
       type: object
       properties:
         id:
           type: string
-          x-go-custom-tag: query:"d"
+          x-go-custom-tag: mapstructure:"id" query:"d"
 
     schema_query_cloud-lb-listener-code:
       type: object
       properties:
         cloud_lb_listener_code:
           type: string
-          x-go-custom-tag: query:"cloud-lb-listener-code"
+          x-go-custom-tag: mapstructure:"cloud_lb_listener_code" query:"cloud-lb-listener-code"
 
     schema_query_cloud-lb-listener-rule-code:
       type: object
       properties:
         cloud_lb_listener_rule_code:
           type: string
-          x-go-custom-tag: query:"cloud-lb-listener-rule-code"
+          x-go-custom-tag: mapstructure:"cloud_lb_listener_rule_code" query:"cloud-lb-listener-rule-code"
     
     schema_query_cloud-lb-target-group-code:
       type: object
       properties:
         cloud_lb_target_group_code:
           type: string
-          x-go-custom-tag: query:"cloud-lb-target-group-code"
+          x-go-custom-tag: mapstructure:"cloud_lb_target_group_code" query:"cloud-lb-target-group-code"
 
     schema_query_acg_id:
       type: object
       properties:
         id:
           type: string
-          x-go-custom-tag: query:"id"
+          x-go-custom-tag: mapstructure:"id" query:"id"
 
     schema_query_acg-id:
       type: object
       properties:
         acg_id:
           type: string
-          x-go-custom-tag: query:"acg-id"
+          x-go-custom-tag: mapstructure:"acg_id" query:"acg-id"
     
     schema_query_cloud-acg-code:
       type: object
       properties:
         cloud_acg_code:
           type: string
-          x-go-custom-tag: query:"cloud-acg-code"
+          x-go-custom-tag: mapstructure:"cloud_acg_code" query:"cloud-acg-code"
 
     schema_query_acl_rule_seq:
       type: object
       properties:
         seq:
           type: string
-          x-go-custom-tag: query:"seq"
+          x-go-custom-tag: mapstructure:"seq" query:"seq"
 
     schema_query_cloud-acl-code:
       type: object
       properties:
         cloud_acl_code:
           type: string
-          x-go-custom-tag: query:"cloud-acl-code"
+          x-go-custom-tag: mapstructure:"cloud_acl_code" query:"cloud-acl-code"
 
     schema_query_system_scale-policy-id:
       type: object
       properties:
         scale_policy_id:
           type: string
-          x-go-custom-tag: query:"scale-policy-id"
+          x-go-custom-tag: mapstructure:"scale_policy_id" query:"scale-policy-id"
     
     schema_query_group_scale-policy-id:
       type: object
       properties:
         scale_policy_id:
           type: string
-          x-go-custom-tag: query:"scale-policy-id"
+          x-go-custom-tag: mapstructure:"scale_policy_id" query:"scale-policy-id"
 
     schema_query_system:
       type: object
       properties:
         system:
           type: string
-          x-go-custom-tag: query:"system"
+          x-go-custom-tag: mapstructure:"system" query:"system"
     
     schema_query_cloud-os-id:
       type: object
       properties:
         cloud_os_id:
           type: string
-          x-go-custom-tag: query:"cloud-os-id"
+          x-go-custom-tag: mapstructure:"cloud_os_id" query:"cloud-os-id"
 
     schema_query_hostname:
       type: object
       properties:
         hostname:
           type: string
-          x-go-custom-tag: query:"hostname"
+          x-go-custom-tag: mapstructure:"hostname" query:"hostname"
 
     schema_query_k8s-cp-type:
       type: object
       properties:
         k8s_cp_type:
           type: string
-          x-go-custom-tag: query:"k8s-cp-type"
+          x-go-custom-tag: mapstructure:"k8s_cp_type" query:"k8s-cp-type"
 
     schema_query_subnet:
       type: object
       properties:
         subnet:
           type: string
-          x-go-custom-tag: query:"subnet"
+          x-go-custom-tag: mapstructure:"subnet" query:"subnet"
     
     schema_query_subnet-name:
       type: object
       properties:
         subnet_name:
           type: string
-          x-go-custom-tag: query:"subnet-name"
+          x-go-custom-tag: mapstructure:"subnet_name" query:"subnet-name"
     
     schema_query_subnet-status-code:
       type: object
       properties:
-        subnet-status-code:
+        subnet_status_code:
           type: string
-          x-go-custom-tag: query:"subnet-status-code"
+          x-go-custom-tag: mapstructure:"subnet_status_code" query:"subnet-status-code"
 
     schema_query_network-acl-name:
       type: object
       properties:
         network_acl_name:
           type: string
-          x-go-custom-tag: query:"network-acl-name"
+          x-go-custom-tag: mapstructure:"network_acl_name" query:"network-acl-name"
     
     schema_query_network-acl-status-code:
       type: object
       properties:
         network_acl_status_code:
           type: string
-          x-go-custom-tag: query:"network-acl-status-code"
+          x-go-custom-tag: mapstructure:"network_acl_status_code" query:"network-acl-status-code"
 
     schema_query_access-control-group-name:
       type: object
       properties:
         access_control_group_name:
           type: string
-          x-go-custom-tag: query:"access-control-group-name"
+          x-go-custom-tag: mapstructure:"access_control_group_name" query:"access-control-group-name"
 
     schema_query_access-control-group-status-code:
       type: object
       properties:
         access_control_group_status_code:
           type: string
-          x-go-custom-tag: query:"access-control-group-status-code"
+          x-go-custom-tag: mapstructure:"access_control_group_status_code" query:"access-control-group-status-code"
 
     schema_query_ip:
       type: object
       properties:
         ip:
           type: string
-          x-go-custom-tag: query:ip""
+          x-go-custom-tag: mapstructure:"ip" query:ip""
     
     schema_query_instance-no:
       type: object
       properties:
         instance_no:
           type: string
-          x-go-custom-tag: query:"instance-no"
+          x-go-custom-tag: mapstructure:"instance_no" query:"instance-no"
     
     schema_query_server-name:
       type: object
       properties:
         server_name:
           type: string
-          x-go-custom-tag: query:"server-name"
+          x-go-custom-tag: mapstructure:"server_name" query:"server-name"
 
     schema_query_server-instance-no-list:
       type: object
       properties:
         server_instance_no_list:
           type: string
-          x-go-custom-tag: query:"server-instance-no-list"
+          x-go-custom-tag: mapstructure:"server_instance_no_list" query:"server-instance-no-list"
 
     schema_query_server-instance-no:
       type: object
       properties:
         server_instance_no:
           type: string
-          x-go-custom-tag: query:"server-instance-no"
+          x-go-custom-tag: mapstructure:"server_instance_no" query:"server-instance-no"
 
     schema_query_block-storage-name:
       type: object
       properties:
         block_storage_name:
           type: string
-          x-go-custom-tag: query:"block-storage-name"
+          x-go-custom-tag: mapstructure:"block_storage_name" query:"block-storage-name"
 
     schema_query_load-balancer-network-type-code:
       type: object
       properties:
         load_balancer_network_type_code:
           type: string
-          x-go-custom-tag: query:"load-balancer-network-type-code"
+          x-go-custom-tag: mapstructure:"load_balancer_network_type_code" query:"load-balancer-network-type-code"
     
     schema_query_load-balancer-type-code:
       type: object
       properties:
         load_balancer_type_code:
           type: string
-          x-go-custom-tag: query:"load-balancer-type-code"
+          x-go-custom-tag: mapstructure:"load_balancer_type_code" query:"load-balancer-type-code"
     
     schema_query_target-type-code:
       type: object
       properties:
         target_type_code:
           type: string
-          x-go-custom-tag: query:"target-type-code"
+          x-go-custom-tag: mapstructure:"target_type_code" query:"target-type-code"
     
   ## Common Schema of Request & Response  
   ### apply_member
