@@ -4895,7 +4895,7 @@ components:
       properties:
         ip:
           type: string
-          x-go-custom-tag: mapstructure:"ip" query:ip""
+          x-go-custom-tag: mapstructure:"ip" query:"ip"
     
     schema_query_instance-no:
       type: object
@@ -6109,8 +6109,8 @@ components:
       items:  
         $ref: '#/components/schemas/saas_vpc'
 
-  ### saas nacl 
-    saas_nacl:
+  ### saas network acl 
+    saas_network_acl:
       type: object
       properties:
         id:
@@ -6127,10 +6127,10 @@ components:
       required:
         - "id"
     
-    saas_nacl_list:
+    saas_network_acl_list:
       type: array
       items:  
-        $ref: '#/components/schemas/saas_nacl'
+        $ref: '#/components/schemas/saas_network_acl'
 
   ### saas subnet 
     saas_subnet:
@@ -6209,7 +6209,7 @@ components:
         product_list_seq:
           type: integer
           format: int64
-          x-go-custom-tag: validate:"required" condition:"product_list_seq,numberic""
+          x-go-custom-tag: validate:"gt=0" condition:"product_list_seq,numberic"
         lb_id:
           type: string
           x-go-custom-tag: validate:"required" condition:"lb_id"
@@ -8570,8 +8570,13 @@ components:
  
   #### Response 
     GetManageSaasMetadatasResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_metadata_list'
+      type: object
+      properties:
+        metadata: 
+          $ref: '#/components/schemas/saas_metadata_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "metadata"
 
   ## ManageSaasGroups
   ### Get
@@ -8586,8 +8591,13 @@ components:
 
   #### Response 
     GetManageSaasGroupsResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_group_list'
+      type: object
+      properties:
+        group: 
+          $ref: '#/components/schemas/saas_group_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "group"
   
   ## ManageSaasSystems
   ### Get
@@ -8603,8 +8613,13 @@ components:
   
   #### Response 
     GetManageSaasSystemsResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_system_list'
+      type: object
+      properties:
+        system:
+          $ref: '#/components/schemas/saas_system_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "system"
 
   ### Put
   #### Request 
@@ -8623,10 +8638,11 @@ components:
     PutManageSaasSystemsRequestBody:
       type: object
       properties:
-        list:
+        system:
           $ref: '#/components/schemas/saas_system_list'
+          x-go-custom-tag: validate:"required"
       required:
-        - "list" 
+        - "system" 
 
   #### Response (Dummy Object) 
     PutManageSaasSystemsResponse:
@@ -8648,8 +8664,13 @@ components:
 
   #### Response 
     GetManageSaasSystemStoragesResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_system_storage_list'
+      type: object
+      properties:
+        system_storage:
+          $ref: '#/components/schemas/saas_system_storage_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "system_storage" 
 
   ### Put
   #### Request 
@@ -8668,10 +8689,11 @@ components:
     PutManageSaasSystemStoragesRequestBody:
       type: object
       properties:
-        list:
+        system_storage:
           $ref: '#/components/schemas/saas_system_storage_list'
+          x-go-custom-tag: validate:"required"
       required:
-        - "list" 
+        - "system_storage" 
 
   #### Response (Dummy Object) 
     PutManageSaasSystemStoragesResponse:
@@ -8691,8 +8713,13 @@ components:
 
   #### Response 
     GetManageSaasVpcsResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_vpc_list'
+      type: object
+      properties: 
+        vpc:
+          $ref: '#/components/schemas/saas_vpc_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "saas_vpc"
 
   ### Put
   #### Request 
@@ -8711,10 +8738,11 @@ components:
     PutManageSaasVpcsRequestBody:
       type: object
       properties:
-        list:
+        vpc:
           $ref: '#/components/schemas/saas_vpc_list'
+          x-go-custom-tag: validate:"required"
       required:
-        - "list" 
+        - "vpc" 
 
   #### Response (Dummy Object) 
     PutManageSaasVpcsResponse:
@@ -8735,8 +8763,13 @@ components:
 
   #### Response 
     GetManageSaasNaclsResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_nacl_list'
+      type: object
+      properties:
+        network_acl: 
+          $ref: '#/components/schemas/saas_network_acl_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "network_acl" 
 
   ### Put
   #### Request 
@@ -8755,10 +8788,11 @@ components:
     PutManageSaasNaclsRequestBody:
       type: object
       properties:
-        list:
-          $ref: '#/components/schemas/saas_nacl_list'
+        network_acl:
+          $ref: '#/components/schemas/saas_network_acl_list'
+          x-go-custom-tag: validate:"required"
       required:
-        - "list" 
+        - "network_acl" 
 
   #### Response (Dummy Object) 
     PutManageSaasNaclsResponse:
@@ -8781,9 +8815,14 @@ components:
   
   #### Response 
     GetManageSaasSubnetsResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_subnet_list'
-
+      type: object
+      properties:
+        subnet: 
+          $ref: '#/components/schemas/saas_subnet_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "subnet" 
+      
   ### Put
   #### Request 
     PutManageSaasSubnetsRequest:
@@ -8801,10 +8840,11 @@ components:
     PutManageSaasSubnetsRequestBody:
       type: object
       properties:
-        list:
+        subnet:
           $ref: '#/components/schemas/saas_subnet_list'
+          x-go-custom-tag: validate:"required"
       required:
-        - "list" 
+        - "subnet" 
 
   #### Response (Dummy Object) 
     PutManageSaasSubnetsResponse:
@@ -8828,8 +8868,13 @@ components:
 
   #### Response 
     GetManageSaasNicsResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_nic_list'
+      type: object
+      properties:
+        nic: 
+          $ref: '#/components/schemas/saas_nic_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "nic" 
 
   ### Put
   #### Request 
@@ -8848,10 +8893,11 @@ components:
     PutManageSaasNicsRequestBody:
       type: object
       properties:
-        list:
+        nic:
           $ref: '#/components/schemas/saas_nic_list'
+          x-go-custom-tag: validate:"required"
       required:
-        - "list" 
+        - "nic" 
 
   #### Response (Dummy Object) 
     PutManageSaasNicsResponse:
@@ -8873,8 +8919,13 @@ components:
 
   #### Response 
     GetManageSaasLbMapsResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_lb_map_list'
+      type: object
+      properties:
+        lb_map: 
+          $ref: '#/components/schemas/saas_lb_map_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "lb_map" 
 
   ### Put
   #### Request 
@@ -8893,10 +8944,11 @@ components:
     PutManageSaasLbMapsRequestBody:
       type: object
       properties:
-        list:
+        lb_map: 
           $ref: '#/components/schemas/saas_lb_map_list'
+          x-go-custom-tag: validate:"required"
       required:
-        - "list" 
+        - "lb_map" 
 
   #### Response (Dummy Object) 
     PutManageSaasLbMapsResponse:
@@ -8918,9 +8970,14 @@ components:
 
   #### Response 
     GetManageSaasLbsResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_lb_list'
-
+      type: object
+      properties:
+        lb: 
+          $ref: '#/components/schemas/saas_lb_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "lb" 
+  
   ### Put
   #### Request 
     PutManageSaasLbsRequest:
@@ -8938,10 +8995,11 @@ components:
     PutManageSaasLbsRequestBody:
       type: object
       properties:
-        list:
+        lb: 
           $ref: '#/components/schemas/saas_lb_list'
+          x-go-custom-tag: validate:"required"
       required:
-        - "list" 
+        - "lb" 
 
   #### Response (Dummy Object) 
     PutManageSaasLbsResponse:
@@ -8964,8 +9022,13 @@ components:
 
   #### Response 
     GetManageSaasLbRulesResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_lb_rule_list'
+      type: object
+      properties:
+        lb_rule: 
+          $ref: '#/components/schemas/saas_lb_rule_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "lb_rule" 
 
   ### Put
   #### Request 
@@ -8984,10 +9047,10 @@ components:
     PutManageSaasLbRulesRequestBody:
       type: object
       properties:
-        list:
+        lb_rule:
           $ref: '#/components/schemas/saas_lb_rule_list'
       required:
-        - "list" 
+        - "lb_rule" 
 
   #### Response (Dummy Object) 
     PutManageSaasLbRulesResponse:
@@ -9008,8 +9071,13 @@ components:
 
   #### Response 
     GetManageSaasLbUnionsResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_lb_union_list'
+      type: object
+      properties:
+        lb_union: 
+          $ref: '#/components/schemas/saas_lb_union_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "lb_union" 
 
   ## ManageSaasAcgMaps
   ### Get
@@ -9025,8 +9093,13 @@ components:
 
   #### Response 
     GetManageSaasAcgMapsResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_acg_map_list'
+      type: object
+      properties:
+        acg_map: 
+          $ref: '#/components/schemas/saas_acg_map_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "acg_map" 
 
   ### Put
   #### Request 
@@ -9045,10 +9118,11 @@ components:
     PutManageSaasAcgMapsRequestBody:
       type: object
       properties:
-        list:
+        acg_map: 
           $ref: '#/components/schemas/saas_acg_map_list'
+          x-go-custom-tag: validate:"required"
       required:
-        - "list" 
+        - "acg_map" 
 
   #### Response (Dummy Object) 
     PutManageSaasAcgMapsResponse:
@@ -9069,8 +9143,12 @@ components:
 
   #### Response 
     GetManageSaasAcgsResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_acg_list'
+      type: object
+      properties:
+        acg: 
+          $ref: '#/components/schemas/saas_acg_list'
+      required:
+        - "acg" 
 
   ### Put
   #### Request 
@@ -9089,10 +9167,11 @@ components:
     PutManageSaasAcgsRequestBody:
       type: object
       properties:
-        list:
+        acg: 
           $ref: '#/components/schemas/saas_acg_list'
+          x-go-custom-tag: validate:"required"
       required:
-        - "list" 
+        - "acg" 
 
   #### Response (Dummy Object) 
     PutManageSaasAcgsResponse:
@@ -9113,8 +9192,13 @@ components:
 
   #### Response 
     GetManageSaasAclRulesResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_acl_rule_list'
+      type: object
+      properties:
+        acl_rule: 
+          $ref: '#/components/schemas/saas_acl_rule_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "acl_rule" 
 
   ### Put
   #### Request 
@@ -9133,10 +9217,11 @@ components:
     PutManageSaasAclRulesRequestBody:
       type: object
       properties:
-        list:
+        acl_rule:
           $ref: '#/components/schemas/saas_acl_rule_list'
+          x-go-custom-tag: validate:"required"
       required:
-        - "list" 
+        - "acl_rule" 
 
   #### Response (Dummy Object) 
     PutManageSaasAclRulesResponse:
@@ -9157,8 +9242,13 @@ components:
 
   #### Response 
     GetManageSaasAcgUnionsResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_acg_union_list'
+      type: object
+      properties:
+        acg_union: 
+          $ref: '#/components/schemas/saas_acg_union_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "acg_union" 
 
   ## ManageSaasAddServices
   ### Get
@@ -9173,8 +9263,13 @@ components:
 
   #### Response 
     GetManageSaasAddServicesResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_add_service_list'
+      type: object
+      properties:
+        add_service: 
+          $ref: '#/components/schemas/saas_add_service_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "add_service" 
 
   ### Put
   #### Request 
@@ -9193,10 +9288,11 @@ components:
     PutManageSaasAddServicesRequestBody:
       type: object
       properties:
-        list:
+        add_service: 
           $ref: '#/components/schemas/saas_add_service_list'
+          x-go-custom-tag: validate:"required"
       required:
-        - "list" 
+        - "add_service" 
 
   #### Response (Dummy Object) 
     PutManageSaasAddServicesResponse:
@@ -9216,8 +9312,13 @@ components:
 
   #### Response 
     GetManageSaasGroupScalePolicysResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_group_scale_policy_list'
+      type: object
+      properties:
+        group_scale_policy: 
+          $ref: '#/components/schemas/saas_group_scale_policy_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "group_scale_policy" 
 
   ### Put
   #### Request 
@@ -9236,10 +9337,10 @@ components:
     PutManageSaasGroupScalePolicysRequestBody:
       type: object
       properties:
-        list:
+        group_scale_policy::
           $ref: '#/components/schemas/saas_group_scale_policy_list'
       required:
-        - "list" 
+        - "group_scale_policy" 
 
   #### Response (Dummy Object) 
     PutManageSaasGroupScalePolicysResponse:
@@ -9260,8 +9361,13 @@ components:
 
   #### Response 
     GetManageSaasSystemScalePolicysResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_system_scale_policy_list'
+      type: object
+      properties:
+        system_scale_policy: 
+          $ref: '#/components/schemas/saas_system_scale_policy_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "system_scale_policy" 
 
   ### Put
   #### Request 
@@ -9280,10 +9386,11 @@ components:
     PutManageSaasSystemScalePolicysRequestBody:
       type: object
       properties:
-        list:
+        system_scale_policy::
           $ref: '#/components/schemas/saas_system_scale_policy_list'
+          x-go-custom-tag: validate:"required"
       required:
-        - "list" 
+        - "system_scale_policy" 
 
   #### Response (Dummy Object) 
     PutManageSaasSystemScalePolicysResponse:
@@ -9302,8 +9409,13 @@ components:
 
   #### Response 
     GetManageInfrawaresResponse:
-      allOf:
-        - $ref: '#/components/schemas/infraware_list'
+      type: object
+      properties:
+        infraware: 
+          $ref: '#/components/schemas/infraware_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "infraware" 
 
   ## MetaProductCreate
   ### Post
@@ -9493,8 +9605,13 @@ components:
 
   #### Response 
     GetManageMembersResponse:
-      allOf:
-        - $ref: '#/components/schemas/manage_member_list'
+      type: object
+      properties: 
+        member:
+          $ref: '#/components/schemas/manage_member_list'
+          x-go-custom-tag: validate:"gt=0"
+      required:
+        - "member"
 
   ## ManageMember
   ### Post
@@ -9667,8 +9784,13 @@ components:
   #### Response 
     GetManageAdminsResponse:
       description: '클라우드 관리자 전체 조회 응답'
-      allOf: 
-        - $ref: '#/components/schemas/admin_list'
+      type: object
+      properties:
+        admin:
+          $ref: '#/components/schemas/admin_list'
+          x-go-custom-tag: validate:"required"
+      required:
+        - "admin"
 
   ## ManageAdmin
   ### Put
@@ -9801,9 +9923,14 @@ components:
 
   #### Response 
     GetManageSaasAdminsResponse:
-      allOf:
-        - $ref: '#/components/schemas/saas_admin_list' 
-
+      type: object
+      properties:
+        admin:
+          $ref: '#/components/schemas/saas_admin_list' 
+          x-go-custom-tag: validate:"required"
+      required:
+        - "id"
+      
   ## ManageSaasAdmin
   ### Post
   #### Request 
