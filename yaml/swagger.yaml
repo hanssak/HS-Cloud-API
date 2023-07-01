@@ -190,7 +190,7 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/GetManageApplyMemberResponse'
+                $ref: '#/components/schemas/GetApplyMemberResponse'
         '400':
           $ref: '#/components/responses/badRequest'
         '404':
@@ -201,14 +201,14 @@ paths:
     post:
       tags:
         - "1. 신청"
-      summary: '1.2.1 고객사 등록: 테넌트 생성 신청 #PostManageApplyMember' 
+      summary: '1.2.1 고객사 등록: 테넌트 생성 신청 #PostApplyMember' 
       description: '\- 테넌트 생성 신청: 외부 API -> API Gateway -> SaaS Manager <br> required를 필수로 지켜야 합니다. 또한 등록 성공 시 SaaS DB가 생성됩니다.'
-      operationId: PostManageApplyMember
+      operationId: PostApplyMember
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PostManageApplyMemberRequest'
+              $ref: '#/components/schemas/PostApplyMemberRequest'
         required: true
       responses:
         '201':
@@ -216,7 +216,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PostManageApplyMemberResponse'
+                $ref: '#/components/schemas/PostApplyMemberResponse'
         '400':
           $ref: '#/components/responses/badRequest'
           
@@ -224,14 +224,14 @@ paths:
     post:
       tags:
         - "1. 신청"
-      summary: '1.2.1 서비스포털 관리자 생성 신청#PostManageApplySaasAdmin' 
+      summary: '1.2.1 서비스포털 관리자 생성 신청#PostApplySaasAdmin' 
       description: '\- 서비스포털 관리자 생성: 외부 API -> API Gateway -> SaaS Manager <br> 회원가입 진행시 서비스 관리자를 추가할수 있습니다.'
-      operationId: PostManageApplySaasAdmin
+      operationId: PostApplySaasAdmin
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PostManageApplySaasAdminRequest'
+              $ref: '#/components/schemas/PostApplySaasAdminRequest'
         required: true
       responses:
         '201':
@@ -239,7 +239,7 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/PostManageApplySaasAdminResponse'
+                $ref: '#/components/schemas/PostApplySaasAdminResponse'
         '400':
           $ref: '#/components/responses/badRequest'
 
@@ -455,9 +455,9 @@ paths:
     get:
       tags: 
         - '2. 생성'
-      summary: '2.1.1 SaaS 신청 (2.제품구성): SaaS AutoScale 데이터 조회 #GetOrderScale'
+      summary: '2.1.1 SaaS 신청 (2.제품구성): SaaS AutoScale 데이터 조회 #GetOrderAutoScale'
       description: '\- 서비스포털 -> API Gateway -> Configurator <br> AutoScale 목록 조회 (q 파라미터로 부가서비스 ID 입력해야합니다.)'
-      operationId: GetOrderScale
+      operationId: GetOrderAutoScale
       security:
         - bearerAuth: []
       parameters: 
@@ -472,7 +472,7 @@ paths:
           content:
             application/json:
               schema: 
-                $ref: '#/components/schemas/GetOrderScaleResponse'
+                $ref: '#/components/schemas/GetOrderAutoScaleResponse'
         '401':
           $ref: '#/components/responses/unauthorized'
         '404':
@@ -480,9 +480,9 @@ paths:
     post:
       tags: 
         - '2. 생성'
-      summary: '2.1.1 SaaS 신청 (2.제품구성): SaaS AutoScale 데이터 등록 #PostOrderScale'
+      summary: '2.1.1 SaaS 신청 (2.제품구성): SaaS AutoScale 데이터 등록 #PostOrderAutoScale'
       description: '\- 서비스포털 -> API Gateway -> Configurator <br> AutoScale 라이선스 주문 정보 저장 이벤트'
-      operationId: PostOrderScale 
+      operationId: PostOrderAutoScale 
       security:
         - bearerAuth: []
       parameters: 
@@ -494,7 +494,7 @@ paths:
         content:
           application/json:
             schema: 
-              $ref: '#/components/schemas/PostOrderScaleRequestBody'
+              $ref: '#/components/schemas/PostOrderAutoScaleRequestBody'
       responses:
         '201':
           description: '주문 이력 등록 완료'
@@ -4323,7 +4323,7 @@ components:
       properties:
         authorization: 
           type: string
-          x-go-custom-tag: header:"Authorization" validate:"required"
+          x-go-custom-tag: header:"Authorization"
       required:
         - "authorization"
     
@@ -5269,25 +5269,28 @@ components:
       type: object
 
     cloud_vpc:
+      type: object
+      properties:
+        code:
+          type: string
+          description: 'VPC 고유 코드 정보'
+          example: '22830'
+        name: 
+          type: string
+          description: 'VPC 이름'
+          example: 'hanssak-vpc'
+        network_range:
+          type: string
+          description: 'VPC 대역정보'
+          example: '172.16.0.0/16'
+        add_info:
+          $ref: '#/components/schemas/cloud_vpc_add_info'
+    
+    cloud_vpc_list:
       type: array 
       description: 'VPC 정보'
       items:
-        type: object
-        properties:
-          code:
-            type: string
-            description: 'VPC 고유 코드 정보'
-            example: '22830'
-          name: 
-            type: string
-            description: 'VPC 이름'
-            example: 'hanssak-vpc'
-          network_range:
-            type: string
-            description: 'VPC 대역정보'
-            example: '172.16.0.0/16'
-          add_info:
-            $ref: '#/components/schemas/cloud_vpc_add_info'
+        $ref: '#/components/schemas/cloud_vpc'
     
     cloud_subnet_add_info:
       type: object
@@ -5295,38 +5298,38 @@ components:
     cloud_subnet:
       type: object
       properties:
-        info:
-          type: array 
-          description: 'Subnet 정보'
-          items:
-            type: object
-            properties:
-              code:
-                type: string
-                description: 'Subnet 고유 코드 정보'
-                example: '49460'
-              name: 
-                type: string
-                description: 'Subnet 이름'
-                example: 'sgin'
-              network_range:
-                type: string
-                description: 'Subnet 대역정보 (VPC 하위 서브넷팅이여야함)'
-                example: '172.16.1.0/24'
-              usage_type:
-                type: string
-                description: 'Subnet 용도'
-                example: 'GENERAL/LOADBALANCER/BAREMETAL'
-              network_type:
-                type: string
-                description: '네트워크 유형'
-                example: 'PUBLIC/PRIVATE'  
-              vpc_code:
-                type: string
-                description: 'Subnet이 속한 VPC 고유코드'
-                example: '22830'
-              add_info:
-                $ref: '#/components/schemas/cloud_subnet_add_info'
+        code:
+          type: string
+          description: 'Subnet 고유 코드 정보'
+          example: '49460'
+        name: 
+          type: string
+          description: 'Subnet 이름'
+          example: 'sgin'
+        network_range:
+          type: string
+          description: 'Subnet 대역정보 (VPC 하위 서브넷팅이여야함)'
+          example: '172.16.1.0/24'
+        usage_type:
+          type: string
+          description: 'Subnet 용도'
+          example: 'GENERAL/LOADBALANCER/BAREMETAL'
+        network_type:
+          type: string
+          description: '네트워크 유형'
+          example: 'PUBLIC/PRIVATE'  
+        vpc_code:
+          type: string
+          description: 'Subnet이 속한 VPC 고유코드'
+          example: '22830'
+        add_info:
+          $ref: '#/components/schemas/cloud_subnet_add_info'
+    
+    cloud_subnet_list:
+      type: array 
+      description: 'Subnet 정보'
+      items:
+        $ref: '#/components/schemas/cloud_subnet'
     
     config:
       type: object
@@ -5334,7 +5337,7 @@ components:
         - "system_id"
         - "system"
       properties:
-        system_id:
+        system_type:
           type: string
           x-go-custom-tag: validate:"required"
         system: 
@@ -7719,13 +7722,13 @@ components:
       type: object
       description: 'None'
 
-  ## ManageApplyMember 
+  ## ApplyMember 
   ### Get
-    GetManageApplyMemberRequest:
+    GetApplyMemberRequest:
       allOf:
         - $ref: '#/components/schemas/schema_path_tenant_id'
     
-    GetManageApplyMemberResponse:
+    GetApplyMemberResponse:
       type: object
       description: '특정 테넌트 응답'
       properties:
@@ -7736,11 +7739,11 @@ components:
         - tenant_id 
   
   ### Post
-    PostManageApplyMemberRequest:
+    PostApplyMemberRequest:
       allOf: 
         - $ref: '#/components/schemas/apply_member'
         
-    PostManageApplyMemberResponse:
+    PostApplyMemberResponse:
       description: '고객사 생성 응답'
       type: object
       properties:
@@ -7753,13 +7756,13 @@ components:
       required: 
         - tenant_id 
 
-  ## ManageApplySaasAdmin
+  ## ApplySaasAdmin
   ### Post
-    PostManageApplySaasAdminRequest:
+    PostApplySaasAdminRequest:
       allOf: 
         - $ref: '#/components/schemas/apply_saas_admin'
 
-    PostManageApplySaasAdminResponse: 
+    PostApplySaasAdminResponse: 
       description: '서비스포탈 관리자 생성 응답'
       type: object
       properties:
@@ -7806,6 +7809,7 @@ components:
       properties:
         seq:
           type: integer
+          format: int64 
           x-go-custom-tag: validate:"gt=0"
           description: '고객사 SEQ'
       required:
@@ -7831,6 +7835,25 @@ components:
       allOf:
         - $ref: '#/components/schemas/schema_path_portal'
         - $ref: '#/components/schemas/schema_header_Authorization'
+    
+    GetOrderProductCloudRequest:
+      description: 'Saas상품 전체 목록 조회 요청'
+      allOf:
+        - $ref: '#/components/schemas/schema_path_portal'
+        - $ref: '#/components/schemas/schema_header_Authorization'
+    
+    GetOrderProductProductRequest:
+      description: 'Saas상품 전체 목록 조회 요청'
+      allOf:
+        - $ref: '#/components/schemas/schema_path_portal'
+        - $ref: '#/components/schemas/schema_header_Authorization'
+    
+    GetOrderProductServiceRequest:
+      description: 'Saas상품 전체 목록 조회 요청'
+      allOf:
+        - $ref: '#/components/schemas/schema_path_portal'
+        - $ref: '#/components/schemas/schema_header_Authorization'
+  
   
   #### Response 
     GetOrderProductResponse:
@@ -7842,7 +7865,25 @@ components:
           $ref: '#/components/schemas/product_list' 
         service:
           $ref: '#/components/schemas/service_list' 
-  
+    
+    GetOrderProductCloudResponse:
+      type: object
+      properties:
+        cloud:
+          $ref: '#/components/schemas/cloud_list' 
+
+    GetOrderProductProductResponse:
+      type: object
+      properties:
+        product:
+          $ref: '#/components/schemas/product_list' 
+    
+    GetOrderProductServiceResponse:
+      type: object
+      properties:
+        service:
+          $ref: '#/components/schemas/service_list' 
+
   ### Post
   #### Request 
     PostOrderProductRequest:
@@ -7993,10 +8034,10 @@ components:
       allOf:
         - $ref: '#/components/schemas/dummy_object'
 
-  ## OrderScale
+  ## OrderAutoScale
   ### Get
   #### Request 
-    GetOrderScaleRequest:
+    GetOrderAutoScaleRequest:
       description: 'AutoScale 부가서비스ID에 따른 Scale 정책정보 조회 요청'
       allOf:
         - $ref: '#/components/schemas/schema_path_portal'
@@ -8006,7 +8047,7 @@ components:
         - $ref: '#/components/schemas/schema_query_license-id'
 
   #### Response 
-    GetOrderScaleResponse:
+    GetOrderAutoScaleResponse:
       description: 'AutoScale 부가서비스ID에 따른 Scale 정책정보 조회 응답'
       type: object
       properties:
@@ -8015,20 +8056,20 @@ components:
 
   ### Post
   #### Request 
-    PostOrderScaleRequest:
+    PostOrderAutoScaleRequest:
       description: 'AutoScale 부가서비스ID에 따른 Scale 정책정보 신청'
       allOf:
-        - $ref: '#/components/schemas/PostOrderScaleRequestParam' 
-        - $ref: '#/components/schemas/PostOrderScaleRequestBody' 
+        - $ref: '#/components/schemas/PostOrderAutoScaleRequestParam' 
+        - $ref: '#/components/schemas/PostOrderAutoScaleRequestBody' 
     
-    PostOrderScaleRequestParam:
+    PostOrderAutoScaleRequestParam:
       allOf:
         - $ref: '#/components/schemas/schema_path_portal'
         - $ref: '#/components/schemas/schema_path_service_id'
         - $ref: '#/components/schemas/schema_header_Authorization'
         - $ref: '#/components/schemas/schema_header_X-TenantId'
 
-    PostOrderScaleRequestBody:
+    PostOrderAutoScaleRequestBody:
       type: object
       allOf:
         - $ref: '#/components/schemas/order_header'
@@ -8044,7 +8085,7 @@ components:
                 - "autoscale"
 
   #### Response (Dummy Object) 
-    PostOrderScaleResponse:
+    PostOrderAutoScaleResponse:
       allOf:
         - $ref: '#/components/schemas/dummy_object'
 
@@ -8063,77 +8104,89 @@ components:
         - $ref: '#/components/schemas/schema_query_add-service-id'
     
   #### Response 
-    ConfigFormHeader:
-      type: object
+    ConfigSystemLayoutList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ConfigSystemLayout'
+
+    ConfigSystemLayout:
       description: '서비스 제품 구성 시 사용되는 Container 폼 오브젝트'
+      type: object
       properties:
         title:
           type: string
           description: '폼의 타이틀 문구'
         horizontal_index:
           type: integer
+          format: int16
         vertical_index:
           type: integer
-    
-    ConfigServerInfo:
-      type: object
-      properties:
-        system_type:
-          type: string
-          description: '시스템구분자'
-          example: 'SGIN,SGEX,SGVF...'
-        cloud_os_id: 
-          type: string
-          description: '서버의 클라우드 os 고유코드 (config에서는 추천 코드를 의미)'
-          example: 'SW.VSVR.OS.LNX64.CNTOS.0708.B050 (CentOS 7.8)'
-        cloud_product_id:
-          type: string
-          description: '서버의 클라우드 product 고유코드 (config에서는 추천 코드를 의미)'
-          example: 'SPSVRCPU00000003A (Classic G1장비)'
-        min: 
-          type: integer
-          description: '서버 autoscale의 최소 개수'
-        max:
-          type: integer
-          description: '서버 autoscale의 최대 개수'    
-            
-    ConfigSystemList:
-      type: array
-      items:
-        $ref: '#/components/schemas/ConfigSystem'
-
-    ConfigSystem:
-      type: object
-      allOf:
-        - $ref: '#/components/schemas/ConfigFormHeader'
-        - type: object
+          format: int16
+        vpc: 
+          type: object
           properties:
-            vpc: 
-              allOf:
-                - $ref: '#/components/schemas/ConfigFormHeader'
-                - type: object
+            title:
+              type: string
+              description: '폼의 타이틀 문구'
+            horizontal_index:
+              type: integer
+              format: int16
+            vertical_index:
+              type: integer
+              format: int16
+            info:
+              $ref: '#/components/schemas/cloud_vpc_list'
+            subnet:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: '폼의 타이틀 문구'
+                horizontal_index:
+                  type: integer
+                  format: int16
+                vertical_index:
+                  type: integer
+                  format: int16
+                info: 
+                  $ref: '#/components/schemas/cloud_subnet_list'
+                server:
+                  type: object
                   properties:
-                    info:
-                      $ref: '#/components/schemas/cloud_vpc'
-                - type: object
-                  properties:
-                    subnet:
-                      allOf:
-                        - $ref: '#/components/schemas/ConfigFormHeader'
-                        - $ref: '#/components/schemas/cloud_subnet'
-                        - type: object
-                          properties:
-                            server:
-                              allOf:
-                                - $ref: '#/components/schemas/ConfigFormHeader'
-                                - $ref: '#/components/schemas/ConfigServerInfo'
+                    title:
+                      type: string
+                      description: '폼의 타이틀 문구'
+                    horizontal_index:
+                      type: integer
+                      format: int16
+                    vertical_index:
+                      type: integer
+                      format: int16
+                    system_type:
+                      type: string
+                      description: '시스템구분자'
+                      example: 'SGIN,SGEX,SGVF...'
+                    cloud_os_id: 
+                      type: string
+                      description: '서버의 클라우드 os 고유코드 (config에서는 추천 코드를 의미)'
+                      example: 'SW.VSVR.OS.LNX64.CNTOS.0708.B050 (CentOS 7.8)'
+                    cloud_product_id:
+                      type: string
+                      description: '서버의 클라우드 product 고유코드 (config에서는 추천 코드를 의미)'
+                      example: 'SPSVRCPU00000003A (Classic G1장비)'
+                    min: 
+                      type: integer
+                      description: '서버 autoscale의 최소 개수'
+                    max:
+                      type: integer
+                      description: '서버 autoscale의 최대 개수'    
 
     GetOrderConfigResponse:
       description: '서비스 구성을 위한 모든 폼 데이터 조회 응답'
       type: object
       properties:
         config: 
-          $ref: '#/components/schemas/ConfigSystemList'
+          $ref: '#/components/schemas/ConfigSystemLayoutList'
 
   ### Post
   #### Request 
