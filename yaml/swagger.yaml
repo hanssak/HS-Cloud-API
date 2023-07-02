@@ -1762,6 +1762,30 @@ paths:
           $ref: '#/components/responses/unauthorized'
         '404':
           $ref: '#/components/responses/notFound'
+  
+  '/adm/manage/common/{table_name}':
+    get:
+      tags: 
+        - '2. 생성'
+      summary: '2.1.1 SaaS 신청 (4.생성 시작viii): 공용(common) Table 조회 #GetManageCommonTables'
+      description: '\- 외부 API -> API Gateway -> Saas Manager<br> 공용 Table 정보 조회'
+      operationId: GetManageCommonTables
+      security:
+        - bearerAuth: []
+      parameters: 
+        - $ref: '#/components/parameters/param_path_table_name'
+        - $ref: '#/components/parameters/param_query_query-params'
+      responses:
+        '200':
+          description: 'Common datase table 정보'
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/GetManageCommonTablesResponse'
+        '401':
+          $ref: '#/components/responses/unauthorized'
+        '404':
+          $ref: '#/components/responses/notFound'
 
   '/{portal}/meta/product/create':
     post:
@@ -3849,6 +3873,15 @@ components:
         description: '서버 인스턴스 번호'
         example: '서버 인스턴스 번호'
         type: string
+    
+    param_path_table_name:
+      name: table_name 
+      in: path
+      required: true
+      schema:
+        description: 'common database table name'
+        example: 'tbl-cloud-oss'
+        type: string
 
   ## In Header
     param_header_Authorization:
@@ -4301,6 +4334,13 @@ components:
         example: 'q=target-type-code%3D{타겟타입코드:VSVR}'
         type: string
     
+    param_query_query-params:
+      name: query-params 
+      in: query
+      schema:
+        example: 'q=cloud-id%3DNCP,cloud-region-code%3DKR'  
+        type: string
+    
   # --> 스키마 정의 
   schemas:
     error_response:
@@ -4386,7 +4426,7 @@ components:
       properties:
         user_id:
           type: string
-          x-go-custom-tag: path:"user_id" validate:"required"
+          x-go-custom-tag: path:"user_id" validate:"required" copier:"Userid"
       required:
         - "user_id"
 
@@ -4533,6 +4573,15 @@ components:
       required:
         - "server_instance_no"
     
+    schema_path_table_name:
+      type: object
+      properties:
+        table_name:
+          type: string
+          x-go-custom-tag: path:"table_name" validate:"required"
+      required:
+        - "server_instance_no"
+    
   ## In Query 
     schema_query_base:
       type: object
@@ -4547,6 +4596,13 @@ components:
         key:
           type: string
           x-go-custom-tag: mapstructure:"key" query:"key"
+    
+    schema_query_query-params:
+      type: object
+      properties:
+        query_params:
+          type: string
+          x-go-custom-tag: mapstructure:"query_params" query:"query-params"
     
     schema_query_product-id:
       type: object
@@ -9469,6 +9525,22 @@ components:
           x-go-custom-tag: validate:"required"
       required:
         - "infraware" 
+        
+  ## ManageCommonTables
+  ### Get
+  #### Request 
+    GetManageCommonTablesRequest:
+      allOf:
+        - $ref: '#/components/schemas/schema_path_table_name'
+        - $ref: '#/components/schemas/schema_query_query-params'
+
+  #### Response 
+    GetManageCommonTablesResponse:
+      type: object
+      properties:
+        interface:
+          type: object
+          example: 'Go 언어의 interface{} 형식(empty interface)' 
 
   ## MetaProductCreate
   ### Post
@@ -9882,7 +9954,7 @@ components:
           type: boolean
 
   #### Response (Dummy Object) 
-    PutManageAdminsResponse:
+    PutManageAdminResponse:
       allOf:
         - $ref: '#/components/schemas/dummy_object'
 
