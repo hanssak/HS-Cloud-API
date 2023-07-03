@@ -4543,11 +4543,11 @@ components:
     schema_path_key_name:
       type: object
       properties:
-        name:
+        key_name:
           type: string
-          x-go-custom-tag: path:"name" validate:"required"
+          x-go-custom-tag: path:"key_name" validate:"required"
       required:
-        - "name"
+        - "key_name"
     
     schema_path_server_num:
       type: object
