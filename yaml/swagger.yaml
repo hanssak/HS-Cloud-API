@@ -9626,7 +9626,7 @@ components:
     PutManageSaasSystemScalePolicysRequestBody:
       type: object
       properties:
-        system_scale_policy::
+        system_scale_policy:
           $ref: '#/components/schemas/saas_system_scale_policy_list'
           x-go-custom-tag: validate:"required"
       required:
