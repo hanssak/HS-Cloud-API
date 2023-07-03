@@ -2359,10 +2359,16 @@ paths:
         - $ref: '#/components/parameters/param_query_cloud-postgresql-service-name'
         - $ref: '#/components/parameters/param_query_cloud-postgresql-server-name'
       responses:
-        '201':
-          description: 'DB 생성 완료'
-        '409':
-          $ref: '#/components/responses/conflict'
+        '200':
+          description: 'DB 리스트 조회 완료'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetBrokerNcpPostgresqlDatabaseResponse'
+        '400':
+          $ref: '#/components/responses/badRequest'
+        '500':
+          $ref: '#/components/responses/internalServerError' 
 
   '/adm/broker/{vendor}/service/vpostgresql/database/{name}':
     delete:
@@ -6916,6 +6922,53 @@ components:
           description: 코드명
           type: string
 
+  #### postgresql
+    cloud_postgresql_instance_list:
+      type: object
+      properties:
+        return_code:
+          type: string
+        return_message:
+          type: string
+        total_rows:
+          type: integer
+        cloud_postgresql_instance_list:
+          type: array
+          items:
+            $ref: '#/components/schemas/cloud_postgresql_instance'
+
+    cloud_postgresql_instance:
+      type: object
+      properties:
+        cloud_postgresql_instance_no:
+          type: string
+        cloud_postgresql_service_name:
+          type: string 
+        cloud_postgresql_instance_status_name:
+          type: string
+        cloud_postgresql_instance_status:
+          $ref: '#/components/schemas/common_code'
+        cloud_postgresql_instance_operation:
+          $ref: '#/components/schemas/common_code'
+        cloud_postgresql_image_product_code:
+          type: string
+        engine_version:
+          type: string
+        license:
+          type: string
+        cloud_postgresql_port:
+          type: integer
+        is_ha:
+          type: boolean
+        is_multi_zone:
+          type: boolean
+        is_backup:
+          type: boolean
+        backup_file_retention_period:
+          type: integer
+        backup_time:
+          type: string
+
   #### vpc
     vpc_list:
       type: object
@@ -10344,10 +10397,10 @@ components:
         - $ref: '#/components/schemas/schema_query_cloud-postgresql-service-name'
         - $ref: '#/components/schemas/schema_query_cloud-postgresql-server-name'
     
-  #### Response (Dummy Object) 
+  #### Response  
     GetBrokerNcpPostgresqlDatabaseResponse:
       allOf:
-        - $ref: '#/components/schemas/dummy_object'
+        - $ref: '#/components/schemas/cloud_postgresql_instance_list'
 
   ### Delete
   #### Request 
