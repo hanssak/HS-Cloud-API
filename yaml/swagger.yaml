@@ -2342,6 +2342,27 @@ paths:
           description: 'DB 생성 완료'
         '409':
           $ref: '#/components/responses/conflict'
+    get:
+      tags:
+        - "1. 신청"
+        - "98. 클라우드연동"
+      summary: "1.2.1 1.2.2 4.1.1 Cloud for PostgreSQL 데이터베이스 정보 조회 #GetBrokerNcpPostgresqlDatabase"
+      description: "- 내부 서비스간 통신만 허용하는 API입니다. "
+      operationId: GetBrokerNcpPostgresqlDatabase
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/param_path_vendor'
+        - $ref: '#/components/parameters/param_header_Authorization'
+        - $ref: '#/components/parameters/param_query_vpc-no'
+        - $ref: '#/components/parameters/param_query_subnet-no'
+        - $ref: '#/components/parameters/param_query_cloud-postgresql-service-name'
+        - $ref: '#/components/parameters/param_query_cloud-postgresql-server-name'
+      responses:
+        '201':
+          description: 'DB 생성 완료'
+        '409':
+          $ref: '#/components/responses/conflict'
 
   '/adm/broker/{vendor}/service/vpostgresql/database/{name}':
     delete:
@@ -2893,6 +2914,7 @@ paths:
         - $ref: '#/components/parameters/param_query_instance-no'
         - $ref: '#/components/parameters/param_query_subnet-name'
         - $ref: '#/components/parameters/param_query_server-name'
+        - $ref: '#/components/parameters/param_query_network-interface-name'
       responses:
         '200':
           description: 'NetworkInterface List 조회 완료'
@@ -4018,12 +4040,33 @@ components:
         type: string
 
     param_query_vpc-no:
-      name: vpc_no
+      name: vpc-no
       in: query
       schema:
         type: string
         example: 'q=vpc-no%3D{VPC번호}'
-
+        
+    param_query_subnet-no:
+      name: subnet-no
+      in: query
+      schema:
+        type: string
+        example: 'q=subnet-no%3D{SUBNET번호}'
+    
+    param_query_cloud-postgresql-service-name:
+      name: cloud-postgresql-service-name
+      in: query
+      schema:
+        type: string
+        example: 'q=cloud-postgresql-service-name%3D{Value}'
+    
+    param_query_cloud-postgresql-server-name:
+      name: cloud-postgresql-server-name
+      in: query
+      schema:
+        type: string
+        example: 'q=cloud-postgresql-server-name%3D{Value}'
+        
     param_query_cloud-vpc-code:
       name: cloud-vpc-code
       in: query
@@ -4288,6 +4331,13 @@ components:
       in: query
       schema:
         example: 'q=server-name%3Dval'
+        type: string
+    
+    param_query_network-interface-name:
+      name: network-interface-name
+      in: query
+      schema:
+        example: 'q=network-interface-name%3Dval'
         type: string
 
     param_query_server-instance-no-list:
@@ -5009,6 +5059,34 @@ components:
           type: string
           x-go-custom-tag: mapstructure:"target_type_code" query:"target-type-code"
     
+    schema_query_network-interface-name:
+      type: object
+      properties:
+        network_interface_name:
+          type: string
+          x-go-custom-tag: mapstructure:"network_interface_name" query:"network-interface-name"
+    
+    schema_query_subnet-no:
+      type: object
+      properties:
+        subnet_no:
+          type: string
+          x-go-custom-tag: mapstructure:"subnet_no" query:"subnet-no"
+    
+    schema_query_cloud-postgresql-service-name:
+      type: object
+      properties:
+        cloud_postgresql_service_name:
+          type: string
+          x-go-custom-tag: mapstructure:"cloud_postgresql_service_name" query:"cloud-postgresql-service-name"
+    
+    schema_query_cloud-postgresql-server-name:
+      type: object
+      properties:
+        cloud_postgresql_server_name:
+          type: string
+          x-go-custom-tag: mapstructure:"cloud_postgresql_server_name" query:"cloud-postgresql-server-name"
+
   ## Common Schema of Request & Response  
   ### apply_member
     apply_member_add_info: 
@@ -10233,6 +10311,23 @@ components:
     PostBrokerNcpPostgresqlDatabaseResponse:
       allOf:
         - $ref: '#/components/schemas/dummy_object'
+  
+  ### Get 
+  #### Request 
+    GetBrokerNcpPostgresqlDatabaseRequest:
+      description: 'Cloud for PostgreSQL 데이터베이스 정보 조회 요청'
+      allOf:
+        - $ref: '#/components/schemas/schema_path_vendor'
+        - $ref: '#/components/schemas/schema_header_Authorization'
+        - $ref: '#/components/schemas/schema_query_vpc-no'
+        - $ref: '#/components/schemas/schema_query_subnet-no'
+        - $ref: '#/components/schemas/schema_query_cloud-postgresql-service-name'
+        - $ref: '#/components/schemas/schema_query_cloud-postgresql-server-name'
+    
+  #### Response (Dummy Object) 
+    GetBrokerNcpPostgresqlDatabaseResponse:
+      allOf:
+        - $ref: '#/components/schemas/dummy_object'
 
   ### Delete
   #### Request 
@@ -10808,6 +10903,7 @@ components:
         - $ref: '#/components/schemas/schema_query_instance-no'
         - $ref: '#/components/schemas/schema_query_subnet-name'
         - $ref: '#/components/schemas/schema_query_server-name'
+        - $ref: '#/components/schemas/schema_query_network-interface-name'
 
   #### Response 
     GetBrokerNcpVserverNetworkInterfacesResponse:
