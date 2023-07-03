@@ -2905,7 +2905,7 @@ paths:
         '500':
           $ref: '#/components/responses/internalServerError' 
 
-  '/{portal}/broker/{vendor}/service/vserver/network-interfaces/{nic_no}':
+  '/{portal}/broker/{vendor}/service/vserver/network-interfaces/{network_interface_no}':
     get:
       tags:
         - "98. 클라우드연동"
@@ -2917,7 +2917,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/param_path_portal'
         - $ref: '#/components/parameters/param_path_vendor'
-        - $ref: '#/components/parameters/param_path_nic_no'
+        - $ref: '#/components/parameters/param_path_network_interface_no'
         - $ref: '#/components/parameters/param_header_Authorization'
       responses:
         '200':
@@ -2942,7 +2942,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/param_path_portal'
         - $ref: '#/components/parameters/param_path_vendor'
-        - $ref: '#/components/parameters/param_path_nic_no'
+        - $ref: '#/components/parameters/param_path_network_interface_no'
         - $ref: '#/components/parameters/param_header_Authorization'
       responses:
         '200':
@@ -3010,7 +3010,7 @@ paths:
         '500':
           $ref: '#/components/responses/internalServerError' 
 
-  '/{portal}/broker/{vendor}/service/vserver/login-keys/{name}':
+  '/{portal}/broker/{vendor}/service/vserver/login-keys/{key_name}':
     delete:
       tags:
         - "98. 클라우드연동"
@@ -3782,8 +3782,8 @@ components:
         example: 'ACG 번호'
         type: string
 
-    param_path_nic_no:
-      name: nic_no 
+    param_path_network_interface_no:
+      name: network_interface_no 
       in: path
       required: true
       schema:
@@ -3791,7 +3791,7 @@ components:
         type: string
 
     param_path_key_name:
-      name: name 
+      name: key_name 
       in: path
       required: true
       schema:
@@ -4475,14 +4475,14 @@ components:
       required:
         - "acg_no"
 
-    schema_path_nic_no:
+    schema_path_network_interface_no:
       type: object
       properties:
-        nic_no:
+        network_interface_no:
           type: string
-          x-go-custom-tag: path:"nic_no" validate:"required"
+          x-go-custom-tag: path:"network_interface_no" validate:"required"
       required:
-        - "nic_no"
+        - "network_interface_no"
 
     schema_path_key_name:
       type: object
@@ -10824,7 +10824,7 @@ components:
         - $ref: '#/components/schemas/schema_header_Authorization'
         - $ref: '#/components/schemas/schema_path_vendor'
         - $ref: '#/components/schemas/schema_path_portal'
-        - $ref: '#/components/schemas/schema_path_nic_no'
+        - $ref: '#/components/schemas/schema_path_network_interface_no'
 
   #### Response 
     GetBrokerNcpVserverNetworkInterfaceDetailResponse:
@@ -10840,7 +10840,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/schema_path_portal'
         - $ref: '#/components/schemas/schema_path_vendor'
-        - $ref: '#/components/schemas/schema_path_nic_no'
+        - $ref: '#/components/schemas/schema_path_network_interface_no'
         - $ref: '#/components/schemas/schema_header_Authorization'
 
   #### Response 
