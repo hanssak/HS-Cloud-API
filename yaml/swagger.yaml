@@ -6076,7 +6076,6 @@ components:
     
   ### saas metadata 
     saas_metadata:
-      x-go-custom-tag: copier:"SaasMetadatas"
       type: object
       properties:
         product_list_seq:
@@ -6106,7 +6105,6 @@ components:
       type: object
 
     saas_group:
-      x-go-custom-tag: copier:"SaasGroups"
       type: object
       properties:
         product_list_seq:
@@ -6156,7 +6154,6 @@ components:
         - "name"
 
     saas_system:
-      x-go-custom-tag: copier:"SaasSystems"
       type: object
       properties:
         product_list_seq: 
@@ -6203,7 +6200,6 @@ components:
 
   ### saas system storage 
     saas_system_storage:
-      x-go-custom-tag: copier:"SaasStorages"
       type: object
       properties:
         id: 
@@ -6235,7 +6231,6 @@ components:
 
   ### saas vpc 
     saas_vpc:
-      x-go-custom-tag: copier:"SaasVpcs"
       type: object
       properties:
         id:
@@ -6259,7 +6254,6 @@ components:
 
   ### saas network acl 
     saas_network_acl:
-      x-go-custom-tag: copier:"SaasNetworkAcls"
       type: object
       properties:
         id:
@@ -6283,7 +6277,6 @@ components:
 
   ### saas subnet 
     saas_subnet:
-      x-go-custom-tag: copier:"SaasSubnets"
       type: object
       properties:
         id:
@@ -6320,7 +6313,6 @@ components:
 
   ### saas nic 
     saas_nic:
-      x-go-custom-tag: copier:"SaasNics"
       type: object
       properties:
         id:
@@ -6355,7 +6347,6 @@ components:
          
   ### saas lb map 
     saas_lb_map:
-      x-go-custom-tag: copier:"SaasLbMaps"
       type: object
       properties:
         product_list_seq:
@@ -6384,7 +6375,6 @@ components:
 
   ### saas lb
     saas_lb:
-      x-go-custom-tag: copier:"SaasLbs"
       type: object
       properties:
         id:
@@ -6423,7 +6413,6 @@ components:
       type: object
 
     saas_lb_rule:
-      x-go-custom-tag: copier:"SaasLbRules"
       type: object
       properties:
         id:
@@ -6457,8 +6446,7 @@ components:
          $ref: '#/components/schemas/saas_lb_rule'
 
   ### saas lb union 
-    saas_lb_union:    
-      x-go-custom-tag: copier:"SaasLbUnions"
+    saas_lb_union:
       type: object
       properties:
         id:
@@ -6496,7 +6484,6 @@ components:
 
   ### saas acg map  
     saas_acg_map:
-      x-go-custom-tag: copier:"SaasAcgMaps"
       type: object
       properties:
         product_list_seq:
@@ -6517,7 +6504,6 @@ components:
 
   ### saas acg
     saas_acg:
-      x-go-custom-tag: copier:"SaasAcgs"
       type: object
       properties:
         id:
@@ -6546,7 +6532,6 @@ components:
       type: object
 
     saas_acl_rule:
-      x-go-custom-tag: copier:"SaasAclRules"
       type: object
       properties:
         seq:
@@ -6582,8 +6567,7 @@ components:
          $ref: '#/components/schemas/saas_acl_rule'
 
   ### saas acg union
-    saas_acg_union:    
-      x-go-custom-tag: copier:"SaasAcgUnions"
+    saas_acg_union:
       type: object
       properties:
         id:
@@ -6610,7 +6594,6 @@ components:
 
   ### saas add service
     saas_add_service:
-      x-go-custom-tag: copier:"SaasAddServices"
       type: object
       properties:
         product_list_seq:
@@ -6631,7 +6614,6 @@ components:
 
   ### saas group scale policy
     saas_group_scale_policy:
-      x-go-custom-tag: copier:"SaasGroupScalePolicys"
       type: object
       properties:
         product_list_seq:
@@ -6655,7 +6637,6 @@ components:
 
   ### saas system scale policy
     saas_system_scale_policy:
-      x-go-custom-tag: copier:"SaasSystemScalePolicys"
       type: object
       properties:
         product_list_seq:
@@ -6682,8 +6663,7 @@ components:
          $ref: '#/components/schemas/saas_system_scale_policy'
 
   ### infraware
-    infraware:    
-      x-go-custom-tag: copier:"Infrawares"
+    infraware:
       type: object
       properties:
         hostname:
@@ -9597,7 +9577,7 @@ components:
     PutManageSaasGroupScalePolicysRequestBody:
       type: object
       properties:
-        group_scale_policy::
+        group_scale_policy:
           $ref: '#/components/schemas/saas_group_scale_policy_list'
       required:
         - "group_scale_policy" 
