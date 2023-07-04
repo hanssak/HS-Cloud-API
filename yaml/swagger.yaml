@@ -6084,14 +6084,19 @@ components:
           x-go-custom-tag: validate:"gt=0"
         tenant_id:
           type: string
+          x-go-custom-tag: validate:"required"
         product_id:
           type: string
+          x-go-custom-tag: validate:"required"
         service_id:
           type: string
+          x-go-custom-tag: validate:"required"
         license_id:
           type: string
+          x-go-custom-tag: validate:"required"
         group:
           type: string
+          x-go-custom-tag: validate:"required"
       required:
         - "product_list_seq"
     
@@ -6197,6 +6202,19 @@ components:
       type: array
       items:  
         $ref: '#/components/schemas/saas_system'
+
+  #### #extension 서비스 내부에서만 object 
+    extension_build_saas_system_add:
+      description: '서비스 내부에서만 extension 객체 (SaasBuilder에서 사용)'
+      properties:
+        root_password:
+          type: string
+
+    extension_build_saas_system:
+      description: '서비스 내부에서만 extension 객체 (SaasBuilder에서 사용)'
+      allOf:
+        - $ref: '#/components/schemas/saas_system'
+        - $ref: '#/components/schemas/extension_build_saas_system_add'
 
   ### saas system storage 
     saas_system_storage:
