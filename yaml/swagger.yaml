@@ -7194,6 +7194,9 @@ components:
         instance_type:
           $ref: '#/components/schemas/common_code'
           description: 인스턴스유형
+        mac_address:
+          description: MAC주소
+          type: string          
         ip:
           description: IP주소
           type: string
