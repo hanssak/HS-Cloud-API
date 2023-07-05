@@ -5536,7 +5536,7 @@ components:
     
   ### server cloud os 
     server_cloud_os_add_info:
-      type: object
+      type: string ## 임시로 조치 (generator시 map[string]interface{}라 언마샬 에러 발생)
 
     server_cloud_os:
       type: object
@@ -5559,7 +5559,7 @@ components:
     
   ### server cloud product   
     server_cloud_product_add_info:
-      type: object
+      type: string ## 임시로 조치 (generator시 map[string]interface{}라 언마샬 에러 발생)
 
     server_cloud_product:
       type: object
