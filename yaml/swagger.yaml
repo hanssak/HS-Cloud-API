@@ -10564,7 +10564,7 @@ components:
           description: zone코드
           type: string
           x-go-custom-tag: validate:"required"
-        usage_type:
+        usage_type_code:
           description: '용도 유형 코드'
           type: string
       required:
