@@ -5739,6 +5739,8 @@ components:
           format: int16
         nic:
           $ref: '#/components/schemas/nic_subnet_system_nic_list'
+      required:
+        - "index"
     
     nic_subnet_system_list:
       type: array
@@ -5752,6 +5754,8 @@ components:
           type: integer
         system:
           $ref: '#/components/schemas/nic_subnet_system_list'
+      required:
+        - "index"
           
     nic_subnet_group_list:
       type: array 
