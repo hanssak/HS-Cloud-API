@@ -9933,8 +9933,8 @@ components:
     PostPortalRefreshRequest:
       description: '관리/서비스 포털 사용자 로그아웃 요청'
       allOf:
-        - $ref: '#/components/schemas/PostPortalLogoutRequestParam' 
-        - $ref: '#/components/schemas/PostPortalLogoutRequestBody' 
+        - $ref: '#/components/schemas/PostPortalRefreshRequestParam' 
+        - $ref: '#/components/schemas/PostPortalRefreshRequestBody' 
     
     PostPortalRefreshRequestParam:
       allOf:
