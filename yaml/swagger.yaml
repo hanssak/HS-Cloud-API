@@ -9849,8 +9849,8 @@ components:
           example: '...'
           x-go-custom-tag: validate:"required" form:"refresh_token" binding:"required"
       required: 
-        - "id"
-        - "password"
+        - "access_token"
+        - "refresh_token"
 
   ## SaasAdminLogin
   ### Post
@@ -9945,13 +9945,14 @@ components:
     PostPortalRefreshRequestBody:
       type: object
       properties:
-        id:
+        refresh_token:
           type: string
-          x-go-custom-tag: validate:"required" form:"id" binding:"required"
-      required:
-        - "id"
+          example: '...'
+          x-go-custom-tag: validate:"required" form:"refresh_token" binding:"required"
+      required: 
+        - "refresh_token"
 
-  #### Response (Dummy Object) 
+  #### Response
     PostPortalRefreshResponse:
       description: '토큰 갱신 발행'
       type: object
