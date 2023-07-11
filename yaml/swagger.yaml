@@ -1954,6 +1954,56 @@ paths:
         '400':
           $ref: '#/components/responses/badRequest'
   
+  '/{portal}/gatekeeper/refresh':
+    post:
+      tags:
+        - "3. 인증"
+      summary: '3.3.1 Refresh #PostPortalRefresh'
+      description: "- 관리,서비스 포털의 토큰을 갱신하기위해 사용한다."
+      operationId: PostPortalRefresh
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/param_path_portal'
+        - $ref: '#/components/parameters/param_header_Authorization'
+        - $ref: '#/components/parameters/param_header_X-TenantId'
+      requestBody:
+        description: "id는 UserID"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostPortalRefreshRequestBody'
+        required: true    
+      responses:
+        '200':
+          description: >
+            # Token
+            
+            ## Header
+              {
+                "alg": "HS256",
+                "typ": "JWT"
+              }
+              
+            ## Body
+              {
+                iss: hanssak-cloud.com
+                exp: '1485270000000'
+                tenent: xxxx
+                group: develop
+                auth: manager
+                id: kng
+              }
+            
+            ## Verify signature
+            
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostPortalRefreshResponse'
+        '400':
+          $ref: '#/components/responses/badRequest'
+  
   
 ###### 4. 고객사 관리
   '/adm/manage/member':
@@ -9778,12 +9828,12 @@ components:
           type: string
           example: 'id@hsck.com'
           description: 'Domain 형태'
-          x-go-custom-tag: validate:"required"
+          x-go-custom-tag: validate:"required" form:"id" binding:"required"
         password:
           type: string
           example: '124K8t9iHn!'
           description: 'Password'
-          x-go-custom-tag: validate:"required"
+          x-go-custom-tag: validate:"required" form:"password" binding:"required"
 
   #### Response 
     PostCloudAdminLoginResponse:
@@ -9793,11 +9843,11 @@ components:
         access_token:
           type: string
           example: '...'
-          x-go-custom-tag: validate:"required"
+          x-go-custom-tag: validate:"required" form:"access_token" binding:"required"
         refresh_token:
           type: string
           example: '...'
-          x-go-custom-tag: validate:"required"
+          x-go-custom-tag: validate:"required" form:"refresh_token" binding:"required"
       required: 
         - "id"
         - "password"
@@ -9819,17 +9869,17 @@ components:
       properties:
         tenant_id:
           type: string
-          x-go-custom-tag: validate:"required"
+          x-go-custom-tag: validate:"required" form:"tenant_id" binding:"required"
         id:
           type: string
           example: 'id@hsck.com'
           description: 'Domain 형태'
-          x-go-custom-tag: validate:"required"
+          x-go-custom-tag: validate:"required" form:"id" binding:"required"
         password:
           type: string
           example: '124K8t9iHn!'
           description: 'Password'
-          x-go-custom-tag: validate:"required"
+          x-go-custom-tag: validate:"required" form:"password" binding:"required"
 
   #### Response 
     PostSaasAdminLoginResponse:
@@ -9839,11 +9889,11 @@ components:
         access_token:
           type: string
           example: '...'
-          x-go-custom-tag: validate:"required"
+          x-go-custom-tag: validate:"required" form:"access_token" binding:"required"
         refresh_token:
           type: string
           example: '...'
-          x-go-custom-tag: validate:"required"
+          x-go-custom-tag: validate:"required" form:"refresh_token" binding:"required"
       required:
         - "access_token"
         - "refresh_token"
@@ -9868,7 +9918,7 @@ components:
       properties:
         id:
           type: string
-          x-go-custom-tag: validate:"required"
+          x-go-custom-tag: validate:"required" form:"id" binding:"required"
       required:
         - "id"
 
@@ -9876,6 +9926,47 @@ components:
     PostPortalLogoutResponse:
       allOf:
         - $ref: '#/components/schemas/dummy_object'
+  
+  ## PortalRefresh
+  ### Post
+  #### Request 
+    PostPortalRefreshRequest:
+      description: '관리/서비스 포털 사용자 로그아웃 요청'
+      allOf:
+        - $ref: '#/components/schemas/PostPortalLogoutRequestParam' 
+        - $ref: '#/components/schemas/PostPortalLogoutRequestBody' 
+    
+    PostPortalRefreshRequestParam:
+      allOf:
+        - $ref: '#/components/schemas/schema_path_portal'
+        - $ref: '#/components/schemas/schema_header_Authorization'
+        - $ref: '#/components/schemas/schema_header_X-TenantId'
+    
+    PostPortalRefreshRequestBody:
+      type: object
+      properties:
+        id:
+          type: string
+          x-go-custom-tag: validate:"required" form:"id" binding:"required"
+      required:
+        - "id"
+
+  #### Response (Dummy Object) 
+    PostPortalRefreshResponse:
+      description: '토큰 갱신 발행'
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: '...'
+          x-go-custom-tag: validate:"required" form:"access_token" binding:"required"
+        refresh_token:
+          type: string
+          example: '...'
+          x-go-custom-tag: validate:"required" form:"refresh_token" binding:"required"
+      required:
+        - "access_token"
+        - "refresh_token"
 
   ## ManageMembers
   ### Get
